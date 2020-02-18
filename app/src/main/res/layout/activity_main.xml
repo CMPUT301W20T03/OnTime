@@ -46,7 +46,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginLeft="16dp"
         android:layout_marginBottom="38dp"
-        android:background="@color/white"
+        android:background="@drawable/border_line"
         android:text="LOGIN"
         android:textColorHint="@color/black"
         android:textSize="18sp"
