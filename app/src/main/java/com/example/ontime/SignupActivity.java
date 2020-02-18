@@ -23,10 +23,10 @@ public class SignupActivity extends AppCompatActivity {
 
 
     String TAG = "Sample";
-    Button signupButton;
+    Button signUpButton;
 
-    EditText addusernameEditText;
-    EditText addpasswordEditText;
+    EditText addUsernameEditText;
+    EditText addPasswordEditText;
 
     FirebaseFirestore db;
 
@@ -35,9 +35,9 @@ public class SignupActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.signup);
 
-        signupButton = findViewById(R.id.signup_button);
-        addusernameEditText = findViewById(R.id.signup_name_text);
-        addpasswordEditText = findViewById(R.id.signup_password_text);
+        signUpButton = findViewById(R.id.signup_button);
+        addUsernameEditText = findViewById(R.id.signup_name_text);
+        addPasswordEditText = findViewById(R.id.signup_password_text);
 
 
         db = FirebaseFirestore.getInstance();
@@ -45,12 +45,12 @@ public class SignupActivity extends AppCompatActivity {
         final CollectionReference collectionReference = db.collection("Users");
 
 
-        signupButton.setOnClickListener(new View.OnClickListener() {
+        signUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                final String usernameText = addusernameEditText.getText().toString();
-                final String passwordText = addpasswordEditText.getText().toString();
+                final String usernameText = addUsernameEditText.getText().toString();
+                final String passwordText = addPasswordEditText.getText().toString();
 
                 HashMap<String, String> data = new HashMap<>();
                 if(usernameText.length()>0 && passwordText.length()>0){

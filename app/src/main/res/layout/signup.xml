@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="horizontal"
+    android:orientation="vertical"
     android:padding="15dp">
 
 
@@ -21,7 +21,6 @@
 
     <EditText
         android:id="@+id/signup_password_text"
-        android:layout_below="@+id/signup_name_text"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:hint="Password"
@@ -36,7 +35,6 @@
         android:id="@+id/signup_button"
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:layout_below="@+id/signup_password_text"
         android:layout_alignParentTop="true"
 
         android:layout_centerHorizontal="true"
@@ -44,4 +42,4 @@
         android:text="signup" />
 
 
-</RelativeLayout>
+</LinearLayout>
