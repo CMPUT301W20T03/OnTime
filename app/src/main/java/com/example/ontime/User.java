@@ -2,18 +2,18 @@ package com.example.ontime;
 
 public class User {
     private String username;
-    private String pswd;
+    private String password;
 
-    User(String username, String pswd){
+    User(String username, String password){
         this.username = username;
-        this.pswd = pswd;
+        this.password = password;
     }
 
     String getUsername(){
         return this.username;
     }
 
-    String getPswd(){
-        return this.pswd;
+    String getPassword(){
+        return this.password;
     }
 }
