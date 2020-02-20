@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "803466924768",
+    "firebase_url": "https://ontime-a381d.firebaseio.com",
+    "project_id": "ontime-a381d",
+    "storage_bucket": "ontime-a381d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:803466924768:android:7c235532512a9e1cf03685",
+        "android_client_info": {
+          "package_name": "com.example.ontime"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "803466924768-9dqobt92usmq204n0a9h32e1f844cobh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBQd5j7u7Ww2WRjKdD_BvuyvuLhMS_f99M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "803466924768-9dqobt92usmq204n0a9h32e1f844cobh.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
