@@ -31,7 +31,7 @@
         android:layout_width="225dp"
         android:layout_height="76dp"
         android:gravity="center"
-        android:text="Register"
+        android:text="Login"
 
         android:textColor="@color/black"
         android:textSize="36sp"
