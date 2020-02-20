@@ -27,10 +27,12 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.HashMap;
 
 public class LoginActivity extends AppCompatActivity {
+
     String TAG = "Sample";
-    private Button mBtnLogin;
-    private EditText et_username,et_psw;
-    private String userName,pswd;
+
+    Button LoginButton;
+    EditText oldUserName,oldUserPassword;
+    private String userName,userPassword;
 
     FirebaseFirestore db;
 
@@ -39,27 +41,27 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
 
-        mBtnLogin = findViewById(R.id.login_button);
-        et_username= findViewById(R.id.login_name_text);
-        et_psw = findViewById(R.id.login_password_text);
+        LoginButton = findViewById(R.id.login_button);
+        oldUserName= findViewById(R.id.login_name_text);
+        oldUserPassword = findViewById(R.id.login_password_text);
 
         db = FirebaseFirestore.getInstance();
 
         final CollectionReference collectionReference = db.collection("Users");
 
-        mBtnLogin.setOnClickListener(new View.OnClickListener() {
+        LoginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                userName = et_username.getText().toString();
-                et_psw.setTransformationMethod(PasswordTransformationMethod.getInstance());
-                pswd = et_psw.getText().toString();
+                userName = oldUserName.getText().toString();
+                oldUserPassword.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                userPassword = oldUserPassword.getText().toString();
 
                 if (TextUtils.isEmpty(userName)) {
                     Toast.makeText(LoginActivity.this, "Please enter your username", Toast.LENGTH_SHORT).show();
-                } else if (TextUtils.isEmpty(pswd)) {
+                } else if (TextUtils.isEmpty(userPassword)) {
                     Toast.makeText(LoginActivity.this, "Please enter your password", Toast.LENGTH_SHORT).show();
                 } else {
-                    Query query = collectionReference.whereEqualTo("password", pswd);
+                    Query query = collectionReference.whereEqualTo("password", userPassword);
                     query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                         @Override
                         public void onComplete(@NonNull Task<QuerySnapshot> task) {
@@ -67,17 +69,17 @@ public class LoginActivity extends AppCompatActivity {
                                 for (DocumentSnapshot documentSnapshot : task.getResult()) {
                                     String password = documentSnapshot.getString("password");
 
-                                    if (password.equals(pswd)) {
+                                    if (password.equals(userPassword)) {
                                         Log.d(TAG, "User Exists");
-                                        Toast.makeText(LoginActivity.this, "Username exists", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(LoginActivity.this, "User exists", Toast.LENGTH_SHORT).show();
                                         startActivity(new Intent(LoginActivity.this, LoginActivity.class));
                                     }
                                 }
                             }
 
                             if (task.getResult().size() == 0) {
-                                Log.d(TAG, "User does not exist or wrong password");
-                                Toast.makeText(LoginActivity.this, "User does not exist or wrong password", Toast.LENGTH_SHORT).show();
+                                Log.d(TAG, "User does not exist / wrong password");
+                                Toast.makeText(LoginActivity.this, "User does not exist / wrong password", Toast.LENGTH_SHORT).show();
                             }
                         }
                     });
