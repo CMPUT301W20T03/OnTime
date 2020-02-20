@@ -39,9 +39,9 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
 
-        mBtnLogin = findViewById(R.id.button_login);
-        et_username= findViewById(R.id.login_name);
-        et_psw = findViewById(R.id.login_password);
+        mBtnLogin = findViewById(R.id.login_button);
+        et_username= findViewById(R.id.login_name_text);
+        et_psw = findViewById(R.id.login_password_text);
 
         db = FirebaseFirestore.getInstance();
 
