@@ -8,7 +8,7 @@
     android:orientation="vertical">
 
     <EditText
-        android:id="@+id/login_password_text"
+        android:id="@+id/editText_password"
         android:layout_width="334dp"
         android:layout_height="57dp"
         android:background="@drawable/border_line"
@@ -124,4 +124,3 @@
         app:layout_constraintVertical_bias="0.845" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
-
