@@ -29,7 +29,7 @@ dependencies {
     // For example, to use Firebase Authentication and Cloud Firestore
     implementation 'com.google.firebase:firebase-auth:19.2.0'
     implementation 'com.google.firebase:firebase-firestore:21.4.0'
-
+    implementation 'com.firebaseui:firebase-ui-database:4.3.2'
     implementation 'com.android.support:multidex:1.0.3'
 
     implementation fileTree(dir: 'libs', include: ['*.jar'])
@@ -42,7 +42,6 @@ dependencies {
     androidTestImplementation 'androidx.test:runner:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
     implementation 'com.google.android.material:material:1.1.0'
-
     implementation 'com.mobsandgeeks:android-saripaar:2.0.3'
 
 }

@@ -127,7 +127,11 @@ public class LoginActivity extends AppCompatActivity {
                                         if (password.equals(pswd)) {
                                             Log.d(TAG, "User Exists");
                                             Toast.makeText(LoginActivity.this, "Username exists", Toast.LENGTH_SHORT).show();
-                                            startActivity(new Intent(LoginActivity.this, UserMapActivity.class));
+
+                                            Intent intent = new Intent(getBaseContext(), UserMapActivity.class);
+                                            intent.putExtra("username", userName);
+                                            startActivity(intent);
+                                            //startActivity(new Intent(LoginActivity.this, UserMapActivity.class));
                                         }
                                     }
                                 }
@@ -162,7 +166,10 @@ public class LoginActivity extends AppCompatActivity {
                                         if (password.equals(pswd)) {
                                             Log.d(TAG, "User Exists");
                                             Toast.makeText(LoginActivity.this, "Username exists", Toast.LENGTH_SHORT).show();
-                                            startActivity(new Intent(LoginActivity.this, DriverMapActivity.class));
+
+                                            Intent intent = new Intent(getBaseContext(), UserMapActivity.class);
+                                            intent.putExtra("username", userName);
+                                            startActivity(intent);
                                         }
                                     }
                                 }
