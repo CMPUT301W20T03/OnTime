@@ -31,12 +31,12 @@
         android:layout_width="334dp"
         android:layout_height="57dp"
         android:background="@drawable/border_line"
+        android:digits="1234567890"
         android:focusableInTouchMode="true"
         android:gravity="center"
-        android:digits="1234567890"
-        android:hint="Phone Number"
+        android:hint="Phone Number(10digit)"
         android:inputType="phone"
-
+        android:maxLength="10"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.493"
@@ -98,7 +98,7 @@
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/choice"
+        android:id="@+id/choice_button"
         android:layout_width="296dp"
         android:layout_height="70dp"
         app:layout_constraintBottom_toBottomOf="parent"
