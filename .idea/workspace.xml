@@ -9,7 +9,23 @@
     <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="Show only selected application" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="11d46dee-4fc6-426c-82b2-258e4750acaa" name="Default Changelist" comment="" />
+    <list default="true" id="11d46dee-4fc6-426c-82b2-258e4750acaa" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/.gradle/5.4.1/executionHistory/executionHistory.bin" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.gradle/5.4.1/executionHistory/executionHistory.lock" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.gradle/5.4.1/fileChanges/last-build.bin" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.gradle/5.4.1/fileContent/fileContent.lock" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.gradle/5.4.1/fileHashes/fileHashes.bin" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.gradle/5.4.1/fileHashes/fileHashes.lock" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.gradle/5.4.1/fileHashes/resourceHashesCache.bin" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.gradle/5.4.1/gc.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.gradle/5.4.1/javaCompile/javaCompile.lock" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.gradle/5.4.1/javaCompile/taskHistory.bin" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/cache.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.gradle/vcs-1/gc.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
     <list id="173fa595-3b61-4a7e-977c-d962c10c7624" name="Revert &quot;add register layout and login layout also add some color&quot;" comment="Revert &quot;add register layout and login layout also add some color&quot;&#10;&#10;This reverts commit 5c402bb1" />
     <ignored path="$PROJECT_DIR$/.gradle/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -41,12 +57,21 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/ontime/LoginActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="510">
-              <caret line="54" selection-start-line="54" selection-end-line="54" />
+            <state relative-caret-position="488">
+              <caret line="184" lean-forward="true" selection-start-line="184" selection-end-line="184" />
               <folding>
+                <element signature="e#1945#2350#0" expanded="true" />
+                <element signature="e#2349#2350#0" expanded="true" />
+                <element signature="e#2527#2938#0" expanded="true" />
+                <element signature="e#2937#2938#0" expanded="true" />
+                <element signature="e#2987#7867#0" expanded="true" />
+                <element signature="e#4005#5307#0" expanded="true" />
+                <element signature="e#5306#5307#0" expanded="true" />
+                <element signature="e#6280#7582#0" expanded="true" />
+                <element signature="e#7581#7582#0" expanded="true" />
                 <element signature="e#7866#7867#0" expanded="true" />
               </folding>
             </state>
@@ -56,13 +81,12 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/ontime/SignupActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="450">
-              <caret line="111" column="11" selection-start-line="100" selection-start-column="8" selection-end-line="111" selection-end-column="11" />
+            <state relative-caret-position="30">
+              <caret line="101" column="21" lean-forward="true" selection-start-line="101" selection-start-column="21" selection-end-line="101" selection-end-column="21" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#2138#2487#0" expanded="true" />
                 <element signature="e#2486#2487#0" expanded="true" />
-                <element signature="e#2632#2981#0" expanded="true" />
                 <element signature="e#2980#2981#0" expanded="true" />
                 <element signature="e#3163#8595#0" expanded="true" />
                 <element signature="e#8594#8595#0" expanded="true" />
@@ -118,7 +142,7 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/signup.xml">
           <provider selected="true" editor-type-id="android-designer2" />
           <provider editor-type-id="text-editor">
@@ -384,15 +408,15 @@
       <window_info id="Favorites" order="8" side_tool="true" />
       <window_info id="simpleUML" order="9" />
       <window_info anchor="bottom" id="Find" />
-      <window_info anchor="bottom" id="Logcat" order="0" weight="0.329718" />
-      <window_info anchor="bottom" id="TODO" order="1" weight="0.329718" />
-      <window_info anchor="bottom" id="Android Profiler" order="2" weight="0.329718" />
+      <window_info anchor="bottom" id="Logcat" order="0" sideWeight="0.49946696" weight="0.329718" />
+      <window_info anchor="bottom" id="TODO" order="1" sideWeight="0.49946696" weight="0.329718" />
+      <window_info anchor="bottom" id="Android Profiler" order="2" sideWeight="0.49946696" weight="0.329718" />
       <window_info anchor="bottom" id="Debug" order="3" />
-      <window_info anchor="bottom" id="Run" order="4" weight="0.329718" />
-      <window_info anchor="bottom" id="Event Log" order="5" sideWeight="0.50959486" side_tool="true" weight="0.318872" />
-      <window_info active="true" anchor="bottom" id="Version Control" order="6" visible="true" weight="0.329718" />
-      <window_info anchor="bottom" id="Build" order="7" sideWeight="0.49307036" weight="0.3362256" />
-      <window_info anchor="bottom" id="Terminal" order="8" sideWeight="0.4904051" weight="0.318872" />
+      <window_info anchor="bottom" id="Run" order="4" sideWeight="0.49946696" weight="0.329718" />
+      <window_info anchor="bottom" id="Event Log" order="5" sideWeight="0.510661" side_tool="true" visible="true" weight="0.318872" />
+      <window_info anchor="bottom" id="Version Control" order="6" sideWeight="0.49413645" weight="0.329718" />
+      <window_info anchor="bottom" id="Build" order="7" sideWeight="0.49253732" weight="0.3362256" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="8" sideWeight="0.48933902" visible="true" weight="0.318872" />
       <window_info anchor="right" id="Assistant" weight="0.32889125" />
       <window_info anchor="right" id="Device File Explorer" order="0" side_tool="true" />
       <window_info anchor="right" id="Capture Analysis" order="1" />
@@ -541,32 +565,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/ontime/SignupActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="450">
-          <caret line="111" column="11" selection-start-line="100" selection-start-column="8" selection-end-line="111" selection-end-column="11" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#2138#2487#0" expanded="true" />
-            <element signature="e#2486#2487#0" expanded="true" />
-            <element signature="e#2632#2981#0" expanded="true" />
-            <element signature="e#2980#2981#0" expanded="true" />
-            <element signature="e#3163#8595#0" expanded="true" />
-            <element signature="e#8594#8595#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/ontime/LoginActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="510">
-          <caret line="54" selection-start-line="54" selection-end-line="54" />
-          <folding>
-            <element signature="e#7866#7867#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/login.xml">
       <provider editor-type-id="android-designer2" />
       <provider selected="true" editor-type-id="text-editor">
@@ -580,6 +578,40 @@
       <provider editor-type-id="text-editor">
         <state relative-caret-position="285">
           <caret line="38" column="30" selection-start-line="38" selection-start-column="30" selection-end-line="38" selection-end-column="30" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/ontime/SignupActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="30">
+          <caret line="101" column="21" lean-forward="true" selection-start-line="101" selection-start-column="21" selection-end-line="101" selection-end-column="21" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#2138#2487#0" expanded="true" />
+            <element signature="e#2486#2487#0" expanded="true" />
+            <element signature="e#2980#2981#0" expanded="true" />
+            <element signature="e#3163#8595#0" expanded="true" />
+            <element signature="e#8594#8595#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/example/ontime/LoginActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="488">
+          <caret line="184" lean-forward="true" selection-start-line="184" selection-end-line="184" />
+          <folding>
+            <element signature="e#1945#2350#0" expanded="true" />
+            <element signature="e#2349#2350#0" expanded="true" />
+            <element signature="e#2527#2938#0" expanded="true" />
+            <element signature="e#2937#2938#0" expanded="true" />
+            <element signature="e#2987#7867#0" expanded="true" />
+            <element signature="e#4005#5307#0" expanded="true" />
+            <element signature="e#5306#5307#0" expanded="true" />
+            <element signature="e#6280#7582#0" expanded="true" />
+            <element signature="e#7581#7582#0" expanded="true" />
+            <element signature="e#7866#7867#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
