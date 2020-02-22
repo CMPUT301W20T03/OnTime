@@ -8,6 +8,10 @@ import android.Manifest;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -18,8 +22,13 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.HashMap;
 
 
 public class RiderMapActivity extends FragmentActivity implements OnMapReadyCallback {
@@ -27,6 +36,12 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
     Location currentLocation;
     FusedLocationProviderClient fusedLocationProviderClient;
     private static final int REQUEST_CODE = 101;
+    EditText srcLocation; ///
+    EditText destination;
+    Button RequestConfirmButton;
+    FirebaseFirestore db;
+    String usernameText = getIntent().getStringExtra("username");
+    String TAG = "Sample";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +55,45 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
         fetchLastLocation();
 
+        RequestConfirmButton = findViewById(R.id.confirm_request_btn); ///
+        srcLocation = findViewById(R.id.srcLocation);
+        destination = findViewById(R.id.dstLocation);
+        db = FirebaseFirestore.getInstance();
+        RequestConfirmButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final CollectionReference collectionReference = db.collection("Requests");
+                final String srcLocationText = srcLocation.getText().toString();
+                final String destinationText = destination.getText().toString();
+                HashMap<String, String> data = new HashMap<>();
+                if (srcLocationText.length() == 0) {
+                    Toast.makeText(RiderMapActivity.this, "Please enter your source location", Toast.LENGTH_LONG).show();
+                } else if (destinationText.length() == 0) {
+                    Toast.makeText(RiderMapActivity.this, "Please enter your destination", Toast.LENGTH_LONG).show();
+                }
+                data.put("srcLocation", srcLocationText);
+                data.put("destination", destinationText);
+                data.put("rider", usernameText);
+                data.put("status", "Active");
+                collectionReference
+                        .document(usernameText)
+                        .set(data)
+                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                Log.d(TAG, "Data addition successful");
+                                Toast.makeText(RiderMapActivity.this, "Request successful", Toast.LENGTH_LONG).show();
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Log.d(TAG, "Data addition failed" + e.toString());
+                            }
+                        });
+
+            }
+        });
 
 
     }

@@ -8,8 +8,13 @@ import android.Manifest;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.firebase.ui.database.FirebaseListAdapter;
+import com.firebase.ui.database.FirebaseListOptions;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -20,6 +25,8 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 
 
 public class DriverMapActivity extends FragmentActivity implements OnMapReadyCallback {
@@ -27,6 +34,7 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
     Location currentLocation;
     FusedLocationProviderClient fusedLocationProviderClient;
     private static final int REQUEST_CODE = 101;
+    ListView requestList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +48,25 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
         fetchLastLocation();
 
-
+        requestList = findViewById(R.id.request_list); ///
+        Query query = FirebaseDatabase.getInstance().getReference().child("Requests");
+        FirebaseListOptions<DriverMapActivity> options = new FirebaseListOptions.Builder<DriverMapActivity>()
+                .setQuery(query, DriverMapActivity.class)
+                .build();
+        final FirebaseListAdapter<DriverMapActivity> adapter = new FirebaseListAdapter<DriverMapActivity>(options) {
+            @Override
+            protected void populateView(View v, DriverMapActivity model, int position) {
+//                // Get references to the views of message.xml
+//                TextView messageText = (TextView)v.findViewById(R.id.message_text);
+//                TextView messageTime = (TextView)v.findViewById(R.id.message_time);
+//
+//                // Set their text
+//                messageText.setText(model.getMessageBody());
+//                // Format the date before showing it
+//                messageTime.setText(DateFormat.format("dd-MM-yyyy (HH:mm:ss)", model.getMessageTime()));
+            }
+        };
+        requestList.setAdapter(adapter);
 
     }
 
