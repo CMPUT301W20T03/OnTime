@@ -124,7 +124,8 @@ public class LoginActivity extends AppCompatActivity {
                                             Toast.makeText(LoginActivity.this, "Username exists", Toast.LENGTH_SHORT).show();
                                             Intent intent = new Intent(getBaseContext(), RiderMapActivity.class);
                                             intent.putExtra("username", userName);
-                                            startActivity(intent);                                        }
+                                            startActivity(intent);
+                                        }
                                     }
                                 }
 
@@ -160,7 +161,8 @@ public class LoginActivity extends AppCompatActivity {
                                             Toast.makeText(LoginActivity.this, "Username exists", Toast.LENGTH_SHORT).show();
                                             Intent intent = new Intent(getBaseContext(), DriverMapActivity.class);
                                             intent.putExtra("username", userName);
-                                            startActivity(intent);                                        }
+                                            startActivity(intent);
+                                        }
                                     }
                                 }
 

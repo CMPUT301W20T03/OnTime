@@ -40,7 +40,6 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
     EditText destination;
     Button RequestConfirmButton;
     FirebaseFirestore db;
-    String usernameText = getIntent().getStringExtra("username");
     String TAG = "Sample";
 
     @Override
@@ -54,6 +53,8 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
 
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
         fetchLastLocation();
+
+        final String usernameText = getIntent().getStringExtra("username");
 
         RequestConfirmButton = findViewById(R.id.confirm_request_btn); ///
         srcLocation = findViewById(R.id.srcLocation);
