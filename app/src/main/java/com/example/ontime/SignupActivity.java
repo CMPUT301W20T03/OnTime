@@ -1,5 +1,6 @@
 package com.example.ontime;
 
+import android.content.Intent;
 import android.graphics.drawable.StateListDrawable;
 import android.os.Bundle;
 import android.text.InputType;
@@ -144,6 +145,8 @@ public class SignupActivity extends AppCompatActivity {
                                     @Override
                                     public void onSuccess(Void aVoid) {
                                         Log.d(TAG, "Data addition successful");
+                                        Intent intent = new Intent(SignupActivity.this,RiderMapActivity.class);
+                                        startActivity(intent);
 
                                     }
                                 })
@@ -182,6 +185,9 @@ public class SignupActivity extends AppCompatActivity {
                                     @Override
                                     public void onSuccess(Void aVoid) {
                                         Log.d(TAG, "Data addition successful");
+                                        Intent intent = new Intent(SignupActivity.this,DriverMapActivity.class);
+                                        startActivity(intent);
+
 
                                     }
                                 })
