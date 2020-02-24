@@ -145,7 +145,8 @@ public class SignupActivity extends AppCompatActivity {
                                     @Override
                                     public void onSuccess(Void aVoid) {
                                         Log.d(TAG, "Data addition successful");
-                                        Intent intent = new Intent(SignupActivity.this,RiderMapActivity.class);
+                                        Intent intent = new Intent(getBaseContext(), RiderMapActivity.class);
+                                        intent.putExtra("username", usernameText);
                                         startActivity(intent);
 
                                     }
@@ -185,7 +186,8 @@ public class SignupActivity extends AppCompatActivity {
                                     @Override
                                     public void onSuccess(Void aVoid) {
                                         Log.d(TAG, "Data addition successful");
-                                        Intent intent = new Intent(SignupActivity.this,DriverMapActivity.class);
+                                        Intent intent = new Intent(getBaseContext(), DriverMapActivity.class);
+                                        intent.putExtra("username", usernameText);
                                         startActivity(intent);
 
 
