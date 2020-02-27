@@ -158,8 +158,8 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
             public void run() {
                 popupCover.setAnimationStyle(R.style.pop_animation);
                 popupWindow.setAnimationStyle(R.style.pop_animation);
-                popupCover.showAtLocation(main, Gravity.NO_GRAVITY,0,0);
-                popupWindow.showAtLocation(main, Gravity.NO_GRAVITY,0,0);
+                popupCover.showAtLocation(main, Gravity.LEFT,0,0);
+                popupWindow.showAtLocation(main, Gravity.LEFT,0,0);
                 coverView.setOnTouchListener(new View.OnTouchListener() {
                     @Override
                     public boolean onTouch(View v, MotionEvent event) {
