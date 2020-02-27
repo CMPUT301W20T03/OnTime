@@ -1,18 +1,32 @@
 package com.example.ontime;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.core.app.ActivityCompat;
+import androidx.core.view.LayoutInflaterCompat;
 import androidx.fragment.app.FragmentActivity;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.os.Build;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Display;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.Toast;
+import android.widget.Toolbar;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
@@ -42,6 +56,20 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
     FirebaseFirestore db;
     String TAG = "Sample";
 
+//Popup Window
+    private PopupWindow popupWindow;
+    private PopupWindow popupCover;
+    private LinearLayout main;
+    private ViewGroup customView;
+    private ViewGroup coverView;
+    private LayoutInflater layoutInflater;
+    private WindowManager windowManager;
+    private DisplayMetrics metrics;
+    private Button hamburger_button;
+
+
+
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,6 +87,18 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         RequestConfirmButton = findViewById(R.id.confirm_request_btn); ///
         srcLocation = findViewById(R.id.srcLocation);
         destination = findViewById(R.id.dstLocation);
+        hamburger_button = findViewById(R.id.hamburger_button);
+        initPopUpView();
+        hamburger_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d(TAG, "onClick: shit");
+                showPopUpView();
+            }
+        });
+
+
+
         db = FirebaseFirestore.getInstance();
         RequestConfirmButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -96,8 +136,60 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
             }
         });
 
-
     }
+
+    public void initPopUpView(){
+        layoutInflater = (LayoutInflater)RiderMapActivity.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        customView = (ViewGroup)layoutInflater.inflate(R.layout.hamburger_menus, null);
+        coverView = (ViewGroup)layoutInflater.inflate(R.layout.cover_layout, null);
+        main = findViewById(R.id.rider_main_layout);
+        windowManager = getWindowManager();
+        metrics = new DisplayMetrics();
+        windowManager.getDefaultDisplay().getMetrics(metrics);
+    }
+
+    public void showPopUpView(){
+        int width = metrics.widthPixels;
+        int height = metrics.heightPixels;
+        popupCover = new PopupWindow(coverView, width, height, false);
+        popupWindow = new PopupWindow(customView,(int)(width*0.7),height,true);
+        findViewById(R.id.rider_main_layout).post(new Runnable() {
+            @Override
+            public void run() {
+                popupCover.setAnimationStyle(R.style.pop_animation);
+                popupWindow.setAnimationStyle(R.style.pop_animation);
+                popupCover.showAtLocation(main, Gravity.NO_GRAVITY,0,0);
+                popupWindow.showAtLocation(main, Gravity.NO_GRAVITY,0,0);
+                coverView.setOnTouchListener(new View.OnTouchListener() {
+                    @Override
+                    public boolean onTouch(View v, MotionEvent event) {
+                        popupWindow.dismiss();
+                        return true;
+                    }
+                });
+
+                popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+                    @Override
+                    public void onDismiss() {
+                        popupCover.dismiss();
+                        Log.d(TAG, "onDismiss: test");
+                    }
+                });
+
+            }
+        });
+    }
+
+
+
+
+
+
+
+
+
+
+
 
     private void fetchLastLocation() {
         if(ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED){
