@@ -130,7 +130,7 @@ public class SignupActivity extends AppCompatActivity {
                     } else if (passwordText.length() == 0) {
                         Toast.makeText(SignupActivity.this, "Please Set your Password", Toast.LENGTH_LONG).show();
                     } else if (usernameText.length() > 0 && passwordText.length() > 0 && emailText.length() > 0 && phone_numberText.length() > 0) {
-                        data.put("username", usernameText);
+                        //data.put("username", usernameText);
                         data.put("password", passwordText);
                         data.put("email", emailText);
                         data.put("phone number", phone_numberText);
@@ -172,7 +172,7 @@ public class SignupActivity extends AppCompatActivity {
                     } else if (passwordText.length() == 0) {
                         Toast.makeText(SignupActivity.this, "Please Set your Password", Toast.LENGTH_LONG).show();
                     } else if (usernameText.length() > 0 && passwordText.length() > 0 && emailText.length() > 0 && phone_numberText.length() > 0) {
-                        data.put("username", usernameText);
+                        //data.put("username", usernameText);
                         data.put("password", passwordText);
                         data.put("email", emailText);
                         data.put("phone number", phone_numberText);
