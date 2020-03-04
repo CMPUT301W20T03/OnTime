@@ -8,6 +8,7 @@ import androidx.fragment.app.FragmentActivity;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Build;
@@ -83,6 +84,9 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         fetchLastLocation();
 
         final String usernameText = getIntent().getStringExtra("username");
+//        Intent intent = new Intent(getBaseContext(),RiderProfile.class);
+//        intent.putExtra("username",usernameText);
+//        startActivity(intent);
 
         RequestConfirmButton = findViewById(R.id.confirm_request_btn); ///
         srcLocation = findViewById(R.id.srcLocation);

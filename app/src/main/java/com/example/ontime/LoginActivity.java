@@ -116,6 +116,9 @@ public class LoginActivity extends AppCompatActivity {
                                             Intent intent = new Intent(getBaseContext(), RiderMapActivity.class);
                                             intent.putExtra("username", userName);
                                             startActivity(intent);
+                                            Intent intent1 = new Intent(getBaseContext(), RiderProfile.class);
+                                            intent.putExtra("username", userName);
+                                            startActivity(intent1);
                                         }
                                     }
                                 }
@@ -153,6 +156,9 @@ public class LoginActivity extends AppCompatActivity {
                                             Intent intent = new Intent(getBaseContext(), DriverMapActivity.class);
                                             intent.putExtra("username", userName);
                                             startActivity(intent);
+                                            Intent intent1 = new Intent(getBaseContext(), RiderMapActivity.class);
+                                            intent.putExtra("username", userName);
+                                            startActivity(intent1);
                                         }
                                     }
                                 }

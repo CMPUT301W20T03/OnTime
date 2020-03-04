@@ -6,6 +6,7 @@ import androidx.fragment.app.FragmentActivity;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
@@ -87,6 +88,7 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
 
 
         final String usernameText = getIntent().getStringExtra("username");
+
 
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
         fetchLastLocation();
