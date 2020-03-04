@@ -26,6 +26,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.Toolbar;
 
@@ -40,7 +41,12 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserInfo;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
@@ -66,9 +72,11 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
     private LayoutInflater layoutInflater;
     private WindowManager windowManager;
     private DisplayMetrics metrics;
-    private Button hamburger_button;
-    private Button profile_button;
-    private Button request_button;
+    public Button hamburger_button;
+    public Button profile_button;
+    public Button request_button;
+    public TextView show_name;
+    private String userName;
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
@@ -156,6 +164,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         popupWindow = new PopupWindow(customView,(int)(width*0.7),height,true);
         profile_button=customView.findViewById(R.id.profile_button);
         request_button=customView.findViewById(R.id.current_request_button);
+        show_name=customView.findViewById(R.id.show_name);
         findViewById(R.id.rider_main_layout).post(new Runnable() {
             @Override
             public void run() {
@@ -163,6 +172,20 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
                 popupWindow.setAnimationStyle(R.style.pop_animation);
                 popupCover.showAtLocation(main, Gravity.LEFT,0,0);
                 popupWindow.showAtLocation(main, Gravity.LEFT,0,0);
+
+                db = FirebaseFirestore.getInstance();
+                final CollectionReference collectionReference = db.collection("Riders");
+                userName = getIntent().getStringExtra("username");
+                final DocumentReference user = db.collection("Rider").document(userName);
+                user.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        show_name.setText(userName);
+                    }
+                });
+
+
+
 
                 profile_button.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -187,7 +210,10 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
                     }
                 });
 
-            }
+
+
+
+        }
         });
     }
 

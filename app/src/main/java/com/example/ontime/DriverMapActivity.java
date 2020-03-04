@@ -6,6 +6,7 @@ import androidx.fragment.app.FragmentActivity;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
@@ -39,6 +40,10 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 
 public class DriverMapActivity extends FragmentActivity implements OnMapReadyCallback {
@@ -48,7 +53,7 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
     private static final int REQUEST_CODE = 101;
     ListView requestList;
     String TAG = "Sample";
-
+    FirebaseFirestore db;
     //Popup Window
     private PopupWindow popupWindow;
     private PopupWindow popupCover;
@@ -58,7 +63,11 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
     private LayoutInflater layoutInflater;
     private WindowManager windowManager;
     private DisplayMetrics metrics;
-    private Button hamburger_button;
+    public Button hamburger_button;
+    public Button profile_button;
+    public Button request_button;
+    public TextView show_name;
+    private String userName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -130,6 +139,9 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
         int height = metrics.heightPixels;
         popupCover = new PopupWindow(coverView, width, height, false);
         popupWindow = new PopupWindow(customView,(int)(width*0.7),height,true);
+        profile_button=customView.findViewById(R.id.profile_button);
+        request_button=customView.findViewById(R.id.current_request_button);
+        show_name=customView.findViewById(R.id.show_name);
         findViewById(R.id.driver_main_layout).post(new Runnable() {
             @Override
             public void run() {
@@ -137,6 +149,29 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
                 coverView = (ViewGroup)layoutInflater.inflate(R.layout.cover_layout, null);
                 popupCover.showAtLocation(main, Gravity.LEFT,0,0);
                 popupWindow.showAtLocation(main, Gravity.LEFT,0,0);
+
+                db = FirebaseFirestore.getInstance();
+                final CollectionReference collectionReference = db.collection("Drivers");
+                userName = getIntent().getStringExtra("username");
+                final DocumentReference user = db.collection("Drivers").document(userName);
+                user.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        show_name.setText(userName);
+                    }
+                });
+
+
+
+
+                profile_button.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent=new Intent(DriverMapActivity.this,DriverProfile.class);
+                        startActivity(intent);
+                    }
+                });
+
                 coverView.setOnTouchListener(new View.OnTouchListener() {
                     @Override
                     public boolean onTouch(View v, MotionEvent event) {

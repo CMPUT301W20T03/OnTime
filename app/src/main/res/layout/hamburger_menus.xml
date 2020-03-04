@@ -9,7 +9,7 @@
 
 
     <TextView
-        android:id="@+id/rider_name"
+        android:id="@+id/show_name"
         android:layout_width="189dp"
         android:layout_height="106dp"
         android:gravity="center"
