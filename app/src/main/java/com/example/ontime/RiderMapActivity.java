@@ -8,6 +8,7 @@ import androidx.fragment.app.FragmentActivity;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Build;
@@ -66,8 +67,8 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
     private WindowManager windowManager;
     private DisplayMetrics metrics;
     private Button hamburger_button;
-
-
+    private Button profile_button;
+    private Button request_button;
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
@@ -153,6 +154,8 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         int height = metrics.heightPixels;
         popupCover = new PopupWindow(coverView, width, height, false);
         popupWindow = new PopupWindow(customView,(int)(width*0.7),height,true);
+        profile_button=customView.findViewById(R.id.profile_button);
+        request_button=customView.findViewById(R.id.current_request_button);
         findViewById(R.id.rider_main_layout).post(new Runnable() {
             @Override
             public void run() {
@@ -160,6 +163,14 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
                 popupWindow.setAnimationStyle(R.style.pop_animation);
                 popupCover.showAtLocation(main, Gravity.LEFT,0,0);
                 popupWindow.showAtLocation(main, Gravity.LEFT,0,0);
+
+                profile_button.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent=new Intent(RiderMapActivity.this,RiderProfile.class);
+                        startActivity(intent);
+                    }
+                });
                 coverView.setOnTouchListener(new View.OnTouchListener() {
                     @Override
                     public boolean onTouch(View v, MotionEvent event) {
