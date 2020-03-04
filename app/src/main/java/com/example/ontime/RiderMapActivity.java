@@ -76,6 +76,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
     public Button profile_button;
     public Button request_button;
     public TextView show_name;
+    private TextView current_user_model;
     private String userName;
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
@@ -165,6 +166,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         profile_button=customView.findViewById(R.id.profile_button);
         request_button=customView.findViewById(R.id.current_request_button);
         show_name=customView.findViewById(R.id.show_name);
+        current_user_model=customView.findViewById(R.id.current_user_model);
         findViewById(R.id.rider_main_layout).post(new Runnable() {
             @Override
             public void run() {
@@ -172,7 +174,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
                 popupWindow.setAnimationStyle(R.style.pop_animation);
                 popupCover.showAtLocation(main, Gravity.LEFT,0,0);
                 popupWindow.showAtLocation(main, Gravity.LEFT,0,0);
-
+                current_user_model.setText("user model: rider");
                 db = FirebaseFirestore.getInstance();
                 final CollectionReference collectionReference = db.collection("Riders");
                 userName = getIntent().getStringExtra("username");
@@ -183,6 +185,10 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
                         show_name.setText(userName);
                     }
                 });
+
+
+
+
 
 
 

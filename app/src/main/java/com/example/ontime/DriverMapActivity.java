@@ -68,6 +68,7 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
     public Button request_button;
     public TextView show_name;
     private String userName;
+    private TextView current_user_model;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -142,6 +143,8 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
         profile_button=customView.findViewById(R.id.profile_button);
         request_button=customView.findViewById(R.id.current_request_button);
         show_name=customView.findViewById(R.id.show_name);
+        current_user_model=customView.findViewById(R.id.current_user_model);
+
         findViewById(R.id.driver_main_layout).post(new Runnable() {
             @Override
             public void run() {
@@ -149,6 +152,7 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
                 coverView = (ViewGroup)layoutInflater.inflate(R.layout.cover_layout, null);
                 popupCover.showAtLocation(main, Gravity.LEFT,0,0);
                 popupWindow.showAtLocation(main, Gravity.LEFT,0,0);
+                current_user_model.setText("user model: driver");
 
                 db = FirebaseFirestore.getInstance();
                 final CollectionReference collectionReference = db.collection("Drivers");
