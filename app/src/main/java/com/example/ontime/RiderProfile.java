@@ -34,7 +34,7 @@ public class RiderProfile extends AppCompatActivity {
     private String userPhone;
     private String userEmail;
     private String userPassword;
-    private String NewuserName;
+    private String newuserName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,7 +86,7 @@ public class RiderProfile extends AppCompatActivity {
 
     }
     private void saveUserInformation() {
-        NewuserName = profileNameEditText.getText().toString();
+        newuserName = profileNameEditText.getText().toString();
         userPhone = profilePhoneNumberEditText.getText().toString();
         userEmail = profileEmailEditText.getText().toString();
         userPassword = profilePasswordEditText.getText().toString();
@@ -94,7 +94,7 @@ public class RiderProfile extends AppCompatActivity {
 
         final CollectionReference collectionReference = db.collection("Riders");
         Map<String,Object> data = new HashMap<>();
-        if (NewuserName.length() == 0) {
+        if (newuserName.length() == 0) {
             Toast.makeText(RiderProfile.this, "Please enter your username", Toast.LENGTH_LONG).show();
         } else if (userEmail.length() == 0 ) {
             Toast.makeText(RiderProfile.this, "Please valid Email Address", Toast.LENGTH_LONG).show();
@@ -102,7 +102,7 @@ public class RiderProfile extends AppCompatActivity {
             Toast.makeText(RiderProfile.this, "Please enter valid Phone Number", Toast.LENGTH_LONG).show();
         } else if (userPassword.length() == 0) {
             Toast.makeText(RiderProfile.this, "Please Set your Password", Toast.LENGTH_LONG).show();
-        } else if (NewuserName.length() > 0 && userPassword.length() > 0 && userEmail.length() > 0 && userPhone.length() > 0){
+        } else if (newuserName.length() > 0 && userPassword.length() > 0 && userEmail.length() > 0 && userPhone.length() > 0){
             data.put("password", userPassword);
             data.put("email", userEmail);
             data.put("phone number", userPhone);
