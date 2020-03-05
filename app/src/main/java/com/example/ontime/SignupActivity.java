@@ -29,7 +29,6 @@ import javax.xml.validation.Validator;
 
 public class SignupActivity extends AppCompatActivity {
 
-
     String TAG = "Sample";
     Button signUpButton;
 
@@ -54,8 +53,6 @@ public class SignupActivity extends AppCompatActivity {
         //validator = new Validator(this);
         //validator.setValidationListener(this);
 
-
-
         signUpButton = findViewById(R.id.signup_button);
         addUsernameEditText = findViewById(R.id.signup_name_text);
         addPasswordEditText = findViewById(R.id.signup_password_text);
@@ -66,8 +63,6 @@ public class SignupActivity extends AppCompatActivity {
         addPhoneNumberEditText= findViewById(R.id.signup_phonenumber_text);
 
         db = FirebaseFirestore.getInstance();
-
-
 
         rider_choice = findViewById(R.id.rider);
         driver_choice = findViewById(R.id.driver);
@@ -135,6 +130,7 @@ public class SignupActivity extends AppCompatActivity {
                     } else if (passwordText.length() == 0) {
                         Toast.makeText(SignupActivity.this, "Please Set your Password", Toast.LENGTH_LONG).show();
                     } else if (usernameText.length() > 0 && passwordText.length() > 0 && emailText.length() > 0 && phone_numberText.length() > 0) {
+                        data.put("nickname", usernameText);
                         data.put("password", passwordText);
                         data.put("email", emailText);
                         data.put("phone number", phone_numberText);
@@ -176,6 +172,7 @@ public class SignupActivity extends AppCompatActivity {
                     } else if (passwordText.length() == 0) {
                         Toast.makeText(SignupActivity.this, "Please Set your Password", Toast.LENGTH_LONG).show();
                     } else if (usernameText.length() > 0 && passwordText.length() > 0 && emailText.length() > 0 && phone_numberText.length() > 0) {
+                        data.put("nickname", usernameText);
                         data.put("password", passwordText);
                         data.put("email", emailText);
                         data.put("phone number", phone_numberText);

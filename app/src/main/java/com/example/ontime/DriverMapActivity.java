@@ -98,6 +98,7 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
 
         final String usernameText = getIntent().getStringExtra("username");
 
+
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
         fetchLastLocation();
 

@@ -63,7 +63,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
     FirebaseFirestore db;
     String TAG = "Sample";
 
-//Popup Window
+    //Popup Window
     private PopupWindow popupWindow;
     private PopupWindow popupCover;
     private LinearLayout main;
@@ -212,17 +212,9 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
 
 
 
-        }
+            }
         });
     }
-
-
-
-
-
-
-
-
 
 
 
