@@ -37,7 +37,7 @@ public class DriverProfile extends AppCompatActivity {
     private String userPhone;
     private String userEmail;
     private String userPassword;
-    private  String NewuserName;
+    private String nickname;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,11 +62,12 @@ public class DriverProfile extends AppCompatActivity {
                     @Override
                     public void onSuccess(DocumentSnapshot documentSnapshot) {
                         if (documentSnapshot.exists()){
+                            nickname = documentSnapshot.getString("nickname");
                             userPhone = documentSnapshot.getString("phone number");
                             userEmail = documentSnapshot.getString("email");
                             userPassword = documentSnapshot.getString("password");
 
-                            profileNameEditText.setText(userName);
+                            profileNameEditText.setText(nickname);
                             profilePhoneNumberEditText.setText(userPhone);
                             profileEmailEditText.setText(userEmail);
                             profilePasswordEditText.setText(userPassword);
@@ -90,7 +91,7 @@ public class DriverProfile extends AppCompatActivity {
 
     }
     private void saveUserInformation() {
-        NewuserName = profileNameEditText.getText().toString();
+        nickname = profileNameEditText.getText().toString();
         userPhone = profilePhoneNumberEditText.getText().toString();
         userEmail = profileEmailEditText.getText().toString();
         userPassword = profilePasswordEditText.getText().toString();
@@ -98,7 +99,7 @@ public class DriverProfile extends AppCompatActivity {
 
         final CollectionReference collectionReference = db.collection("Drivers");
         Map<String,Object> data = new HashMap<>();
-        if (NewuserName.length() == 0) {
+        if (nickname.length() == 0) {
             Toast.makeText(DriverProfile.this, "Please enter your username", Toast.LENGTH_LONG).show();
         } else if (userEmail.length() == 0 ) {
             Toast.makeText(DriverProfile.this, "Please valid Email Address", Toast.LENGTH_LONG).show();
@@ -106,7 +107,8 @@ public class DriverProfile extends AppCompatActivity {
             Toast.makeText(DriverProfile.this, "Please enter valid Phone Number", Toast.LENGTH_LONG).show();
         } else if (userPassword.length() == 0) {
             Toast.makeText(DriverProfile.this, "Please Set your Password", Toast.LENGTH_LONG).show();
-        } else if (NewuserName.length() > 0 && userPassword.length() > 0 && userEmail.length() > 0 && userPhone.length() > 0){
+        } else if (nickname.length() > 0 && userPassword.length() > 0 && userEmail.length() > 0 && userPhone.length() > 0){
+            data.put("nickname",nickname);
             data.put("password", userPassword);
             data.put("email", userEmail);
             data.put("phone number", userPhone);
