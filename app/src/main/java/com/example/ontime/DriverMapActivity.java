@@ -166,13 +166,11 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
                 });
 
 
-
-
                 profile_button.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         Intent intent=new Intent(DriverMapActivity.this,DriverProfile.class);
-                        startActivity(intent);
+                        DriverMapActivity.this.startActivity(intent);
                     }
                 });
 

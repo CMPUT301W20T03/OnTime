@@ -186,18 +186,11 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
                     }
                 });
 
-
-
-
-
-
-
-
                 profile_button.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         Intent intent=new Intent(RiderMapActivity.this,RiderProfile.class);
-                        startActivity(intent);
+                        RiderMapActivity.this.startActivity(intent);
                     }
                 });
                 coverView.setOnTouchListener(new View.OnTouchListener() {
