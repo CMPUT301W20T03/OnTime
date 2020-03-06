@@ -23,12 +23,11 @@
         android:src="@drawable/ic_gps"/>
 
 
-
     <fragment
         android:id="@+id/map"
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
-        android:layout_height="466dp"
+        android:layout_height="405dp"
         android:layout_marginTop="-44dp"
         tools:context=".UserMapActivity"
 
@@ -46,9 +45,21 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="20dp"
+        android:layout_margin="10dp"
         android:background="@color/white">
-        <fragment android:id="@+id/autocomplete_fragment"
+        <fragment android:id="@+id/autocomplete_fragment_src"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:name="com.google.android.libraries.places.widget.AutocompleteSupportFragment"
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:background="@color/white">
+        <fragment android:id="@+id/autocomplete_fragment_dest"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:name="com.google.android.libraries.places.widget.AutocompleteSupportFragment"

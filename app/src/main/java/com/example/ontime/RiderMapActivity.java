@@ -109,6 +109,9 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
 
     private EditText destination; ///
     public String destinationText;
+    public String srcLocationText;
+    private LatLng srcLagLng;
+    private LatLng destLagLng;
     //EditText destination;
     Button RequestConfirmButton;
     FirebaseFirestore db;
@@ -230,9 +233,38 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         });
 
 
+        AutocompleteSupportFragment autocompleteFragment2 = (AutocompleteSupportFragment)
+                getSupportFragmentManager().findFragmentById(R.id.autocomplete_fragment_src);
+
+        // Specify the types of place data to return.
+        assert autocompleteFragment2 != null;
+        autocompleteFragment2.setPlaceFields(Arrays.asList(Place.Field.ID, Place.Field.NAME));
+
+        // Set up a PlaceSelectionListener to handle the response.
+        autocompleteFragment2.setOnPlaceSelectedListener(new PlaceSelectionListener() {
+            @Override
+            public void onPlaceSelected(@NonNull Place place) {
+                // TODO: Get info about the selected place.
+                //destinationText = place.getAddress();
+                srcLocationText = place.getName();
+
+                //LatLng address = place.getLatLng();
+                //moveCamera(address, DEFAULT_ZOOM, name);
+                //System.out.print(destinationText);
+                geoLocate(srcLocationText,"src");
+                Log.i(TAG, "Place: " + place.getName() + ", " + place.getId());
+            }
+
+            @Override
+            public void onError(Status status) {
+                // TODO: Handle the error.
+                Log.i(TAG, "An error occurred: " + status);
+            }
+        });
+
         // Initialize the AutocompleteSupportFragment.
         AutocompleteSupportFragment autocompleteFragment = (AutocompleteSupportFragment)
-                getSupportFragmentManager().findFragmentById(R.id.autocomplete_fragment);
+                getSupportFragmentManager().findFragmentById(R.id.autocomplete_fragment_dest);
 
         // Specify the types of place data to return.
         assert autocompleteFragment != null;
@@ -249,7 +281,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
                 //LatLng address = place.getLatLng();
                 //moveCamera(address, DEFAULT_ZOOM, name);
                 //System.out.print(destinationText);
-                geoLocate();
+                geoLocate(destinationText,"dest");
                 Log.i(TAG, "Place: " + place.getName() + ", " + place.getId());
             }
 
@@ -396,7 +428,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
 
 
 
-    private void geoLocate() {
+    private void geoLocate(String s,String locMode) {
         Log.d(TAG, "geoLocate: geolocating");
 
 
@@ -404,7 +436,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         Geocoder geocoder = new Geocoder(RiderMapActivity.this);
         List<Address> list = new ArrayList<>();
         try {
-            list = geocoder.getFromLocationName(destinationText, 1);
+            list = geocoder.getFromLocationName(s, 1);
         } catch (IOException e) {
             Log.e(TAG, "geoLocate: IOException: " + e.getMessage());
         }
@@ -414,6 +446,12 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
 
             Log.d(TAG, "geoLocate: found a location: " + address.toString());
             //Toast.makeText(this, address.toString(), Toast.LENGTH_SHORT).show();
+            if(locMode == "src"){
+                srcLagLng = new LatLng(address.getLatitude(), address.getLongitude());
+            }
+            else{
+                destLagLng = new LatLng(address.getLatitude(), address.getLongitude());
+            }
 
             moveCamera(new LatLng(address.getLatitude(), address.getLongitude()), DEFAULT_ZOOM,
                     address.getAddressLine(0));
