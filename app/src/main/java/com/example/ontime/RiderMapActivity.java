@@ -58,12 +58,16 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.libraries.places.api.Places;
 import com.google.android.libraries.places.api.model.Place;
 import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener;
 
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import org.json.JSONObject;
@@ -120,7 +124,12 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
     private LayoutInflater layoutInflater;
     private WindowManager windowManager;
     private DisplayMetrics metrics;
-    private Button hamburger_button;
+    public Button hamburger_button;
+    public Button profile_button;
+    public Button request_button;
+    public TextView show_name;
+    private TextView current_user_model;
+    private String userName;
 
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
@@ -271,28 +280,51 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
     }
 
 
-    public void initPopUpView() {
-        layoutInflater = (LayoutInflater) RiderMapActivity.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        customView = (ViewGroup) layoutInflater.inflate(R.layout.hamburger_menus, null);
-        coverView = (ViewGroup) layoutInflater.inflate(R.layout.cover_layout, null);
+    public void initPopUpView(){
+        layoutInflater = (LayoutInflater)RiderMapActivity.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        customView = (ViewGroup)layoutInflater.inflate(R.layout.hamburger_menus, null);
+        coverView = (ViewGroup)layoutInflater.inflate(R.layout.cover_layout, null);
         main = findViewById(R.id.rider_main_layout);
         windowManager = getWindowManager();
         metrics = new DisplayMetrics();
         windowManager.getDefaultDisplay().getMetrics(metrics);
     }
 
-    public void showPopUpView() {
+    public void showPopUpView(){
         int width = metrics.widthPixels;
         int height = metrics.heightPixels;
         popupCover = new PopupWindow(coverView, width, height, false);
-        popupWindow = new PopupWindow(customView, (int) (width * 0.7), height, true);
+        popupWindow = new PopupWindow(customView,(int)(width*0.7),height,true);
+        profile_button=customView.findViewById(R.id.profile_button);
+        request_button=customView.findViewById(R.id.current_request_button);
+        show_name=customView.findViewById(R.id.show_name);
+        current_user_model=customView.findViewById(R.id.current_user_model);
         findViewById(R.id.rider_main_layout).post(new Runnable() {
             @Override
             public void run() {
                 popupCover.setAnimationStyle(R.style.pop_animation);
                 popupWindow.setAnimationStyle(R.style.pop_animation);
-                popupCover.showAtLocation(main, Gravity.LEFT, 0, 0);
-                popupWindow.showAtLocation(main, Gravity.LEFT, 0, 0);
+                popupCover.showAtLocation(main, Gravity.LEFT,0,0);
+                popupWindow.showAtLocation(main, Gravity.LEFT,0,0);
+                current_user_model.setText("user mode: rider");
+                db = FirebaseFirestore.getInstance();
+                final CollectionReference collectionReference = db.collection("Riders");
+                userName = getIntent().getStringExtra("username");
+                final DocumentReference user = db.collection("Rider").document(userName);
+                user.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        show_name.setText(userName);
+                    }
+                });
+
+                profile_button.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent=new Intent(RiderMapActivity.this,RiderProfile.class);
+                        RiderMapActivity.this.startActivity(intent);
+                    }
+                });
                 coverView.setOnTouchListener(new View.OnTouchListener() {
                     @Override
                     public boolean onTouch(View v, MotionEvent event) {
@@ -308,10 +340,10 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
                         Log.d(TAG, "onDismiss: test");
                     }
                 });
-
             }
         });
     }
+
 
 
 

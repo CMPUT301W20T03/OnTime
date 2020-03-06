@@ -9,13 +9,13 @@
 
 
     <TextView
-        android:id="@+id/rider_name"
-        android:layout_width="189dp"
-        android:layout_height="106dp"
+        android:id="@+id/show_name"
+        android:layout_width="190dp"
+        android:layout_height="87dp"
         android:gravity="center"
         android:text="ALEX"
         android:textColor="@android:color/white"
-        android:textSize="24sp"
+        android:textSize="36sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.112"
@@ -52,5 +52,18 @@
             android:paddingLeft="30dp"
             android:text="past request" />
     </LinearLayout>
-</androidx.constraintlayout.widget.ConstraintLayout>
 
+    <TextView
+        android:id="@+id/current_user_model"
+        android:layout_width="189dp"
+        android:layout_height="40dp"
+        android:gravity="center"
+        android:text="TextView"
+        android:textColor="@android:color/white"
+        app:layout_constraintBottom_toTopOf="@+id/meun_choice"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.117"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.689" />
+</androidx.constraintlayout.widget.ConstraintLayout>
