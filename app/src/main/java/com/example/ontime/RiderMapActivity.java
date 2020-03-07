@@ -58,6 +58,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.libraries.places.api.Places;
@@ -139,13 +140,14 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        userName = getIntent().getStringExtra("username");
+
         setContentView(R.layout.activity_rider_map);
         if(!Places.isInitialized()){
             Places.initialize(getApplicationContext(),"AIzaSyBW45jLYXpnPRI9rdYAQr24cMs9jvU8yDg");
         }
 
-
-        //final String usernameText = getIntent().getStringExtra("username");
 
         RequestConfirmButton = findViewById(R.id.confirm_request_btn); ///
         //destination = findViewById(R.id.input_search);
@@ -183,45 +185,6 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
                 }
             }
         });
-
-        /*
-
-        RequestConfirmButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                final CollectionReference collectionReference = db.collection("Requests");
-                final String srcLocationText = srcLocation.getText().toString();
-                final String destinationText = destination.getText().toString();
-                HashMap<String, String> data = new HashMap<>();
-                if (srcLocationText.length() == 0) {
-                    Toast.makeText(RiderMapActivity.this, "Please enter your source location", Toast.LENGTH_LONG).show();
-                } else if (destinationText.length() == 0) {
-                    Toast.makeText(RiderMapActivity.this, "Please enter your destination", Toast.LENGTH_LONG).show();
-                }
-                data.put("srcLocation", srcLocationText);
-                data.put("destination", destinationText);
-                data.put("rider", usernameText);
-                data.put("status", "Active");
-                collectionReference
-                        .document(usernameText)
-                        .set(data)
-                        .addOnSuccessListener(new OnSuccessListener<Void>() {
-                            @Override
-                            public void onSuccess(Void aVoid) {
-                                Log.d(TAG, "Data addition successful");
-                                Toast.makeText(RiderMapActivity.this, "Request successful", Toast.LENGTH_LONG).show();
-                            }
-                        })
-                        .addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                Log.d(TAG, "Data addition failed" + e.toString());
-                            }
-                        });
-
-
-            }
-        });*/
 
         getLocationPermission();
         RequestConfirmButton.setOnClickListener(new View.OnClickListener() {
@@ -292,6 +255,52 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
             }
         });
 
+        RequestConfirmButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                db = FirebaseFirestore.getInstance();
+                final CollectionReference collectionReference = db.collection("Requests");
+
+                if (srcLagLng == null || destLagLng == null) {
+                    Toast.makeText(RiderMapActivity.this, "invalid location", Toast.LENGTH_LONG).show();
+                    startActivity(new Intent(getBaseContext(), RiderMapActivity.class));
+                }
+                final String srcLag = srcLagLng.toString();
+                final String destLag = destLagLng.toString();
+                HashMap<String, String> data = new HashMap<>();
+                if (srcLocationText.length() == 0) {
+                    Toast.makeText(RiderMapActivity.this, "Please enter your source location", Toast.LENGTH_LONG).show();
+                    startActivity(new Intent(getBaseContext(), RiderMapActivity.class));
+                } else if (destinationText.length() == 0) {
+                    Toast.makeText(RiderMapActivity.this, "Please enter your destination", Toast.LENGTH_LONG).show();
+                    startActivity(new Intent(getBaseContext(), RiderMapActivity.class));
+                }
+                data.put("srcLocationText", srcLocationText);
+                data.put("destinationText", destinationText);
+                data.put("srcLag", srcLag);
+                data.put("destLag", destLag);
+                data.put("rider", userName);
+                data.put("status", "Active");
+                collectionReference
+                        .document(userName)
+                        .set(data)
+                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                Log.d(TAG, "Data addition successful");
+                                Toast.makeText(RiderMapActivity.this, "Request successful", Toast.LENGTH_LONG).show();
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Log.d(TAG, "Data addition failed" + e.toString());
+                            }
+                        });
+
+
+            }
+        });
     }
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
 
@@ -341,7 +350,6 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
                 current_user_model.setText("user mode: rider");
                 db = FirebaseFirestore.getInstance();
                 final CollectionReference collectionReference = db.collection("Riders");
-                userName = getIntent().getStringExtra("username");
                 final DocumentReference user = db.collection("Rider").document(userName);
                 user.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                     @Override
@@ -430,15 +438,22 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
 
     private void geoLocate(String s,String locMode) {
         Log.d(TAG, "geoLocate: geolocating");
-
+        Toast.makeText(this,"Locating...", Toast.LENGTH_SHORT).show();
 
 
         Geocoder geocoder = new Geocoder(RiderMapActivity.this);
         List<Address> list = new ArrayList<>();
         try {
             list = geocoder.getFromLocationName(s, 1);
-        } catch (IOException e) {
-            Log.e(TAG, "geoLocate: IOException: " + e.getMessage());
+
+            int count = 0;
+            while (list.size() <= 0 && count < 10) {
+                list = geocoder.getFromLocationName(s, 1);
+                count++;
+            }
+        } catch (Exception e) {
+            System.out.print(e.getMessage());
+            Log.e(TAG, "geoLocate: Exception: " + e.getMessage());
         }
 
         if (list.size() > 0) {
@@ -446,15 +461,14 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
 
             Log.d(TAG, "geoLocate: found a location: " + address.toString());
             //Toast.makeText(this, address.toString(), Toast.LENGTH_SHORT).show();
-            if(locMode == "src"){
+            if (locMode == "src") {
                 srcLagLng = new LatLng(address.getLatitude(), address.getLongitude());
             }
-            else{
+            else {
                 destLagLng = new LatLng(address.getLatitude(), address.getLongitude());
             }
 
-            moveCamera(new LatLng(address.getLatitude(), address.getLongitude()), DEFAULT_ZOOM,
-                    address.getAddressLine(0));
+            moveCamera(new LatLng(address.getLatitude(), address.getLongitude()), DEFAULT_ZOOM, s);
         }
     }
 
@@ -527,10 +541,6 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         }
 
         hideSoftKeyboard();
-
-
-
-
 
     }
 
