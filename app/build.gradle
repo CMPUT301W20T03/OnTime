@@ -40,6 +40,7 @@ dependencies {
     implementation 'com.google.android.gms:play-services-location:17.0.0'
     implementation 'com.google.android.libraries.places:places:2.2.0'
     implementation 'com.google.android.gms:play-services-places:17.0.0'
+    implementation 'io.nlopez.smartlocation:library:3.2.9'
 
     testImplementation 'junit:junit:4.12'
     implementation 'com.firebaseui:firebase-ui-database:4.3.2'

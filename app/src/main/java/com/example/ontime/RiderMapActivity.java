@@ -92,7 +92,7 @@ import com.example.ontime.helper.TaskLoadedCallback;
 public class RiderMapActivity extends FragmentActivity implements OnMapReadyCallback {
 
 
-    FusedLocationProviderClient mFusedLocationProviderClient;
+    private FusedLocationProviderClient mFusedLocationProviderClient;
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 101;
     private static final String FINE_LOCATION = Manifest.permission.ACCESS_FINE_LOCATION;
     private static final String COURSE_LOCATION = Manifest.permission.ACCESS_COARSE_LOCATION;

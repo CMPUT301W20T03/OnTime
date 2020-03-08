@@ -53,15 +53,18 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 101;
     private static final String FINE_LOCATION = Manifest.permission.ACCESS_FINE_LOCATION;
     private static final String COURSE_LOCATION = Manifest.permission.ACCESS_COARSE_LOCATION;
+    private static final String TAG = "LocationActivity";
+    private static final long INTERVAL = 1000 * 10;
+    private static final long FASTEST_INTERVAL = 1000 * 5;
     private static final float DEFAULT_ZOOM = 15f;
     private Boolean mLocationPermissionsGranted = false;
     private LatLng myLastLocation;
     ListView requestList;
-    String TAG = "Sample";
+    // TAG = "Sample";
     GoogleMap mMap;
     GoogleSignInAccount account;
-    
-    //LocationRequest mLocationRequest;
+
+    LocationRequest mLocationRequest;
 
     //Popup Window
     private PopupWindow popupWindow;
@@ -74,6 +77,13 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
     private DisplayMetrics metrics;
     private Button hamburger_button;
 
+    protected void createLocationRequest() {
+        mLocationRequest = new LocationRequest();
+        mLocationRequest.setInterval(INTERVAL);
+        mLocationRequest.setFastestInterval(FASTEST_INTERVAL);
+        mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -83,6 +93,7 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);*/
 
+        createLocationRequest();
 
         hamburger_button = findViewById(R.id.hamburger_button);
         initPopUpView();
@@ -262,6 +273,7 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
 
         mapFragment.getMapAsync(DriverMapActivity.this);
+
     }
 
     private void getLocationPermission() {

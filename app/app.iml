@@ -141,6 +141,7 @@
     <orderEntry type="library" name="Gradle: com.google.firebase:firebase-firestore:21.4.0@aar" level="project" />
     <orderEntry type="library" name="Gradle: com.firebaseui:firebase-ui-database:4.3.2@aar" level="project" />
     <orderEntry type="library" name="Gradle: com.google.firebase:firebase-database:16.0.5@aar" level="project" />
+    <orderEntry type="library" name="Gradle: io.nlopez.smartlocation:library:3.2.9@aar" level="project" />
     <orderEntry type="library" name="Gradle: com.google.android.gms:play-services-location:17.0.0@aar" level="project" />
     <orderEntry type="library" name="Gradle: com.google.firebase:firebase-auth-interop:19.0.0@aar" level="project" />
     <orderEntry type="library" name="Gradle: com.google.android.gms:play-services-measurement-api:17.2.2@aar" level="project" />
