@@ -198,7 +198,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
 
         AutocompleteSupportFragment autocompleteFragment2 = (AutocompleteSupportFragment)
                 getSupportFragmentManager().findFragmentById(R.id.autocomplete_fragment_src);
-
+        autocompleteFragment2.setHint("Where are you?");
         // Specify the types of place data to return.
         assert autocompleteFragment2 != null;
         autocompleteFragment2.setPlaceFields(Arrays.asList(Place.Field.ID, Place.Field.NAME));
@@ -228,7 +228,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         // Initialize the AutocompleteSupportFragment.
         AutocompleteSupportFragment autocompleteFragment = (AutocompleteSupportFragment)
                 getSupportFragmentManager().findFragmentById(R.id.autocomplete_fragment_dest);
-
+        autocompleteFragment.setHint("Where are you going?");
         // Specify the types of place data to return.
         assert autocompleteFragment != null;
         autocompleteFragment.setPlaceFields(Arrays.asList(Place.Field.ID, Place.Field.NAME));
