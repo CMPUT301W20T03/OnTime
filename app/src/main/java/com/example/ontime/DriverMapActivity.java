@@ -94,8 +94,6 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);*/
 
-
-
         hamburger_button = findViewById(R.id.hamburger_button);
         initPopUpView();
         hamburger_button.setOnClickListener(new View.OnClickListener() {
@@ -105,8 +103,7 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
                 showPopUpView();
             }
         });
-
-
+        userName = getIntent().getStringExtra("username");
 
         final String usernameText = getIntent().getStringExtra("username");
 
@@ -286,7 +283,7 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
         request_button=customView.findViewById(R.id.current_request_button);
         show_name=customView.findViewById(R.id.show_name);
         current_user_model=customView.findViewById(R.id.current_user_model);
-        findViewById(R.id.rider_main_layout).post(new Runnable() {
+        findViewById(R.id.driver_main_layout).post(new Runnable() {
             @Override
             public void run() {
                 popupCover.setAnimationStyle(R.style.pop_animation);
@@ -296,7 +293,7 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
                 current_user_model.setText("user mode: driver");
                 db = FirebaseFirestore.getInstance();
                 final CollectionReference collectionReference = db.collection("Drivers");
-                final DocumentReference user = db.collection("Driver").document(userName);
+                final DocumentReference user = db.collection("Drivers").document(userName);
                 user.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                     @Override
                     public void onSuccess(DocumentSnapshot documentSnapshot) {

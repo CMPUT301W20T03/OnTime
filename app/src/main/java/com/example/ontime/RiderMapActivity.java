@@ -541,7 +541,6 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
     }
 
-
     public void initPopUpView(){
         layoutInflater = (LayoutInflater)RiderMapActivity.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         customView = (ViewGroup)layoutInflater.inflate(R.layout.hamburger_menus, null);
@@ -571,7 +570,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
                 current_user_model.setText("user mode: rider");
                 db = FirebaseFirestore.getInstance();
                 final CollectionReference collectionReference = db.collection("Riders");
-                final DocumentReference user = db.collection("Rider").document(userName);
+                final DocumentReference user = db.collection("Riders").document(userName);
                 user.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                     @Override
                     public void onSuccess(DocumentSnapshot documentSnapshot) {
@@ -604,5 +603,6 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
             }
         });
     }
+
 
 }
