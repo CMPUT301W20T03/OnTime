@@ -30,10 +30,7 @@ import android.widget.Toast;
 
 //import com.firebase.ui.database.FirebaseListAdapter;
 //import com.firebase.ui.database.FirebaseListOptions;
-import com.firebase.geofire.GeoFire;
-import com.firebase.geofire.GeoLocation;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
-import com.google.android.gms.common.api.GoogleApi;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
@@ -47,15 +44,10 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.GeoPoint;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -127,15 +119,15 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
 
         //This part is for requests listview
         ListView requestsList;
-        ArrayAdapter<Requests> requestsAdapter;
-        ArrayList<Requests> requestsDataList;
+        ArrayAdapter<CurrentRequests> requestsAdapter;
+        ArrayList<CurrentRequests> requestsDataList;
         int current_position;
 
         //loadData();
         requestsDataList = new ArrayList<>();
 
         requestsList = findViewById(R.id.request_list);
-        requestsAdapter = new RequestList(this, requestsDataList);
+        requestsAdapter = new CurrentRequestList(this, requestsDataList);
         requestsList.setAdapter(requestsAdapter);
 
         // TO DO : NEED TO ADD DRIVER REQUESTS LISTVIEW FOR ACCEPT REQUESTS

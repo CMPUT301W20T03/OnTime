@@ -12,13 +12,13 @@ import androidx.annotation.Nullable;
 
 import java.util.ArrayList;
 
-public class RequestList extends ArrayAdapter<Requests> {
-    private ArrayList<Requests> requests;
+public class CurrentRequestList extends ArrayAdapter<CurrentRequests> {
+    private ArrayList<CurrentRequests> currentrequests;
     private Context context;
 
-    public RequestList(Context context, ArrayList<Requests> requests) {
+    public CurrentRequestList(Context context, ArrayList<CurrentRequests> requests) {
         super(context, 0, requests);
-        this.requests = requests;
+        this.currentrequests = currentrequests;
         this.context = context;
     }
 
@@ -29,7 +29,7 @@ public class RequestList extends ArrayAdapter<Requests> {
             view = LayoutInflater.from(context).inflate(R.layout.content,parent,false);
         }
 
-        Requests requests = requests.get(position);
+        CurrentRequests currentrequest = currentrequests.get(position);
 
         TextView nameText = view.findViewById(R.id.name_text);
         TextView phoneText = view.findViewById(R.id.phone_text);
@@ -38,12 +38,12 @@ public class RequestList extends ArrayAdapter<Requests> {
         TextView destinationText = view.findViewById(R.id.destination_text);
         TextView amountText = view.findViewById(R.id.amount_text);
 
-        nameText.setText(requests.getName());
-        phoneText.setText(requests.getPhone());
-        emailText.setText(requests.getEmail());
-        srclocationText.setText(requests.getSrclocation());
-        destinationText.setText(requests.getDestination());
-        amountText.setText(requests.getAmount());
+        nameText.setText(currentrequest.getName());
+        phoneText.setText(currentrequest.getPhone());
+        emailText.setText(currentrequest.getEmail());
+        srclocationText.setText(currentrequest.getSrclocation());
+        destinationText.setText(currentrequest.getDestination());
+        amountText.setText(currentrequest.getAmount());
 
         return view;
     }
