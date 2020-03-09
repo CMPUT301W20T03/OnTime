@@ -7,6 +7,7 @@ import androidx.fragment.app.FragmentActivity;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
@@ -28,6 +29,8 @@ import android.widget.Toast;
 
 //import com.firebase.ui.database.FirebaseListAdapter;
 //import com.firebase.ui.database.FirebaseListOptions;
+import com.firebase.geofire.GeoFire;
+import com.firebase.geofire.GeoLocation;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.common.api.GoogleApi;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -40,8 +43,20 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.GeoPoint;
+
+import java.util.HashMap;
 //import com.google.firebase.database.FirebaseDatabase;
 //import com.google.firebase.database.Query;
 
@@ -59,12 +74,17 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
     private static final float DEFAULT_ZOOM = 15f;
     private Boolean mLocationPermissionsGranted = false;
     private LatLng myLastLocation;
+    private String userId;
     ListView requestList;
     // TAG = "Sample";
     GoogleMap mMap;
     GoogleSignInAccount account;
 
     LocationRequest mLocationRequest;
+
+    FirebaseFirestore db;
+    //LocationRequest mLocationRequest;
+
 
     //Popup Window
     private PopupWindow popupWindow;
@@ -75,7 +95,12 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
     private LayoutInflater layoutInflater;
     private WindowManager windowManager;
     private DisplayMetrics metrics;
-    private Button hamburger_button;
+    public Button hamburger_button;
+    public Button profile_button;
+    public Button request_button;
+    public TextView show_name;
+    private TextView current_user_model;
+    private String userName;
 
     protected void createLocationRequest() {
         mLocationRequest = new LocationRequest();
@@ -87,29 +112,27 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        userName = getIntent().getStringExtra("username");
         setContentView(R.layout.activity_driver_map);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         /*SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);*/
 
+
         createLocationRequest();
+
 
         hamburger_button = findViewById(R.id.hamburger_button);
         initPopUpView();
         hamburger_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d(TAG, "onClick: shit");
+                Log.d(TAG, "onClick: It is hamburger button!");
                 showPopUpView();
             }
         });
-
-
-
-
-
-
+        userName = getIntent().getStringExtra("username");
 
         final String usernameText = getIntent().getStringExtra("username");
 
@@ -139,64 +162,8 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
 
     }
 
-
-
-    public void initPopUpView(){
-        layoutInflater = (LayoutInflater)DriverMapActivity.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        customView = (ViewGroup)layoutInflater.inflate(R.layout.hamburger_menus, null);
-        coverView = (ViewGroup)layoutInflater.inflate(R.layout.cover_layout, null);
-        main = findViewById(R.id.driver_main_layout);
-        windowManager = getWindowManager();
-        metrics = new DisplayMetrics();
-        windowManager.getDefaultDisplay().getMetrics(metrics);
-    }
-
-    public void showPopUpView(){
-        int width = metrics.widthPixels;
-        int height = metrics.heightPixels;
-        popupCover = new PopupWindow(coverView, width, height, false);
-        popupWindow = new PopupWindow(customView,(int)(width*0.7),height,true);
-        findViewById(R.id.driver_main_layout).post(new Runnable() {
-            @Override
-            public void run() {
-                customView = (ViewGroup)layoutInflater.inflate(R.layout.hamburger_menus, null);
-                coverView = (ViewGroup)layoutInflater.inflate(R.layout.cover_layout, null);
-                popupCover.showAtLocation(main, Gravity.LEFT,0,0);
-                popupWindow.showAtLocation(main, Gravity.LEFT,0,0);
-                coverView.setOnTouchListener(new View.OnTouchListener() {
-                    @Override
-                    public boolean onTouch(View v, MotionEvent event) {
-                        popupWindow.dismiss();
-                        return true;
-                    }
-                });
-
-                popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
-                    @Override
-                    public void onDismiss() {
-                        popupCover.dismiss();
-                        Log.d(TAG, "onDismiss: test");
-                    }
-                });
-
-            }
-        });
-    }
-
-
-
-
-
-
-
-
-
-
-
-
-
     @Override
-    public void onMapReady(GoogleMap googleMap) {
+    public void onMapReady(GoogleMap googleMap)throws SecurityException{
         Toast.makeText(this, "Map is Ready", Toast.LENGTH_SHORT).show();
         Log.d(TAG, "onMapReady: map is ready");
         mMap = googleMap;
@@ -214,6 +181,11 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
 
             //init();
         }
+
+
+
+
+
     }
 
     private void getDeviceLocation(){
@@ -232,6 +204,35 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
                             Log.d(TAG, "onComplete: found location!");
                             Location currentLocation = (Location) task.getResult();
                             myLastLocation = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
+
+                            // to do
+                            db = FirebaseFirestore.getInstance();
+                            final CollectionReference collectionReference = db.collection("DriversAvailable");
+                            HashMap<String, String> data = new HashMap<>();
+                            final String driverL = myLastLocation.toString();
+                            data.put("driverL",driverL);
+                            data.put("driver",userName);
+                            collectionReference
+                                    .document(userName)
+                                    .set(data)
+                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                        @Override
+                                        public void onSuccess(Void aVoid) {
+                                            Log.d(TAG, "onSuccess: location addtion successful");
+                                            Toast.makeText(DriverMapActivity.this,"location successful",Toast.LENGTH_LONG).show();
+                                        }
+                                    })
+                                    .addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception e) {
+                                            Log.d(TAG, "onFailure: location additon failed" + e.toString());
+                                        }
+                                    });
+
+
+
+
+
 
                             moveCamera(myLastLocation, DEFAULT_ZOOM, "My Location");
 
@@ -325,6 +326,69 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
 
     private void hideSoftKeyboard() {
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+    }
+
+    public void initPopUpView(){
+        layoutInflater = (LayoutInflater)DriverMapActivity.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        customView = (ViewGroup)layoutInflater.inflate(R.layout.hamburger_menus, null);
+        coverView = (ViewGroup)layoutInflater.inflate(R.layout.cover_layout, null);
+        main = findViewById(R.id.driver_main_layout);
+        windowManager = getWindowManager();
+        metrics = new DisplayMetrics();
+        windowManager.getDefaultDisplay().getMetrics(metrics);
+    }
+
+    public void showPopUpView(){
+        int width = metrics.widthPixels;
+        int height = metrics.heightPixels;
+        popupCover = new PopupWindow(coverView, width, height, false);
+        popupWindow = new PopupWindow(customView,(int)(width*0.7),height,true);
+        profile_button=customView.findViewById(R.id.profile_button);
+        request_button=customView.findViewById(R.id.current_request_button);
+        show_name=customView.findViewById(R.id.show_name);
+        current_user_model=customView.findViewById(R.id.current_user_model);
+        findViewById(R.id.driver_main_layout).post(new Runnable() {
+            @Override
+            public void run() {
+                popupCover.setAnimationStyle(R.style.pop_animation);
+                popupWindow.setAnimationStyle(R.style.pop_animation);
+                popupCover.showAtLocation(main, Gravity.LEFT,0,0);
+                popupWindow.showAtLocation(main, Gravity.LEFT,0,0);
+                current_user_model.setText("user mode: driver");
+                db = FirebaseFirestore.getInstance();
+                final CollectionReference collectionReference = db.collection("Drivers");
+                final DocumentReference user = db.collection("Drivers").document(userName);
+                user.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        show_name.setText(userName);
+                    }
+                });
+
+                profile_button.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent=new Intent(DriverMapActivity.this,RiderProfile.class);
+                        DriverMapActivity.this.startActivity(intent);
+                    }
+                });
+                coverView.setOnTouchListener(new View.OnTouchListener() {
+                    @Override
+                    public boolean onTouch(View v, MotionEvent event) {
+                        popupWindow.dismiss();
+                        return true;
+                    }
+                });
+
+                popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+                    @Override
+                    public void onDismiss() {
+                        popupCover.dismiss();
+                        Log.d(TAG, "onDismiss: test");
+                    }
+                });
+            }
+        });
     }
 
 }

@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Gradle: com.firebase:geofire-common:3.0.0@jar">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.firebase/geofire-common/3.0.0/f1cc0ce1feadcd4d9e49e9ff5aa2dbf1800a1683/geofire-common-3.0.0.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.firebase/geofire-common/3.0.0/d5f546a9198a21de63b627e6b1cfff7285f0ad44/geofire-common-3.0.0-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.firebase/geofire-common/3.0.0/fe95a92dfc4744b55499a7e497de66691d0cbbd7/geofire-common-3.0.0-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

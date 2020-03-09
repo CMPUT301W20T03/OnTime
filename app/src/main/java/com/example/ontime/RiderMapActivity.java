@@ -58,6 +58,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.libraries.places.api.Places;
@@ -65,6 +66,7 @@ import com.google.android.libraries.places.api.model.Place;
 import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -139,13 +141,14 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        userName = getIntent().getStringExtra("username");
+
         setContentView(R.layout.activity_rider_map);
         if(!Places.isInitialized()){
             Places.initialize(getApplicationContext(),"AIzaSyBW45jLYXpnPRI9rdYAQr24cMs9jvU8yDg");
         }
 
-
-        //final String usernameText = getIntent().getStringExtra("username");
 
         RequestConfirmButton = findViewById(R.id.confirm_request_btn); ///
         //destination = findViewById(R.id.input_search);
@@ -158,7 +161,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         hamburger_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d(TAG, "onClick: shit");
+                Log.d(TAG, "onClick: It is hamburger button!");
                 showPopUpView();
             }
         });
@@ -184,45 +187,6 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
             }
         });
 
-        /*
-
-        RequestConfirmButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                final CollectionReference collectionReference = db.collection("Requests");
-                final String srcLocationText = srcLocation.getText().toString();
-                final String destinationText = destination.getText().toString();
-                HashMap<String, String> data = new HashMap<>();
-                if (srcLocationText.length() == 0) {
-                    Toast.makeText(RiderMapActivity.this, "Please enter your source location", Toast.LENGTH_LONG).show();
-                } else if (destinationText.length() == 0) {
-                    Toast.makeText(RiderMapActivity.this, "Please enter your destination", Toast.LENGTH_LONG).show();
-                }
-                data.put("srcLocation", srcLocationText);
-                data.put("destination", destinationText);
-                data.put("rider", usernameText);
-                data.put("status", "Active");
-                collectionReference
-                        .document(usernameText)
-                        .set(data)
-                        .addOnSuccessListener(new OnSuccessListener<Void>() {
-                            @Override
-                            public void onSuccess(Void aVoid) {
-                                Log.d(TAG, "Data addition successful");
-                                Toast.makeText(RiderMapActivity.this, "Request successful", Toast.LENGTH_LONG).show();
-                            }
-                        })
-                        .addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                Log.d(TAG, "Data addition failed" + e.toString());
-                            }
-                        });
-
-
-            }
-        });*/
-
         getLocationPermission();
         RequestConfirmButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -235,7 +199,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
 
         AutocompleteSupportFragment autocompleteFragment2 = (AutocompleteSupportFragment)
                 getSupportFragmentManager().findFragmentById(R.id.autocomplete_fragment_src);
-
+        autocompleteFragment2.setHint("Where are you?");
         // Specify the types of place data to return.
         assert autocompleteFragment2 != null;
         autocompleteFragment2.setPlaceFields(Arrays.asList(Place.Field.ID, Place.Field.NAME));
@@ -265,7 +229,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         // Initialize the AutocompleteSupportFragment.
         AutocompleteSupportFragment autocompleteFragment = (AutocompleteSupportFragment)
                 getSupportFragmentManager().findFragmentById(R.id.autocomplete_fragment_dest);
-
+        autocompleteFragment.setHint("Where are you going?");
         // Specify the types of place data to return.
         assert autocompleteFragment != null;
         autocompleteFragment.setPlaceFields(Arrays.asList(Place.Field.ID, Place.Field.NAME));
@@ -292,6 +256,52 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
             }
         });
 
+        RequestConfirmButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                db = FirebaseFirestore.getInstance();
+                final CollectionReference collectionReference = db.collection("Requests");
+
+                if (srcLagLng == null || destLagLng == null) {
+                    Toast.makeText(RiderMapActivity.this, "invalid location", Toast.LENGTH_LONG).show();
+                    startActivity(new Intent(getBaseContext(), RiderMapActivity.class));
+                }
+                final String srcLag = srcLagLng.toString();
+                final String destLag = destLagLng.toString();
+                HashMap<String, String> data = new HashMap<>();
+                if (srcLocationText.length() == 0) {
+                    Toast.makeText(RiderMapActivity.this, "Please enter your source location", Toast.LENGTH_LONG).show();
+                    startActivity(new Intent(getBaseContext(), RiderMapActivity.class));
+                } else if (destinationText.length() == 0) {
+                    Toast.makeText(RiderMapActivity.this, "Please enter your destination", Toast.LENGTH_LONG).show();
+                    startActivity(new Intent(getBaseContext(), RiderMapActivity.class));
+                }
+                data.put("srcLocationText", srcLocationText);
+                data.put("destinationText", destinationText);
+                data.put("srcLag", srcLag);
+                data.put("destLag", destLag);
+                data.put("rider", userName);
+                data.put("status", "Active");
+                collectionReference
+                        .document(userName)
+                        .set(data)
+                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                Log.d(TAG, "Data addition successful");
+                                Toast.makeText(RiderMapActivity.this, "Request successful", Toast.LENGTH_LONG).show();
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Log.d(TAG, "Data addition failed" + e.toString());
+                            }
+                        });
+
+
+            }
+        });
     }
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
 
@@ -312,69 +322,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
     }
 
 
-    public void initPopUpView(){
-        layoutInflater = (LayoutInflater)RiderMapActivity.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        customView = (ViewGroup)layoutInflater.inflate(R.layout.hamburger_menus, null);
-        coverView = (ViewGroup)layoutInflater.inflate(R.layout.cover_layout, null);
-        main = findViewById(R.id.rider_main_layout);
-        windowManager = getWindowManager();
-        metrics = new DisplayMetrics();
-        windowManager.getDefaultDisplay().getMetrics(metrics);
-    }
 
-    public void showPopUpView(){
-        int width = metrics.widthPixels;
-        int height = metrics.heightPixels;
-        popupCover = new PopupWindow(coverView, width, height, false);
-        popupWindow = new PopupWindow(customView,(int)(width*0.7),height,true);
-        profile_button=customView.findViewById(R.id.profile_button);
-        request_button=customView.findViewById(R.id.current_request_button);
-        show_name=customView.findViewById(R.id.show_name);
-        current_user_model=customView.findViewById(R.id.current_user_model);
-        findViewById(R.id.rider_main_layout).post(new Runnable() {
-            @Override
-            public void run() {
-                popupCover.setAnimationStyle(R.style.pop_animation);
-                popupWindow.setAnimationStyle(R.style.pop_animation);
-                popupCover.showAtLocation(main, Gravity.LEFT,0,0);
-                popupWindow.showAtLocation(main, Gravity.LEFT,0,0);
-                current_user_model.setText("user mode: rider");
-                db = FirebaseFirestore.getInstance();
-                final CollectionReference collectionReference = db.collection("Riders");
-                userName = getIntent().getStringExtra("username");
-                final DocumentReference user = db.collection("Rider").document(userName);
-                user.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                    @Override
-                    public void onSuccess(DocumentSnapshot documentSnapshot) {
-                        show_name.setText(userName);
-                    }
-                });
-
-                profile_button.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent intent=new Intent(RiderMapActivity.this,RiderProfile.class);
-                        RiderMapActivity.this.startActivity(intent);
-                    }
-                });
-                coverView.setOnTouchListener(new View.OnTouchListener() {
-                    @Override
-                    public boolean onTouch(View v, MotionEvent event) {
-                        popupWindow.dismiss();
-                        return true;
-                    }
-                });
-
-                popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
-                    @Override
-                    public void onDismiss() {
-                        popupCover.dismiss();
-                        Log.d(TAG, "onDismiss: test");
-                    }
-                });
-            }
-        });
-    }
 
 
 
@@ -430,15 +378,22 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
 
     private void geoLocate(String s,String locMode) {
         Log.d(TAG, "geoLocate: geolocating");
-
+        Toast.makeText(this,"Locating...", Toast.LENGTH_SHORT).show();
 
 
         Geocoder geocoder = new Geocoder(RiderMapActivity.this);
         List<Address> list = new ArrayList<>();
         try {
             list = geocoder.getFromLocationName(s, 1);
-        } catch (IOException e) {
-            Log.e(TAG, "geoLocate: IOException: " + e.getMessage());
+
+            int count = 0;
+            while (list.size() <= 0 && count < 10) {
+                list = geocoder.getFromLocationName(s, 1);
+                count++;
+            }
+        } catch (Exception e) {
+            System.out.print(e.getMessage());
+            Log.e(TAG, "geoLocate: Exception: " + e.getMessage());
         }
 
         if (list.size() > 0) {
@@ -446,15 +401,14 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
 
             Log.d(TAG, "geoLocate: found a location: " + address.toString());
             //Toast.makeText(this, address.toString(), Toast.LENGTH_SHORT).show();
-            if(locMode == "src"){
+            if (locMode == "src") {
                 srcLagLng = new LatLng(address.getLatitude(), address.getLongitude());
             }
-            else{
+            else {
                 destLagLng = new LatLng(address.getLatitude(), address.getLongitude());
             }
 
-            moveCamera(new LatLng(address.getLatitude(), address.getLongitude()), DEFAULT_ZOOM,
-                    address.getAddressLine(0));
+            moveCamera(new LatLng(address.getLatitude(), address.getLongitude()), DEFAULT_ZOOM, s);
         }
     }
 
@@ -478,7 +432,15 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
             mMap.getUiSettings().setMyLocationButtonEnabled(false);
 
             //init();
+            getDriverLocation();
         }
+
+
+    }
+
+    private void getDriverLocation(){
+        db = FirebaseFirestore.getInstance();
+        final CollectionReference collectionReference = db.collection("DriversAvailable");
 
     }
 
@@ -527,10 +489,6 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         }
 
         hideSoftKeyboard();
-
-
-
-
 
     }
 
@@ -592,7 +550,68 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
     }
 
+    public void initPopUpView(){
+        layoutInflater = (LayoutInflater)RiderMapActivity.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        customView = (ViewGroup)layoutInflater.inflate(R.layout.hamburger_menus, null);
+        coverView = (ViewGroup)layoutInflater.inflate(R.layout.cover_layout, null);
+        main = findViewById(R.id.rider_main_layout);
+        windowManager = getWindowManager();
+        metrics = new DisplayMetrics();
+        windowManager.getDefaultDisplay().getMetrics(metrics);
+    }
 
+    public void showPopUpView(){
+        int width = metrics.widthPixels;
+        int height = metrics.heightPixels;
+        popupCover = new PopupWindow(coverView, width, height, false);
+        popupWindow = new PopupWindow(customView,(int)(width*0.7),height,true);
+        profile_button=customView.findViewById(R.id.profile_button);
+        request_button=customView.findViewById(R.id.current_request_button);
+        show_name=customView.findViewById(R.id.show_name);
+        current_user_model=customView.findViewById(R.id.current_user_model);
+        findViewById(R.id.rider_main_layout).post(new Runnable() {
+            @Override
+            public void run() {
+                popupCover.setAnimationStyle(R.style.pop_animation);
+                popupWindow.setAnimationStyle(R.style.pop_animation);
+                popupCover.showAtLocation(main, Gravity.LEFT,0,0);
+                popupWindow.showAtLocation(main, Gravity.LEFT,0,0);
+                current_user_model.setText("user mode: rider");
+                db = FirebaseFirestore.getInstance();
+                final CollectionReference collectionReference = db.collection("Riders");
+                final DocumentReference user = db.collection("Riders").document(userName);
+                user.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        show_name.setText(userName);
+                    }
+                });
+
+                profile_button.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent=new Intent(RiderMapActivity.this,RiderProfile.class);
+                        RiderMapActivity.this.startActivity(intent);
+                    }
+                });
+                coverView.setOnTouchListener(new View.OnTouchListener() {
+                    @Override
+                    public boolean onTouch(View v, MotionEvent event) {
+                        popupWindow.dismiss();
+                        return true;
+                    }
+                });
+
+                popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+                    @Override
+                    public void onDismiss() {
+                        popupCover.dismiss();
+                        Log.d(TAG, "onDismiss: test");
+                    }
+                });
+            }
+        });
+    }
 
 
 }
