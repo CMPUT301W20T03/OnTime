@@ -12,13 +12,13 @@ import androidx.annotation.Nullable;
 
 import java.util.ArrayList;
 
-public class CurrentRequestList extends ArrayAdapter<CurrentRequests> {
-    private ArrayList<CurrentRequests> currentrequests;
+public class RequestList extends ArrayAdapter<Requests> {
+    private ArrayList<Requests> requests;
     private Context context;
 
-    public CurrentRequestList(Context context, ArrayList<CurrentRequests> requests) {
+    public RequestList(Context context, ArrayList<Requests> requests) {
         super(context, 0, requests);
-        this.currentrequests = currentrequests;
+        this.requests = requests;
         this.context = context;
     }
 
@@ -26,10 +26,10 @@ public class CurrentRequestList extends ArrayAdapter<CurrentRequests> {
         View view = convertView;
 
         if (view == null){
-            view = LayoutInflater.from(context).inflate(R.layout.content,parent,false);
+            view = LayoutInflater.from(context).inflate(R.layout.request_details,parent,false);
         }
 
-        CurrentRequests currentrequest = currentrequests.get(position);
+        Requests request = requests.get(position);
 
         TextView nameText = view.findViewById(R.id.name_text);
         TextView phoneText = view.findViewById(R.id.phone_text);
@@ -38,12 +38,12 @@ public class CurrentRequestList extends ArrayAdapter<CurrentRequests> {
         TextView destinationText = view.findViewById(R.id.destination_text);
         TextView amountText = view.findViewById(R.id.amount_text);
 
-        nameText.setText(currentrequest.getName());
-        phoneText.setText(currentrequest.getPhone());
-        emailText.setText(currentrequest.getEmail());
-        srclocationText.setText(currentrequest.getSrclocation());
-        destinationText.setText(currentrequest.getDestination());
-        amountText.setText(currentrequest.getAmount());
+        nameText.setText(request.getName());
+        phoneText.setText(request.getPhone());
+        emailText.setText(request.getEmail());
+        srclocationText.setText(request.getSrclocation());
+        destinationText.setText(request.getDestination());
+        amountText.setText(request.getAmount());
 
         return view;
     }

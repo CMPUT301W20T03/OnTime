@@ -1,6 +1,6 @@
 package com.example.ontime;
 
-public class CurrentRequests {
+public class Requests {
     private String name;
     private String phone;
     private String email;
@@ -8,7 +8,7 @@ public class CurrentRequests {
     private String destination;
     private String amount;
 
-    CurrentRequests(String name, String phone, String email, String srclocation, String destination, String amount ) {
+    Requests(String name, String phone, String email, String srclocation, String destination, String amount ) {
         this.name = name;
         this.phone = phone;
         this.email = email;

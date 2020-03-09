@@ -119,15 +119,15 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
 
         //This part is for requests listview
         ListView requestsList;
-        ArrayAdapter<CurrentRequests> requestsAdapter;
-        ArrayList<CurrentRequests> requestsDataList;
+        ArrayAdapter<Requests> requestsAdapter;
+        ArrayList<Requests> requestsDataList;
         int current_position;
 
         //loadData();
         requestsDataList = new ArrayList<>();
 
         requestsList = findViewById(R.id.request_list);
-        requestsAdapter = new CurrentRequestList(this, requestsDataList);
+        requestsAdapter = new RequestList(this, requestsDataList);
         requestsList.setAdapter(requestsAdapter);
 
         // TO DO : NEED TO ADD DRIVER REQUESTS LISTVIEW FOR ACCEPT REQUESTS
