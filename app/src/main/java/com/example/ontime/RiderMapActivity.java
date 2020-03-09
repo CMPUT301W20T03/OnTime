@@ -3,7 +3,6 @@ package com.example.ontime;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.core.app.ActivityCompat;
-import androidx.core.view.LayoutInflaterCompat;
 import androidx.fragment.app.FragmentActivity;
 
 import android.Manifest;
@@ -15,7 +14,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.Display;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -28,7 +26,6 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.Toolbar;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
@@ -41,13 +38,13 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.UserInfo;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.zxing.integration.android.IntentIntegrator;
+import com.google.zxing.integration.android.IntentResult;
+
 
 import java.util.HashMap;
 
@@ -60,6 +57,8 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
     EditText srcLocation; ///
     EditText destination;
     Button RequestConfirmButton;
+    Button scan_button;
+    Button generate_qr;
     FirebaseFirestore db;
     String TAG = "Sample";
 
@@ -167,6 +166,8 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         request_button=customView.findViewById(R.id.current_request_button);
         show_name=customView.findViewById(R.id.show_name);
         current_user_model=customView.findViewById(R.id.current_user_model);
+        scan_button=customView.findViewById(R.id.scan_button);
+        generate_qr=customView.findViewById(R.id.generate_qr);
         findViewById(R.id.rider_main_layout).post(new Runnable() {
             @Override
             public void run() {
@@ -193,6 +194,32 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
                         RiderMapActivity.this.startActivity(intent);
                     }
                 });
+//scan QR---------------------------------------------------------------------------
+                scan_button.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        // 创建IntentIntegrator对象
+                        IntentIntegrator intentIntegrator = new IntentIntegrator(RiderMapActivity.this);
+                        intentIntegrator.setPrompt("This is the payment interface");
+                        // 开始扫描
+                        intentIntegrator.setCaptureActivity(CustomCaptureActivity.class);
+                        intentIntegrator.setOrientationLocked(false);
+                        intentIntegrator.initiateScan();
+                    }
+                });
+//scan QR---------------------------------------------------------------------------
+
+//generate QR---------------------------------------------------------------------------
+                generate_qr.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent=new Intent(RiderMapActivity.this,QrActivity.class);
+                        startActivity(intent);
+                    }
+                });
+//generate QR---------------------------------------------------------------------------
+
+
                 coverView.setOnTouchListener(new View.OnTouchListener() {
                     @Override
                     public boolean onTouch(View v, MotionEvent event) {
@@ -215,8 +242,22 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
             }
         });
     }
-
-
+//scan QR---------------------------------------------------------------------------
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        // 获取解析结果
+        IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
+        if (result != null) {
+            if (result.getContents() == null) {
+                Toast.makeText(this, "Cancel Scan", Toast.LENGTH_LONG).show();
+            } else {
+                Toast.makeText(this, "Scan Information:" + result.getContents(), Toast.LENGTH_LONG).show();
+            }
+        } else {
+            super.onActivityResult(requestCode, resultCode, data);
+        }
+    }
+//scan QR---------------------------------------------------------------------------
 
 
     private void fetchLastLocation() {

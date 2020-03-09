@@ -51,6 +51,15 @@
             android:gravity="left|center_vertical"
             android:paddingLeft="30dp"
             android:text="past request" />
+
+        <Button
+            android:id="@+id/generate_qr"
+            android:layout_width="match_parent"
+            android:layout_height="67dp"
+            android:background="@color/white"
+            android:gravity="left|center_vertical"
+            android:paddingLeft="30dp"
+            android:text="QR-Code" />
     </LinearLayout>
 
     <TextView
@@ -66,5 +75,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.689" />
+
+    <Button
+        android:id="@+id/scan_button"
+        android:layout_width="65dp"
+        android:layout_height="44dp"
+        android:background="@drawable/ic_center_focus_weak_black_24dp"
+        app:layout_constraintBottom_toBottomOf="@+id/meun_choice"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.849"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.059" />
 </androidx.constraintlayout.widget.ConstraintLayout>
 

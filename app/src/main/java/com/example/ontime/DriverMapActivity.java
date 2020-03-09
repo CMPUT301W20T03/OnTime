@@ -52,6 +52,7 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
     FusedLocationProviderClient fusedLocationProviderClient;
     private static final int REQUEST_CODE = 101;
     ListView requestList;
+    Button generate_qr;
     String TAG = "Sample";
     FirebaseFirestore db;
     //Popup Window
@@ -145,6 +146,7 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
         request_button=customView.findViewById(R.id.current_request_button);
         show_name=customView.findViewById(R.id.show_name);
         current_user_model=customView.findViewById(R.id.current_user_model);
+        generate_qr=customView.findViewById(R.id.generate_qr);
 
         findViewById(R.id.driver_main_layout).post(new Runnable() {
             @Override
@@ -165,7 +167,13 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
                         show_name.setText(userName);
                     }
                 });
-
+                generate_qr.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent=new Intent(DriverMapActivity.this,QrActivity.class);
+                        startActivity(intent);
+                    }
+                });
 
                 profile_button.setOnClickListener(new View.OnClickListener() {
                     @Override
