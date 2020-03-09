@@ -20,19 +20,19 @@ public class Requests {
     String getName() {
         return this.name;
     }
-    String getTime() {
+    String getPhone() {
         return this.phone;
     }
-    String getSystolic() {
+    String getEmail() {
         return this.email;
     }
-    String getDiastolic() {
+    String getSrclocation() {
         return this.srclocation;
     }
-    String getRate() {
+    String getDestination() {
         return this.destination;
     }
-    String getComment() {
+    String getAmount() {
         return this.amount;
     }
 }

@@ -281,7 +281,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
                 data.put("srcLag", srcLag);
                 data.put("destLag", destLag);
                 data.put("rider", userName);
-                data.put("status", "Active");
+                data.put("status", "Active");// Active, Finish/Unfinish -> Past
                 collectionReference
                         .document(userName)
                         .set(data)
@@ -320,12 +320,6 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
             }
         }
     }
-
-
-
-
-
-
 
 
     /*private void init() {

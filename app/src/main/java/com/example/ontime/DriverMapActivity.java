@@ -19,6 +19,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -56,6 +57,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.GeoPoint;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 //import com.google.firebase.database.FirebaseDatabase;
 //import com.google.firebase.database.Query;
@@ -114,6 +116,7 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
         super.onCreate(savedInstanceState);
         userName = getIntent().getStringExtra("username");
         setContentView(R.layout.activity_driver_map);
+
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         /*SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
@@ -122,6 +125,42 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
 
         createLocationRequest();
 
+        //This part is for requests listview
+        ListView requestsList;
+        ArrayAdapter<Requests> requestsAdapter;
+        ArrayList<Requests> requestsDataList;
+        int current_position;
+
+        //loadData();
+        requestsDataList = new ArrayList<>();
+
+        requestsList = findViewById(R.id.request_list);
+        requestsAdapter = new RequestList(this, requestsDataList);
+        requestsList.setAdapter(requestsAdapter);
+
+        // TO DO : NEED TO ADD DRIVER REQUESTS LISTVIEW FOR ACCEPT REQUESTS
+//        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
+//        fetchLastLocation();
+//
+//        requestList = findViewById(R.id.request_list);
+//        Query query = FirebaseDatabase.getInstance().getReference().child("Requests");
+//        FirebaseListOptions<DriverMapActivity> options = new FirebaseListOptions.Builder<DriverMapActivity>()
+//                .setQuery(query, DriverMapActivity.class)
+//                .build();
+//        final FirebaseListAdapter<DriverMapActivity> adapter = new FirebaseListAdapter<DriverMapActivity>(options) {
+//            @Override
+//            protected void populateView(View v, DriverMapActivity model, int position) {
+//                // Get references to the views of message.xml
+//                TextView messageText = (TextView)v.findViewById(R.id.message_text);
+//                TextView messageTime = (TextView)v.findViewById(R.id.message_time);
+//
+//                // Set their text
+//                messageText.setText(model.getMessageBody());
+//                // Format the date before showing it
+//                messageTime.setText(DateFormat.format("dd-MM-yyyy (HH:mm:ss)", model.getMessageTime()));
+//            }
+//        };
+//        requestList.setAdapter(adapter);
 
         hamburger_button = findViewById(R.id.hamburger_button);
         initPopUpView();
@@ -136,30 +175,7 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
 
         final String usernameText = getIntent().getStringExtra("username");
 
-        //fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
-        //fetchLastLocation();
-
-        /*requestList = findViewById(R.id.request_list); ///
-        Query query = FirebaseDatabase.getInstance().getReference().child("Requests");
-        FirebaseListOptions<DriverMapActivity> options = new FirebaseListOptions.Builder<DriverMapActivity>()
-                .setQuery(query, DriverMapActivity.class)
-                .build();
-        final FirebaseListAdapter<DriverMapActivity> adapter = new FirebaseListAdapter<DriverMapActivity>(options) {
-            @Override
-            protected void populateView(View v, DriverMapActivity model, int position) {
-//                // Get references to the views of message.xml
-//                TextView messageText = (TextView)v.findViewById(R.id.message_text);
-//                TextView messageTime = (TextView)v.findViewById(R.id.message_time);
-//
-//                // Set their text
-//                messageText.setText(model.getMessageBody());
-//                // Format the date before showing it
-//                messageTime.setText(DateFormat.format("dd-MM-yyyy (HH:mm:ss)", model.getMessageTime()));
-            }
-        };
-        requestList.setAdapter(adapter);*/
         getLocationPermission();
-
     }
 
     @Override
@@ -181,9 +197,6 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
 
             //init();
         }
-
-
-
 
 
     }
@@ -229,11 +242,6 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
                                         }
                                     });
 
-
-
-
-
-
                             moveCamera(myLastLocation, DEFAULT_ZOOM, "My Location");
 
                         }else{
@@ -262,9 +270,6 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
         }
 
         hideSoftKeyboard();
-
-
-
 
 
     }
