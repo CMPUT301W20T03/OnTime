@@ -30,6 +30,8 @@ import android.widget.Toast;
 
 //import com.firebase.ui.database.FirebaseListAdapter;
 //import com.firebase.ui.database.FirebaseListOptions;
+import com.firebase.geofire.GeoFire;
+import com.firebase.geofire.GeoLocation;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationRequest;
@@ -44,6 +46,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -76,7 +79,7 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
     private static final float DEFAULT_ZOOM = 15f;
     private Boolean mLocationPermissionsGranted = false;
     private LatLng myLastLocation;
-    private String userId;
+    //private String userId;
     ListView requestList;
     GoogleMap mMap;
     GoogleSignInAccount account;
@@ -85,7 +88,7 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
     //set the firebase connection for store and read the data
     FirebaseFirestore db;
     FirebaseDatabase database;
-    DatabaseReference dbReference;
+    DatabaseReference reff;
 
 
     //Popup Window
@@ -149,7 +152,11 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
 
         final String usernameText = getIntent().getStringExtra("username");
 
+        reff = FirebaseDatabase.getInstance().getReference().child("DriversAvailable").
+                child(userName).child("driverL");
+        //reff.addListenerForSingleValueEvent();
         getLocationPermission();
+
     }
 
     @Override
@@ -193,12 +200,13 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
                             myLastLocation = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
 
                             // to do
+                            /*
                             db = FirebaseFirestore.getInstance();
                             final CollectionReference collectionReference = db.collection("DriversAvailable");
-                            HashMap<String, String> data = new HashMap<>();
+                            HashMap<String, LatLng> data = new HashMap<>();
                             final String driverL = myLastLocation.toString();
-                            data.put("driverL",driverL);
-                            data.put("driver",userName);
+                            data.put("driverL",myLastLocation);
+                            //data.put("driver",userName);
                             collectionReference
                                     .document(userName)
                                     .set(data)
@@ -214,7 +222,7 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
                                         public void onFailure(@NonNull Exception e) {
                                             Log.d(TAG, "onFailure: location additon failed" + e.toString());
                                         }
-                                    });
+                                    });*/
 
                             moveCamera(myLastLocation, DEFAULT_ZOOM, "My Location");
 
@@ -242,6 +250,13 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
                     .title("Last_dest");
             mMap.addMarker(options);
         }
+        String userId = userName;//FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+        reff.child("longitude").setValue(latLng.longitude);
+        reff.child("latitude").setValue(latLng.latitude);
+
+
+
 
         hideSoftKeyboard();
 

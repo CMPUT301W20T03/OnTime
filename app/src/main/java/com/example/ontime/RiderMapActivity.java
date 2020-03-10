@@ -54,6 +54,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
@@ -67,6 +68,12 @@ import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -89,6 +96,8 @@ import static android.provider.ContactsContract.CommonDataKinds.Website.URL;
 import static com.google.android.gms.location.places.ui.PlacePicker.*;
 import com.example.ontime.helper.FetchURL;
 import com.example.ontime.helper.TaskLoadedCallback;
+import com.google.firebase.firestore.GeoPoint;
+import com.google.firestore.v1.StructuredQuery;
 
 
 public class RiderMapActivity extends FragmentActivity implements OnMapReadyCallback {
@@ -105,6 +114,8 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
     private ImageView mGps,mPicker;
     private Polyline currentPolyline;
     private Address address;
+    private LatLng dLocation;
+    private Query query;
 
     GoogleMap mMap;
 
@@ -117,6 +128,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
     //EditText destination;
     Button RequestConfirmButton;
     FirebaseFirestore db;
+    DatabaseReference reff;
     String TAG = "Sample";
 
 
@@ -143,6 +155,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         super.onCreate(savedInstanceState);
 
         userName = getIntent().getStringExtra("username");
+        //getDriverLocation();
 
         setContentView(R.layout.activity_rider_map);
         if(!Places.isInitialized()){
@@ -172,7 +185,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
                 getDeviceLocation();
             }
         });
-
+/*
         mPicker.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -184,6 +197,12 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
                 } catch (GooglePlayServicesNotAvailableException e) {
                     Log.e(TAG, "onClick: GooglePlayServicesNotAvailableException:" + e.getMessage() );
                 }
+            }
+        });*/
+        mPicker.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getDriverLocation();
             }
         });
 
@@ -302,6 +321,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
 
             }
         });
+        reff = FirebaseDatabase.getInstance().getReference().child("DriversAvailable").child(userName).child("driverL");
     }
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
 
@@ -426,17 +446,62 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
             mMap.getUiSettings().setMyLocationButtonEnabled(false);
 
             //init();
-            getDriverLocation();
+            //getDriverLocation();
         }
 
 
     }
-
+    private Marker mDriverMarker;
     private void getDriverLocation(){
+        //final String [] DLocation;
         db = FirebaseFirestore.getInstance();
-        final CollectionReference collectionReference = db.collection("DriversAvailable");
+
+        //reff = reff.child("DriversAvailable");
+        //reff = reff.child(userName);
+        //reff = reff.child("driverL");
+        reff.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                //if(dataSnapshot.exists()){
+                    String lon_str = dataSnapshot.child("longitude").getValue().toString();
+                    String lat_str = dataSnapshot.child("latitude").getValue().toString();
+                    double locLat = 0;
+                    double locLng = 0;
+                    boolean flag = false;
+                    if(lat_str != null){
+                        locLat = Double.parseDouble(lat_str);
+                    }
+                    else{
+                        flag = true;
+                        Toast.makeText(RiderMapActivity.this, "loclat is null", Toast.LENGTH_SHORT).show();
+                    }
+                    if(lon_str!= null){
+                        locLng = Double.parseDouble(lon_str);
+                    } else{
+                        flag = true;
+                    }
+                    if (!flag) {
+                        LatLng driverLocation = new LatLng(locLat,locLng);
+                        if(mDriverMarker != null){
+                            mDriverMarker.remove();
+                        }
+                        mDriverMarker = mMap.addMarker(new MarkerOptions().position(driverLocation).title("your driver"));
+                        moveCamera(driverLocation, DEFAULT_ZOOM, "driver Location");
+                    }
+
+                //}
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+        //System.out.println(dLocation);
 
     }
+
 
     private void getDeviceLocation(){
         Log.d(TAG, "getDeviceLocation: getting the devices current location");
@@ -470,7 +535,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
     }
 
     private void moveCamera(LatLng latLng, float zoom, String title) {
-        mMap.clear();
+        //mMap.clear();
 
         Log.d(TAG, "moveCamera: moving the camera to: lat: " + latLng.latitude + ", lng: " + latLng.longitude);
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoom));
