@@ -12,11 +12,11 @@ import androidx.annotation.Nullable;
 
 import java.util.ArrayList;
 
-public class RequestList extends ArrayAdapter<Requests> {
-    private ArrayList<Requests> requests;
+public class RequestList extends ArrayAdapter<CurrentRequests> {
+    private ArrayList<CurrentRequests> requests;
     private Context context;
 
-    public RequestList(Context context, ArrayList<Requests> requests) {
+    public RequestList(Context context, ArrayList<CurrentRequests> requests) {
         super(context, 0, requests);
         this.requests = requests;
         this.context = context;
@@ -29,7 +29,7 @@ public class RequestList extends ArrayAdapter<Requests> {
             view = LayoutInflater.from(context).inflate(R.layout.request_details,parent,false);
         }
 
-        Requests request = requests.get(position);
+        CurrentRequests request = requests.get(position);
 
         TextView nameText = view.findViewById(R.id.name_text);
         TextView phoneText = view.findViewById(R.id.phone_text);

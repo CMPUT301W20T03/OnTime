@@ -118,7 +118,7 @@
         android:layout_width="151dp"
         android:layout_height="40dp"
         android:background="@drawable/border_line"
-        android:text="@string/accept"
+        android:text="accept"
         android:textColorHint="@color/black"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"

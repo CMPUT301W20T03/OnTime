@@ -44,6 +44,11 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -70,14 +75,14 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
     private LatLng myLastLocation;
     private String userId;
     ListView requestList;
-    // TAG = "Sample";
     GoogleMap mMap;
     GoogleSignInAccount account;
-
     LocationRequest mLocationRequest;
 
+    //set the firebase connection for store and read the data
     FirebaseFirestore db;
-    //LocationRequest mLocationRequest;
+    FirebaseDatabase database;
+    DatabaseReference dbReference;
 
 
     //Popup Window
@@ -96,63 +101,47 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
     private TextView current_user_model;
     private String userName;
 
-    protected void createLocationRequest() {
-        mLocationRequest = new LocationRequest();
-        mLocationRequest.setInterval(INTERVAL);
-        mLocationRequest.setFastestInterval(FASTEST_INTERVAL);
-        mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-    }
+    //This part is for showing the riders requests in listView
+    ListView requestsList;
+    ArrayAdapter<CurrentRequests> requestsAdapter;
+    ArrayList<CurrentRequests> requestsDataList;
+    CurrentRequests currentRequests;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         userName = getIntent().getStringExtra("username");
         setContentView(R.layout.activity_driver_map);
-
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         /*SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);*/
 
-
-        createLocationRequest();
-
-        //This part is for requests listview
-        ListView requestsList;
-        ArrayAdapter<Requests> requestsAdapter;
-        ArrayList<Requests> requestsDataList;
-        int current_position;
-
-        //loadData();
         requestsDataList = new ArrayList<>();
-
         requestsList = findViewById(R.id.request_list);
         requestsAdapter = new RequestList(this, requestsDataList);
         requestsList.setAdapter(requestsAdapter);
 
-        // TO DO : NEED TO ADD DRIVER REQUESTS LISTVIEW FOR ACCEPT REQUESTS
-//        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
-//        fetchLastLocation();
-//
-//        requestList = findViewById(R.id.request_list);
-//        Query query = FirebaseDatabase.getInstance().getReference().child("Requests");
-//        FirebaseListOptions<DriverMapActivity> options = new FirebaseListOptions.Builder<DriverMapActivity>()
-//                .setQuery(query, DriverMapActivity.class)
-//                .build();
-//        final FirebaseListAdapter<DriverMapActivity> adapter = new FirebaseListAdapter<DriverMapActivity>(options) {
-//            @Override
-//            protected void populateView(View v, DriverMapActivity model, int position) {
-//                // Get references to the views of message.xml
-//                TextView messageText = (TextView)v.findViewById(R.id.message_text);
-//                TextView messageTime = (TextView)v.findViewById(R.id.message_time);
-//
-//                // Set their text
-//                messageText.setText(model.getMessageBody());
-//                // Format the date before showing it
-//                messageTime.setText(DateFormat.format("dd-MM-yyyy (HH:mm:ss)", model.getMessageTime()));
-//            }
-//        };
-//        requestList.setAdapter(adapter);
+
+        // TO DO: fix the bug that current request list is not showing
+        currentRequests = new CurrentRequests();
+        database = FirebaseDatabase.getInstance();
+        dbReference = database.getReference("Requests");
+        requestsAdapter = new ArrayAdapter<CurrentRequests>(this, R.layout.activity_driver_map,R.id.request_list);
+        dbReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot ds: dataSnapshot.getChildren()){
+                    currentRequests = ds.getValue(CurrentRequests.class);
+                    requestsDataList.add(currentRequests);
+                }
+                requestList.setAdapter(requestsAdapter);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+        });
 
         hamburger_button = findViewById(R.id.hamburger_button);
         initPopUpView();
