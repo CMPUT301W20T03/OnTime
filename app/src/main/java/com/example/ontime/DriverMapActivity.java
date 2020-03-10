@@ -104,19 +104,13 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
     private TextView current_user_model;
     private String userName;
 
-    //This part is for showing the riders requests in listView
-    ListView requestsList;
-    ArrayAdapter<CurrentRequests> requestsAdapter;
-    ArrayList<CurrentRequests> requestsDataList;
-    CurrentRequests currentRequests;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         userName = getIntent().getStringExtra("username");
         setContentView(R.layout.activity_driver_map);
 
-        // populate request list
+        // populate request list (active requests only)
         db = FirebaseFirestore.getInstance();
         final CollectionReference collectionReference = db.collection("Requests");
         collectionReference.get()
@@ -126,8 +120,10 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
                         List<CurrentRequests> requestList = new ArrayList<>();
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot documentSnapshot : task.getResult()) {
-                                CurrentRequests currentRequest = documentSnapshot.toObject(CurrentRequests.class);
-                                requestList.add(currentRequest);
+                                if (documentSnapshot.getString("status").equals("Active")) {
+                                    CurrentRequests currentRequest = documentSnapshot.toObject(CurrentRequests.class);
+                                    requestList.add(currentRequest);
+                                }
                             }
                             ListView requestListView = (ListView) findViewById(R.id.request_list);
                             CRequestAdapter requestAdapter = new CRequestAdapter(DriverMapActivity.this, requestList);
@@ -138,6 +134,7 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
                         }
                     }
                 });
+
 
         hamburger_button = findViewById(R.id.hamburger_button);
         initPopUpView();
