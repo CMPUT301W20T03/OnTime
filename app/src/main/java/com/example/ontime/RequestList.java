@@ -41,7 +41,7 @@ public class RequestList extends ArrayAdapter<CurrentRequests> {
         nameText.setText(request.getName());
         phoneText.setText(request.getPhone());
         emailText.setText(request.getEmail());
-        srclocationText.setText(request.getSrclocation());
+        srclocationText.setText(request.getSrcLocation());
         destinationText.setText(request.getDestination());
         amountText.setText(request.getAmount());
 

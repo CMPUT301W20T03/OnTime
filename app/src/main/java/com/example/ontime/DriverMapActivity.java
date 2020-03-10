@@ -53,9 +53,12 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 //import com.google.firebase.database.FirebaseDatabase;
 //import com.google.firebase.database.Query;
 
@@ -112,36 +115,29 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
         super.onCreate(savedInstanceState);
         userName = getIntent().getStringExtra("username");
         setContentView(R.layout.activity_driver_map);
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-        /*SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
-        mapFragment.getMapAsync(this);*/
 
-        requestsDataList = new ArrayList<>();
-        requestsList = findViewById(R.id.request_list);
-        requestsAdapter = new RequestList(this, requestsDataList);
-        requestsList.setAdapter(requestsAdapter);
-
-
-        // TO DO: fix the bug that current request list is not showing
-        currentRequests = new CurrentRequests();
-        database = FirebaseDatabase.getInstance();
-        dbReference = database.getReference("Requests");
-        requestsAdapter = new ArrayAdapter<CurrentRequests>(this, R.layout.activity_driver_map,R.id.request_list);
-        dbReference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for (DataSnapshot ds: dataSnapshot.getChildren()){
-                    currentRequests = ds.getValue(CurrentRequests.class);
-                    requestsDataList.add(currentRequests);
-                }
-                requestList.setAdapter(requestsAdapter);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-            }
-        });
+        // populate request list
+        db = FirebaseFirestore.getInstance();
+        final CollectionReference collectionReference = db.collection("Requests");
+        collectionReference.get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        List<CurrentRequests> requestList = new ArrayList<>();
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot documentSnapshot : task.getResult()) {
+                                CurrentRequests currentRequest = documentSnapshot.toObject(CurrentRequests.class);
+                                requestList.add(currentRequest);
+                            }
+                            ListView requestListView = (ListView) findViewById(R.id.request_list);
+                            CRequestAdapter requestAdapter = new CRequestAdapter(DriverMapActivity.this, requestList);
+                            requestListView.setAdapter(requestAdapter);
+                        }
+                        else {
+                            Log.d(TAG, "Error getting requests", task.getException());
+                        }
+                    }
+                });
 
         hamburger_button = findViewById(R.id.hamburger_button);
         initPopUpView();

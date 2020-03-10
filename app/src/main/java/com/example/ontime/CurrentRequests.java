@@ -1,25 +1,28 @@
 package com.example.ontime;
 
-public class CurrentRequests {
-    private String name;
-    private String phone;
-    private String email;
-    private String srclocation;
-    private String destination;
-    private String amount;
+public class CurrentRequests { // Firebase data extract requires data to be public
+    public String rider;
+    public String phone;
+    public String email;
+    public String srcLocationText;
+    public String destinationText;
+    public String amount;
 
-    CurrentRequests(){}
-    CurrentRequests(String name, String phone, String email, String srclocation, String destination, String amount ) {
-        this.name = name;
+    CurrentRequests() {
+
+    }
+
+    CurrentRequests(String name, String phone, String email, String srcLocationText, String destinationText, String amount) {
+        this.rider = name;
         this.phone = phone;
         this.email = email;
-        this.srclocation = srclocation;
-        this.destination = destination;
+        this.srcLocationText = srcLocationText;
+        this.destinationText = destinationText;
         this.amount = amount;
     }
 
     String getName() {
-        return this.name;
+        return this.rider;
     }
     String getPhone() {
         return this.phone;
@@ -27,11 +30,11 @@ public class CurrentRequests {
     String getEmail() {
         return this.email;
     }
-    String getSrclocation() {
-        return this.srclocation;
+    String getSrcLocation() {
+        return this.srcLocationText;
     }
     String getDestination() {
-        return this.destination;
+        return this.destinationText;
     }
     String getAmount() {
         return this.amount;
