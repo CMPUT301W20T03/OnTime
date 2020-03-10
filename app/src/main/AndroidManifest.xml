@@ -46,6 +46,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".SignupActivity" />
+        <activity android:name=".RiderProfile" />
+        <activity android:name=".DriverProfile" />
     </application>
 
 </manifest>

@@ -1,10 +1,5 @@
 package com.example.ontime;
 
-import androidx.annotation.NonNull;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-import androidx.fragment.app.FragmentActivity;
-
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
@@ -19,7 +14,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -27,11 +21,11 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.fragment.app.FragmentActivity;
 
-//import com.firebase.ui.database.FirebaseListAdapter;
-//import com.firebase.ui.database.FirebaseListOptions;
-import com.firebase.geofire.GeoFire;
-import com.firebase.geofire.GeoLocation;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationRequest;
@@ -43,15 +37,10 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -60,8 +49,10 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
+
+//import com.firebase.ui.database.FirebaseListAdapter;
+//import com.firebase.ui.database.FirebaseListOptions;
 //import com.google.firebase.database.FirebaseDatabase;
 //import com.google.firebase.database.Query;
 
@@ -363,7 +354,8 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
                     @Override
                     public void onClick(View v) {
                         Intent intent=new Intent(DriverMapActivity.this,RiderProfile.class);
-                        DriverMapActivity.this.startActivity(intent);
+                        //DriverMapActivity.this.startActivity(intent);
+                        startActivity(intent);
                     }
                 });
                 coverView.setOnTouchListener(new View.OnTouchListener() {
