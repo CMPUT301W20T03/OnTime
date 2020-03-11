@@ -14,6 +14,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -57,7 +58,7 @@ import java.util.List;
 //import com.google.firebase.database.Query;
 
 
-public class DriverMapActivity extends FragmentActivity implements OnMapReadyCallback {
+public class DriverMapActivity extends FragmentActivity implements OnMapReadyCallback,AddFragment.OnFragmentInteractionListener {
 
     Location currentLocation;
     FusedLocationProviderClient mFusedLocationProviderClient;
@@ -111,7 +112,7 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        List<CurrentRequests> requestList = new ArrayList<>();
+                        final List<CurrentRequests> requestList = new ArrayList<>();
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot documentSnapshot : task.getResult()) {
                                 if (documentSnapshot.getString("status").equals("Active")) {
@@ -119,9 +120,16 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
                                     requestList.add(currentRequest);
                                 }
                             }
-                            ListView requestListView = (ListView) findViewById(R.id.request_list);
-                            CRequestAdapter requestAdapter = new CRequestAdapter(DriverMapActivity.this, requestList);
+                            final ListView requestListView = (ListView) findViewById(R.id.request_list);
+                            final CRequestAdapter requestAdapter = new CRequestAdapter(DriverMapActivity.this, requestList);
                             requestListView.setAdapter(requestAdapter);
+                            requestListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                                @Override
+                                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                    CurrentRequests requests = requestList.get(position);
+                                    AddFragment.newInstance(requests).show(getSupportFragmentManager(), "Request");
+                                }
+                            });
                         }
                         else {
                             Log.d(TAG, "Error getting requests", task.getException());
@@ -377,4 +385,8 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
         });
     }
 
+    @Override
+    public void onOkPressed(RequestList new_request) {
+
+    }
 }

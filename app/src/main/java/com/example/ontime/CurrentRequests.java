@@ -1,6 +1,8 @@
 package com.example.ontime;
 
-public class CurrentRequests { // Firebase data extract requires data to be public
+import java.io.Serializable;
+
+public class CurrentRequests implements Serializable { // Firebase data extract requires data to be public
     public String rider;
     public String phone;
     public String email;
@@ -38,5 +40,29 @@ public class CurrentRequests { // Firebase data extract requires data to be publ
     }
     String getAmount() {
         return this.amount;
+    }
+
+    public void setRider(String rider) {
+        this.rider = rider;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setSrcLocationText(String srcLocationText) {
+        this.srcLocationText = srcLocationText;
+    }
+
+    public void setDestinationText(String destinationText) {
+        this.destinationText = destinationText;
+    }
+
+    public void setAmount(String amount) {
+        this.amount = amount;
     }
 }

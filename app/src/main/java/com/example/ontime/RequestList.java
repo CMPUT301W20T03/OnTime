@@ -10,9 +10,10 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class RequestList extends ArrayAdapter<CurrentRequests> {
+public class RequestList extends ArrayAdapter<CurrentRequests> implements Serializable {
     private ArrayList<CurrentRequests> requests;
     private Context context;
 
