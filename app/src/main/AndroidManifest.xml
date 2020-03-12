@@ -70,4 +70,4 @@
         <activity android:name=".DriverProfile"/>
     </application>
 
-</manifest>
+    </manifest>

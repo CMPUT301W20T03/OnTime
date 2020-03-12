@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/OnTime.iml" filepath="$PROJECT_DIR$/.idea/OnTime.iml" group="OnTime" />
+      <module fileurl="file://$PROJECT_DIR$/app/OnTime-app.iml" filepath="$PROJECT_DIR$/app/OnTime-app.iml" group="OnTime/app" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" group="OnTime/app" />
     </modules>
   </component>

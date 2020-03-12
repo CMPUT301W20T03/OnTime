@@ -1,9 +1,5 @@
 package com.example.ontime;
 
-import androidx.annotation.NonNull;
-import androidx.core.app.ActivityCompat;
-import androidx.fragment.app.FragmentActivity;
-
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
@@ -18,6 +14,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -25,10 +22,14 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.fragment.app.FragmentActivity;
 
-import com.firebase.ui.database.FirebaseListAdapter;
-import com.firebase.ui.database.FirebaseListOptions;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -36,25 +37,53 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import java.util.ArrayList;
+import java.util.List;
+
+//import com.firebase.ui.database.FirebaseListAdapter;
+//import com.firebase.ui.database.FirebaseListOptions;
+//import com.google.firebase.database.FirebaseDatabase;
+//import com.google.firebase.database.Query;
 
 
-public class DriverMapActivity extends FragmentActivity implements OnMapReadyCallback {
+public class DriverMapActivity extends FragmentActivity implements OnMapReadyCallback,AddFragment.OnFragmentInteractionListener {
 
     Location currentLocation;
-    FusedLocationProviderClient fusedLocationProviderClient;
-    private static final int REQUEST_CODE = 101;
-    ListView requestList;
+    FusedLocationProviderClient mFusedLocationProviderClient;
+    private static final int LOCATION_PERMISSION_REQUEST_CODE = 101;
+    private static final String FINE_LOCATION = Manifest.permission.ACCESS_FINE_LOCATION;
+    private static final String COURSE_LOCATION = Manifest.permission.ACCESS_COARSE_LOCATION;
+    private static final String TAG = "LocationActivity";
+    private static final long INTERVAL = 1000 * 10;
+    private static final long FASTEST_INTERVAL = 1000 * 5;
+    private static final float DEFAULT_ZOOM = 15f;
+    private Boolean mLocationPermissionsGranted = false;
+    private LatLng myLastLocation;
     Button generate_qr;
-    String TAG = "Sample";
+    //private String userId;
+    ListView requestList;
+    GoogleMap mMap;
+    GoogleSignInAccount account;
+    LocationRequest mLocationRequest;
+
+    //set the firebase connection for store and read the data
     FirebaseFirestore db;
+    FirebaseDatabase database;
+    DatabaseReference reff;
+
+
     //Popup Window
     private PopupWindow popupWindow;
     private PopupWindow popupCover;
@@ -68,17 +97,46 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
     public Button profile_button;
     public Button request_button;
     public TextView show_name;
-    private String userName;
     private TextView current_user_model;
+    private String userName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        userName = getIntent().getStringExtra("username");
         setContentView(R.layout.activity_driver_map);
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-        /*SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
-        mapFragment.getMapAsync(this);*/
+
+        // populate request list (active requests only)
+        db = FirebaseFirestore.getInstance();
+        final CollectionReference collectionReference = db.collection("Requests");
+        collectionReference.get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        final List<CurrentRequests> requestList = new ArrayList<>();
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot documentSnapshot : task.getResult()) {
+                                if (documentSnapshot.getString("status").equals("Active")) {
+                                    CurrentRequests currentRequest = documentSnapshot.toObject(CurrentRequests.class);
+                                    requestList.add(currentRequest);
+                                }
+                            }
+                            final ListView requestListView = (ListView) findViewById(R.id.request_list);
+                            final CRequestAdapter requestAdapter = new CRequestAdapter(DriverMapActivity.this, requestList);
+                            requestListView.setAdapter(requestAdapter);
+                            requestListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                                @Override
+                                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                    CurrentRequests requests = requestList.get(position);
+                                    AddFragment.newInstance(requests).show(getSupportFragmentManager(), "Request");
+                                }
+                            });
+                        }
+                        else {
+                            Log.d(TAG, "Error getting requests", task.getException());
+                        }
+                    }
+                });
 
 
         hamburger_button = findViewById(R.id.hamburger_button);
@@ -86,46 +144,183 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
         hamburger_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d(TAG, "onClick: shit");
+                Log.d(TAG, "onClick: It is hamburger button!");
                 showPopUpView();
             }
         });
-
-
-
-
-
-
+        userName = getIntent().getStringExtra("username");
 
         final String usernameText = getIntent().getStringExtra("username");
 
-
-        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
-        fetchLastLocation();
-
-        requestList = findViewById(R.id.request_list); ///
-        Query query = FirebaseDatabase.getInstance().getReference().child("Requests");
-        FirebaseListOptions<DriverMapActivity> options = new FirebaseListOptions.Builder<DriverMapActivity>()
-                .setQuery(query, DriverMapActivity.class)
-                .build();
-        final FirebaseListAdapter<DriverMapActivity> adapter = new FirebaseListAdapter<DriverMapActivity>(options) {
-            @Override
-            protected void populateView(View v, DriverMapActivity model, int position) {
-//                // Get references to the views of message.xml
-//                TextView messageText = (TextView)v.findViewById(R.id.message_text);
-//                TextView messageTime = (TextView)v.findViewById(R.id.message_time);
-//
-//                // Set their text
-//                messageText.setText(model.getMessageBody());
-//                // Format the date before showing it
-//                messageTime.setText(DateFormat.format("dd-MM-yyyy (HH:mm:ss)", model.getMessageTime()));
-            }
-        };
-        requestList.setAdapter(adapter);
+        reff = FirebaseDatabase.getInstance().getReference().child("DriversAvailable").
+                child(userName).child("driverL");
+        //reff.addListenerForSingleValueEvent();
+        getLocationPermission();
 
     }
 
+    @Override
+    public void onMapReady(GoogleMap googleMap)throws SecurityException{
+        Toast.makeText(this, "Map is Ready", Toast.LENGTH_SHORT).show();
+        Log.d(TAG, "onMapReady: map is ready");
+        mMap = googleMap;
 
+        if (mLocationPermissionsGranted) {
+            getDeviceLocation();
+
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+                    != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this,
+                    Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                return;
+            }
+            mMap.setMyLocationEnabled(true);
+            mMap.getUiSettings().setMyLocationButtonEnabled(false);
+
+            //init();
+        }
+
+
+    }
+
+    private void getDeviceLocation(){
+        Log.d(TAG, "getDeviceLocation: getting the devices current location");
+
+        mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
+
+        try{
+            if(mLocationPermissionsGranted){
+
+                final Task location = mFusedLocationProviderClient.getLastLocation();
+                location.addOnCompleteListener(new OnCompleteListener() {
+                    @Override
+                    public void onComplete(@NonNull Task task) {
+                        if(task.isSuccessful()){
+                            Log.d(TAG, "onComplete: found location!");
+                            Location currentLocation = (Location) task.getResult();
+                            myLastLocation = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
+
+                            // to do
+                            /*
+                            db = FirebaseFirestore.getInstance();
+                            final CollectionReference collectionReference = db.collection("DriversAvailable");
+                            HashMap<String, LatLng> data = new HashMap<>();
+                            final String driverL = myLastLocation.toString();
+                            data.put("driverL",myLastLocation);
+                            //data.put("driver",userName);
+                            collectionReference
+                                    .document(userName)
+                                    .set(data)
+                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                        @Override
+                                        public void onSuccess(Void aVoid) {
+                                            Log.d(TAG, "onSuccess: location addtion successful");
+                                            Toast.makeText(DriverMapActivity.this,"location successful",Toast.LENGTH_LONG).show();
+                                        }
+                                    })
+                                    .addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception e) {
+                                            Log.d(TAG, "onFailure: location additon failed" + e.toString());
+                                        }
+                                    });*/
+
+                            moveCamera(myLastLocation, DEFAULT_ZOOM, "My Location");
+
+                        }else{
+                            Log.d(TAG, "onComplete: current location is null");
+                            Toast.makeText(DriverMapActivity.this, "unable to get current location", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+            }
+        }catch (SecurityException e){
+            Log.e(TAG, "getDeviceLocation: SecurityException: " + e.getMessage() );
+        }
+    }
+
+    private void moveCamera(LatLng latLng, float zoom, String title) {
+        //mMap.clear();
+
+        Log.d(TAG, "moveCamera: moving the camera to: lat: " + latLng.latitude + ", lng: " + latLng.longitude);
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoom));
+
+        if (!title.equals("My Location")) {
+            MarkerOptions options = new MarkerOptions()
+                    .position(latLng)
+                    .title("Last_dest");
+            mMap.addMarker(options);
+        }
+        String userId = userName;//FirebaseAuth.getInstance().getCurrentUser().getUid();
+
+        reff.child("longitude").setValue(latLng.longitude);
+        reff.child("latitude").setValue(latLng.latitude);
+
+
+
+
+        hideSoftKeyboard();
+
+
+    }
+
+    private void initMap() {
+        Log.d(TAG, "initMap: initializing map");
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
+
+        mapFragment.getMapAsync(DriverMapActivity.this);
+
+    }
+
+    private void getLocationPermission() {
+        Log.d(TAG, "getLocationPermission: getting location permissions");
+        String[] permissions = {Manifest.permission.ACCESS_FINE_LOCATION,
+                Manifest.permission.ACCESS_COARSE_LOCATION};
+
+        if (ContextCompat.checkSelfPermission(this.getApplicationContext(),
+                FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            if (ContextCompat.checkSelfPermission(this.getApplicationContext(),
+                    COURSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+                mLocationPermissionsGranted = true;
+                initMap();
+            } else {
+                ActivityCompat.requestPermissions(this,
+                        permissions,
+                        LOCATION_PERMISSION_REQUEST_CODE);
+            }
+        } else {
+            ActivityCompat.requestPermissions(this,
+                    permissions,
+                    LOCATION_PERMISSION_REQUEST_CODE);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        Log.d(TAG, "onRequestPermissionsResult: called.");
+        mLocationPermissionsGranted = false;
+
+        switch (requestCode) {
+            case LOCATION_PERMISSION_REQUEST_CODE: {
+                if (grantResults.length > 0) {
+                    for (int i = 0; i < grantResults.length; i++) {
+                        if (grantResults[i] != PackageManager.PERMISSION_GRANTED) {
+                            mLocationPermissionsGranted = false;
+                            Log.d(TAG, "onRequestPermissionsResult: permission failed");
+                            return;
+                        }
+                    }
+                    Log.d(TAG, "onRequestPermissionsResult: permission granted");
+                    mLocationPermissionsGranted = true;
+                    //initialize our map
+                    initMap();
+                }
+            }
+        }
+    }
+
+    private void hideSoftKeyboard() {
+        this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+    }
 
     public void initPopUpView(){
         layoutInflater = (LayoutInflater)DriverMapActivity.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -179,7 +374,8 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
                     @Override
                     public void onClick(View v) {
                         Intent intent=new Intent(DriverMapActivity.this,DriverProfile.class);
-                        DriverMapActivity.this.startActivity(intent);
+                        //DriverMapActivity.this.startActivity(intent);
+                        startActivity(intent);
                     }
                 });
 
@@ -203,56 +399,9 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
         });
     }
 
-
-
-
-
-
-
-
-
-
-    private void fetchLastLocation() {
-        if(ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED){
-            ActivityCompat.requestPermissions(this,new String[]
-                    {Manifest.permission.ACCESS_FINE_LOCATION},REQUEST_CODE);
-            return;
-        }
-        Task<Location> task = fusedLocationProviderClient.getLastLocation();
-        task.addOnSuccessListener(new OnSuccessListener<Location>() {
-            @Override
-            public void onSuccess(Location location) {
-                if(location != null){
-                    currentLocation = location;
-                    Toast.makeText(getApplicationContext(), currentLocation.getLatitude()+""+currentLocation.getLongitude(), Toast.LENGTH_SHORT).show();
-                    SupportMapFragment supportMapFragment = (SupportMapFragment)
-                            getSupportFragmentManager().findFragmentById(R.id.map);
-                    supportMapFragment.getMapAsync(DriverMapActivity.this);
-                }
-            }
-        });
-    }
-
-
     @Override
-    public void onMapReady(GoogleMap googleMap) {
-        LatLng latLng = new LatLng(currentLocation.getLatitude(),currentLocation.getLongitude());
-        MarkerOptions markerOptions = new MarkerOptions().position(latLng)
-                .title("you are here");
-        googleMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
-        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng,12));
-        googleMap.addMarker(markerOptions);
-    }
+    public void onOkPressed(RequestList new_request) {
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        //super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        switch(requestCode){
-            case REQUEST_CODE:
-                if(grantResults.length>0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
-                    fetchLastLocation();
-                }
-                break;
-        }
     }
 }
+
