@@ -1,3 +1,4 @@
+
 package com.example.ontime;
 
 import androidx.annotation.NonNull;
@@ -116,6 +117,9 @@ public class LoginActivity extends AppCompatActivity {
                                             Intent intent = new Intent(getBaseContext(), RiderMapActivity.class);
                                             intent.putExtra("username", userName);
                                             startActivity(intent);
+                                            //Intent intent = new Intent(getBaseContext(), RiderProfile.class);
+                                            //intent.putExtra("username", userName);
+                                            //startActivity(intent);
                                         }
                                     }
                                 }
@@ -151,8 +155,13 @@ public class LoginActivity extends AppCompatActivity {
                                             Log.d(TAG, "User Exists");
                                             Toast.makeText(LoginActivity.this, "Sign in successful!", Toast.LENGTH_SHORT).show();
                                             Intent intent = new Intent(getBaseContext(), DriverMapActivity.class);
+                                            //temp change the driver map to rider
+                                            //Intent intent = new Intent(getBaseContext(), RiderMapActivity.class);
                                             intent.putExtra("username", userName);
                                             startActivity(intent);
+                                            //Intent intent1 = new Intent(getBaseContext(), RiderMapActivity.class);
+                                            //intent.putExtra("username", userName);
+                                            //startActivity(intent1);
                                         }
                                     }
                                 }
@@ -172,3 +181,4 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 }
+

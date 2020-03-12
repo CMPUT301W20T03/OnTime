@@ -1,3 +1,4 @@
+
 package com.example.ontime;
 
 import android.Manifest;
@@ -98,6 +99,8 @@ import com.example.ontime.helper.FetchURL;
 import com.example.ontime.helper.TaskLoadedCallback;
 import com.google.firebase.firestore.GeoPoint;
 import com.google.firestore.v1.StructuredQuery;
+import com.google.zxing.integration.android.IntentIntegrator;
+import com.google.zxing.integration.android.IntentResult;
 
 
 public class RiderMapActivity extends FragmentActivity implements OnMapReadyCallback {
@@ -116,6 +119,8 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
     private Address address;
     private LatLng dLocation;
     private Query query;
+    Button scan_button;
+    Button generate_qr;
 
     GoogleMap mMap;
 
@@ -323,23 +328,21 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         });
         reff = FirebaseDatabase.getInstance().getReference().child("DriversAvailable").child(userName).child("driverL");
     }
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == PLACE_PICKER_REQUEST) {
-            if (resultCode == RESULT_OK) {
-                Place place = (Place) getPlace(this, data);
-                StringBuilder stringBuilder = new StringBuilder();
-                String latitude = String.valueOf(place.getLatLng().latitude);
-                String longitude = String.valueOf(place.getLatLng().longitude);
-                stringBuilder.append(latitude);
-                stringBuilder.append(",");
-                stringBuilder.append(longitude);
-
-
-            }
-        }
-    }
+//    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+//
+//        super.onActivityResult(requestCode, resultCode, data);
+//        if (requestCode == PLACE_PICKER_REQUEST) {
+//            if (resultCode == RESULT_OK) {
+//                Place place = (Place) getPlace(this, data);
+//                StringBuilder stringBuilder = new StringBuilder();
+//                String latitude = String.valueOf(place.getLatLng().latitude);
+//                String longitude = String.valueOf(place.getLatLng().longitude);
+//                stringBuilder.append(latitude);
+//                stringBuilder.append(",");
+//                stringBuilder.append(longitude);
+//            }
+//        }
+//    }
 
 
     /*private void init() {
@@ -628,6 +631,8 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         request_button=customView.findViewById(R.id.current_request_button);
         show_name=customView.findViewById(R.id.show_name);
         current_user_model=customView.findViewById(R.id.current_user_model);
+        scan_button=customView.findViewById(R.id.scan_button);
+        generate_qr=customView.findViewById(R.id.generate_qr);
         findViewById(R.id.rider_main_layout).post(new Runnable() {
             @Override
             public void run() {
@@ -635,10 +640,11 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
                 popupWindow.setAnimationStyle(R.style.pop_animation);
                 popupCover.showAtLocation(main, Gravity.LEFT,0,0);
                 popupWindow.showAtLocation(main, Gravity.LEFT,0,0);
-                current_user_model.setText("user mode: rider");
+                current_user_model.setText("user model: rider");
                 db = FirebaseFirestore.getInstance();
                 final CollectionReference collectionReference = db.collection("Riders");
-                final DocumentReference user = db.collection("Riders").document(userName);
+                userName = getIntent().getStringExtra("username");
+                final DocumentReference user = db.collection("Rider").document(userName);
                 user.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                     @Override
                     public void onSuccess(DocumentSnapshot documentSnapshot) {
@@ -654,6 +660,32 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
                         startActivity(intent);
                     }
                 });
+//scan QR---------------------------------------------------------------------------
+                scan_button.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        // 创建IntentIntegrator对象
+                        IntentIntegrator intentIntegrator = new IntentIntegrator(RiderMapActivity.this);
+                        intentIntegrator.setPrompt("This is the payment interface");
+                        // 开始扫描
+                        intentIntegrator.setCaptureActivity(CustomCaptureActivity.class);
+                        intentIntegrator.setOrientationLocked(false);
+                        intentIntegrator.initiateScan();
+                    }
+                });
+//scan QR---------------------------------------------------------------------------
+
+//generate QR---------------------------------------------------------------------------
+                generate_qr.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent=new Intent(RiderMapActivity.this,QrActivity.class);
+                        startActivity(intent);
+                    }
+                });
+//generate QR---------------------------------------------------------------------------
+
+
                 coverView.setOnTouchListener(new View.OnTouchListener() {
                     @Override
                     public boolean onTouch(View v, MotionEvent event) {
@@ -669,9 +701,28 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
                         Log.d(TAG, "onDismiss: test");
                     }
                 });
+
+
+
+
             }
         });
     }
-
+    //scan QR---------------------------------------------------------------------------
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        // 获取解析结果
+        IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
+        if (result != null) {
+            if (result.getContents() == null) {
+                Toast.makeText(this, "Cancel Scan", Toast.LENGTH_LONG).show();
+            } else {
+                Toast.makeText(this, "Scan Information:" + result.getContents(), Toast.LENGTH_LONG).show();
+            }
+        } else {
+            super.onActivityResult(requestCode, resultCode, data);
+        }
+    }
+//scan QR---------------------------------------------------------------------------
 
 }

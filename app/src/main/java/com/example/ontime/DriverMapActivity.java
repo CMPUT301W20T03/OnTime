@@ -71,6 +71,7 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
     private static final float DEFAULT_ZOOM = 15f;
     private Boolean mLocationPermissionsGranted = false;
     private LatLng myLastLocation;
+    Button generate_qr;
     //private String userId;
     ListView requestList;
     GoogleMap mMap;
@@ -340,16 +341,20 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
         request_button=customView.findViewById(R.id.current_request_button);
         show_name=customView.findViewById(R.id.show_name);
         current_user_model=customView.findViewById(R.id.current_user_model);
+        generate_qr=customView.findViewById(R.id.generate_qr);
+
         findViewById(R.id.driver_main_layout).post(new Runnable() {
             @Override
             public void run() {
-                popupCover.setAnimationStyle(R.style.pop_animation);
-                popupWindow.setAnimationStyle(R.style.pop_animation);
+                customView = (ViewGroup)layoutInflater.inflate(R.layout.hamburger_menus, null);
+                coverView = (ViewGroup)layoutInflater.inflate(R.layout.cover_layout, null);
                 popupCover.showAtLocation(main, Gravity.LEFT,0,0);
                 popupWindow.showAtLocation(main, Gravity.LEFT,0,0);
-                current_user_model.setText("user mode: driver");
+                current_user_model.setText("user model: driver");
+
                 db = FirebaseFirestore.getInstance();
                 final CollectionReference collectionReference = db.collection("Drivers");
+                userName = getIntent().getStringExtra("username");
                 final DocumentReference user = db.collection("Drivers").document(userName);
                 user.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                     @Override
@@ -357,15 +362,23 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
                         show_name.setText(userName);
                     }
                 });
+                generate_qr.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent=new Intent(DriverMapActivity.this,QrActivity.class);
+                        startActivity(intent);
+                    }
+                });
 
                 profile_button.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent intent=new Intent(DriverMapActivity.this,RiderProfile.class);
+                        Intent intent=new Intent(DriverMapActivity.this,DriverProfile.class);
                         //DriverMapActivity.this.startActivity(intent);
                         startActivity(intent);
                     }
                 });
+
                 coverView.setOnTouchListener(new View.OnTouchListener() {
                     @Override
                     public boolean onTouch(View v, MotionEvent event) {
@@ -381,6 +394,7 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
                         Log.d(TAG, "onDismiss: test");
                     }
                 });
+
             }
         });
     }
@@ -390,3 +404,4 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
 
     }
 }
+
