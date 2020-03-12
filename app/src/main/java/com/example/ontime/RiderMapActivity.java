@@ -1,3 +1,4 @@
+
 package com.example.ontime;
 
 import android.Manifest;
@@ -54,6 +55,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
@@ -67,6 +69,12 @@ import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -89,6 +97,11 @@ import static android.provider.ContactsContract.CommonDataKinds.Website.URL;
 import static com.google.android.gms.location.places.ui.PlacePicker.*;
 import com.example.ontime.helper.FetchURL;
 import com.example.ontime.helper.TaskLoadedCallback;
+import com.google.firebase.firestore.GeoPoint;
+import com.google.firestore.v1.StructuredQuery;
+import com.google.maps.android.SphericalUtil;
+import com.google.zxing.integration.android.IntentIntegrator;
+import com.google.zxing.integration.android.IntentResult;
 
 
 public class RiderMapActivity extends FragmentActivity implements OnMapReadyCallback {
@@ -105,6 +118,10 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
     private ImageView mGps,mPicker;
     private Polyline currentPolyline;
     private Address address;
+    private LatLng dLocation;
+    private Query query;
+    Button scan_button;
+    Button generate_qr;
 
     GoogleMap mMap;
 
@@ -114,9 +131,12 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
     public String srcLocationText;
     private LatLng srcLagLng;
     private LatLng destLagLng;
+    private Double distance;
+    private Double pay_amount;
     //EditText destination;
     Button RequestConfirmButton;
     FirebaseFirestore db;
+    DatabaseReference reff;
     String TAG = "Sample";
 
 
@@ -143,6 +163,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         super.onCreate(savedInstanceState);
 
         userName = getIntent().getStringExtra("username");
+        //getDriverLocation();
 
         setContentView(R.layout.activity_rider_map);
         if(!Places.isInitialized()){
@@ -172,7 +193,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
                 getDeviceLocation();
             }
         });
-
+/*
         mPicker.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -184,6 +205,12 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
                 } catch (GooglePlayServicesNotAvailableException e) {
                     Log.e(TAG, "onClick: GooglePlayServicesNotAvailableException:" + e.getMessage() );
                 }
+            }
+        });*/
+        mPicker.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getDriverLocation();
             }
         });
 
@@ -259,6 +286,8 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         RequestConfirmButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                distance = SphericalUtil.computeDistanceBetween(srcLagLng,destLagLng);
+                pay_amount = (distance * 0.81 + 2.5)/1000;
                 db = FirebaseFirestore.getInstance();
                 final CollectionReference collectionReference = db.collection("Requests");
 
@@ -281,7 +310,8 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
                 data.put("srcLag", srcLag);
                 data.put("destLag", destLag);
                 data.put("rider", userName);
-                data.put("status", "Active");
+                data.put("status", "Active");// Active, Finish/Unfinish -> Past
+                data.put("amount",String.valueOf(pay_amount));
                 collectionReference
                         .document(userName)
                         .set(data)
@@ -302,30 +332,23 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
 
             }
         });
+        reff = FirebaseDatabase.getInstance().getReference().child("DriversAvailable").child(userName).child("driverL");
     }
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == PLACE_PICKER_REQUEST) {
-            if (resultCode == RESULT_OK) {
-                Place place = (Place) getPlace(this, data);
-                StringBuilder stringBuilder = new StringBuilder();
-                String latitude = String.valueOf(place.getLatLng().latitude);
-                String longitude = String.valueOf(place.getLatLng().longitude);
-                stringBuilder.append(latitude);
-                stringBuilder.append(",");
-                stringBuilder.append(longitude);
-
-
-            }
-        }
-    }
-
-
-
-
-
-
+//    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+//
+//        super.onActivityResult(requestCode, resultCode, data);
+//        if (requestCode == PLACE_PICKER_REQUEST) {
+//            if (resultCode == RESULT_OK) {
+//                Place place = (Place) getPlace(this, data);
+//                StringBuilder stringBuilder = new StringBuilder();
+//                String latitude = String.valueOf(place.getLatLng().latitude);
+//                String longitude = String.valueOf(place.getLatLng().longitude);
+//                stringBuilder.append(latitude);
+//                stringBuilder.append(",");
+//                stringBuilder.append(longitude);
+//            }
+//        }
+//    }
 
 
     /*private void init() {
@@ -432,17 +455,62 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
             mMap.getUiSettings().setMyLocationButtonEnabled(false);
 
             //init();
-            getDriverLocation();
+            //getDriverLocation();
         }
 
 
     }
-
+    private Marker mDriverMarker;
     private void getDriverLocation(){
+        //final String [] DLocation;
         db = FirebaseFirestore.getInstance();
-        final CollectionReference collectionReference = db.collection("DriversAvailable");
+
+        //reff = reff.child("DriversAvailable");
+        //reff = reff.child(userName);
+        //reff = reff.child("driverL");
+        reff.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                //if(dataSnapshot.exists()){
+                    String lon_str = dataSnapshot.child("longitude").getValue().toString();
+                    String lat_str = dataSnapshot.child("latitude").getValue().toString();
+                    double locLat = 0;
+                    double locLng = 0;
+                    boolean flag = false;
+                    if(lat_str != null){
+                        locLat = Double.parseDouble(lat_str);
+                    }
+                    else{
+                        flag = true;
+                        Toast.makeText(RiderMapActivity.this, "loclat is null", Toast.LENGTH_SHORT).show();
+                    }
+                    if(lon_str!= null){
+                        locLng = Double.parseDouble(lon_str);
+                    } else{
+                        flag = true;
+                    }
+                    if (!flag) {
+                        LatLng driverLocation = new LatLng(locLat,locLng);
+                        if(mDriverMarker != null){
+                            mDriverMarker.remove();
+                        }
+                        mDriverMarker = mMap.addMarker(new MarkerOptions().position(driverLocation).title("your driver"));
+                        moveCamera(driverLocation, DEFAULT_ZOOM, "driver Location");
+                    }
+
+                //}
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+        //System.out.println(dLocation);
 
     }
+
 
     private void getDeviceLocation(){
         Log.d(TAG, "getDeviceLocation: getting the devices current location");
@@ -476,7 +544,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
     }
 
     private void moveCamera(LatLng latLng, float zoom, String title) {
-        mMap.clear();
+        //mMap.clear();
 
         Log.d(TAG, "moveCamera: moving the camera to: lat: " + latLng.latitude + ", lng: " + latLng.longitude);
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoom));
@@ -569,6 +637,8 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         request_button=customView.findViewById(R.id.current_request_button);
         show_name=customView.findViewById(R.id.show_name);
         current_user_model=customView.findViewById(R.id.current_user_model);
+        scan_button=customView.findViewById(R.id.scan_button);
+        generate_qr=customView.findViewById(R.id.generate_qr);
         findViewById(R.id.rider_main_layout).post(new Runnable() {
             @Override
             public void run() {
@@ -576,10 +646,11 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
                 popupWindow.setAnimationStyle(R.style.pop_animation);
                 popupCover.showAtLocation(main, Gravity.LEFT,0,0);
                 popupWindow.showAtLocation(main, Gravity.LEFT,0,0);
-                current_user_model.setText("user mode: rider");
+                current_user_model.setText("user model: rider");
                 db = FirebaseFirestore.getInstance();
                 final CollectionReference collectionReference = db.collection("Riders");
-                final DocumentReference user = db.collection("Riders").document(userName);
+                userName = getIntent().getStringExtra("username");
+                final DocumentReference user = db.collection("Rider").document(userName);
                 user.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                     @Override
                     public void onSuccess(DocumentSnapshot documentSnapshot) {
@@ -591,9 +662,36 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
                     @Override
                     public void onClick(View v) {
                         Intent intent=new Intent(RiderMapActivity.this,RiderProfile.class);
-                        RiderMapActivity.this.startActivity(intent);
+                        //RiderMapActivity.this.startActivity(intent);
+                        startActivity(intent);
                     }
                 });
+//scan QR---------------------------------------------------------------------------
+                scan_button.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        // 创建IntentIntegrator对象
+                        IntentIntegrator intentIntegrator = new IntentIntegrator(RiderMapActivity.this);
+                        intentIntegrator.setPrompt("This is the payment interface");
+                        // 开始扫描
+                        intentIntegrator.setCaptureActivity(CustomCaptureActivity.class);
+                        intentIntegrator.setOrientationLocked(false);
+                        intentIntegrator.initiateScan();
+                    }
+                });
+//scan QR---------------------------------------------------------------------------
+
+//generate QR---------------------------------------------------------------------------
+                generate_qr.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent=new Intent(RiderMapActivity.this,QrActivity.class);
+                        startActivity(intent);
+                    }
+                });
+//generate QR---------------------------------------------------------------------------
+
+
                 coverView.setOnTouchListener(new View.OnTouchListener() {
                     @Override
                     public boolean onTouch(View v, MotionEvent event) {
@@ -609,9 +707,28 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
                         Log.d(TAG, "onDismiss: test");
                     }
                 });
+
+
+
+
             }
         });
     }
-
+    //scan QR---------------------------------------------------------------------------
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        // 获取解析结果
+        IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
+        if (result != null) {
+            if (result.getContents() == null) {
+                Toast.makeText(this, "Cancel Scan", Toast.LENGTH_LONG).show();
+            } else {
+                Toast.makeText(this, "Scan Information:" + result.getContents(), Toast.LENGTH_LONG).show();
+            }
+        } else {
+            super.onActivityResult(requestCode, resultCode, data);
+        }
+    }
+//scan QR---------------------------------------------------------------------------
 
 }
