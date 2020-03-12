@@ -102,12 +102,12 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
     private TextView current_user_model;
     private String userName;
 
-    protected void createLocationRequest() {
+    /*protected void createLocationRequest() {
         mLocationRequest = new LocationRequest();
         mLocationRequest.setInterval(INTERVAL);
         mLocationRequest.setFastestInterval(FASTEST_INTERVAL);
         mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-    }
+    }*/
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -120,7 +120,7 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
         mapFragment.getMapAsync(this);*/
 
 
-        createLocationRequest();
+        //createLocationRequest();
 
 
         hamburger_button = findViewById(R.id.hamburger_button);
