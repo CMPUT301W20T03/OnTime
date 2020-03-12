@@ -4,6 +4,7 @@ package com.example.ontime;
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import java.text.DecimalFormat;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Address;
@@ -88,6 +89,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -120,6 +122,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
     private Address address;
     private LatLng dLocation;
     private Query query;
+    private static DecimalFormat df2 = new DecimalFormat("#.##");
     Button scan_button;
     Button generate_qr;
 
@@ -288,6 +291,8 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
             public void onClick(View v) {
                 distance = SphericalUtil.computeDistanceBetween(srcLagLng,destLagLng);
                 pay_amount = (distance * 0.81 + 2.5)/1000;
+
+
                 db = FirebaseFirestore.getInstance();
                 final CollectionReference collectionReference = db.collection("Requests");
 
@@ -311,7 +316,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
                 data.put("destLag", destLag);
                 data.put("rider", userName);
                 data.put("status", "Active");// Active, Finish/Unfinish -> Past
-                data.put("amount",String.valueOf(pay_amount));
+                data.put("amount",df2.format(pay_amount));
                 collectionReference
                         .document(userName)
                         .set(data)
