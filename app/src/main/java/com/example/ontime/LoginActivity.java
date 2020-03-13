@@ -25,16 +25,37 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 
+/**
+ * The type Login activity.
+ */
 public class LoginActivity extends AppCompatActivity {
+    /**
+     * The Tag.
+     */
     String TAG = "Sample";
+    /**
+     * The Rider choice.
+     */
     RadioButton rider_choice;
+    /**
+     * The Driver choice.
+     */
     RadioButton driver_choice;
+    /**
+     * The Rider choice tag.
+     */
     int rider_choice_tag=0;
+    /**
+     * The Driver choice tag.
+     */
     int driver_choice_tag=0;
 
     private Button LoginButton;
     private EditText oldUserName,oldUserPassword;
     private String userName,userPassword, password;
+    /**
+     * The Db.
+     */
     FirebaseFirestore db;
 
 

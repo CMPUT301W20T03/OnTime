@@ -105,6 +105,9 @@ import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
 
+/**
+ * The type Rider map activity.
+ */
 public class RiderMapActivity extends FragmentActivity implements OnMapReadyCallback {
 
 
@@ -120,22 +123,46 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
     private Polyline currentPolyline;
     private Address address;
     private Query query;
+    /**
+     * The Wallet button.
+     */
     Button wallet_button;
     private static DecimalFormat df2 = new DecimalFormat("#.##");
+    /**
+     * The M map.
+     */
     GoogleMap mMap;
 
 
     private EditText destination;
+    /**
+     * The Destination text.
+     */
     public String destinationText;
+    /**
+     * The Src location text.
+     */
     public String srcLocationText;
     private LatLng srcLagLng;
     private LatLng destLagLng;
 
     private Double distance;
     private Double pay_amount;
+    /**
+     * The Request confirm button.
+     */
     Button RequestConfirmButton;
+    /**
+     * The Db.
+     */
     FirebaseFirestore db;
+    /**
+     * The Reff.
+     */
     DatabaseReference reff;
+    /**
+     * The Tag.
+     */
     String TAG = "Sample";
 
 
@@ -148,9 +175,21 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
     private LayoutInflater layoutInflater;
     private WindowManager windowManager;
     private DisplayMetrics metrics;
+    /**
+     * The Hamburger button.
+     */
     public Button hamburger_button;
+    /**
+     * The Profile button.
+     */
     public Button profile_button;
+    /**
+     * The Request button.
+     */
     public Button request_button;
+    /**
+     * The Show name.
+     */
     public TextView show_name;
     private TextView current_user_model;
     private String userName;
@@ -337,12 +376,20 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         return url;
     }
 
+    /**
+     * On task done.
+     *
+     * @param values the values
+     */
     public void onTaskDone(Object... values) {
         if (currentPolyline != null)
             currentPolyline.remove();
         currentPolyline = mMap.addPolyline((PolylineOptions) values[0]);
     }
 
+    /**
+     * Gets infos.
+     */
     public void getInfos() {
         db = FirebaseFirestore.getInstance();
         final DocumentReference user = db.collection("Riders").document(userName);
@@ -571,6 +618,9 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
     }
 
+    /**
+     * Init pop up view.
+     */
     public void initPopUpView(){
         layoutInflater = (LayoutInflater)RiderMapActivity.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         customView = (ViewGroup)layoutInflater.inflate(R.layout.hamburger_menus, null);
@@ -581,6 +631,9 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         windowManager.getDefaultDisplay().getMetrics(metrics);
     }
 
+    /**
+     * Show pop up view.
+     */
     public void showPopUpView(){
         int width = metrics.widthPixels;
         int height = metrics.heightPixels;

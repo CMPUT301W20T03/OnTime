@@ -28,21 +28,57 @@ import java.util.HashMap;
 
 import javax.xml.validation.Validator;
 
+/**
+ * The type Signup activity.
+ */
 public class SignupActivity extends AppCompatActivity {
 
+    /**
+     * The Tag.
+     */
     String TAG = "Sample";
+    /**
+     * The Sign up button.
+     */
     Button signUpButton;
 
+    /**
+     * The Rider choice.
+     */
     RadioButton rider_choice;
+    /**
+     * The Driver choice.
+     */
     RadioButton driver_choice;
+    /**
+     * The Rider choice tag.
+     */
     int rider_choice_tag=0;
+    /**
+     * The Driver choice tag.
+     */
     int driver_choice_tag=0;
 
+    /**
+     * The Add username edit text.
+     */
     EditText addUsernameEditText;
+    /**
+     * The Add password edit text.
+     */
     EditText addPasswordEditText;
+    /**
+     * The Add email edit text.
+     */
     EditText addEmailEditText;
+    /**
+     * The Add phone number edit text.
+     */
     EditText addPhoneNumberEditText;
 
+    /**
+     * The Db.
+     */
     FirebaseFirestore db;
 
     @Override

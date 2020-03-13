@@ -140,14 +140,35 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+/**
+ * The type Rider profile.
+ */
 public class RiderProfile extends AppCompatActivity {
+    /**
+     * The Edit button.
+     */
     Button editButton;
 
+    /**
+     * The Profile name edit text.
+     */
     EditText profileNameEditText;
+    /**
+     * The Profile password edit text.
+     */
     EditText profilePasswordEditText;
+    /**
+     * The Profile email edit text.
+     */
     EditText profileEmailEditText;
+    /**
+     * The Profile phone number edit text.
+     */
     EditText profilePhoneNumberEditText;
 
+    /**
+     * The Db.
+     */
     FirebaseFirestore db;
 
     private String userName;

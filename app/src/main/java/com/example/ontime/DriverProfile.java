@@ -28,13 +28,31 @@ import java.util.Map;
  * This is a class that implements DriverProfile object
  */
 public class DriverProfile extends AppCompatActivity {
+    /**
+     * The Edit button.
+     */
     Button editButton;
 
+    /**
+     * The Profile name edit text.
+     */
     EditText profileNameEditText;
+    /**
+     * The Profile password edit text.
+     */
     EditText profilePasswordEditText;
+    /**
+     * The Profile email edit text.
+     */
     EditText profileEmailEditText;
+    /**
+     * The Profile phone number edit text.
+     */
     EditText profilePhoneNumberEditText;
 
+    /**
+     * The Db.
+     */
     FirebaseFirestore db;
 
     private String userName;
