@@ -117,7 +117,6 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
     private ImageView mGps,mPicker;
     private Polyline currentPolyline;
     private Address address;
-    private LatLng dLocation;
     private Query query;
     Button scan_button;
     Button generate_qr;
@@ -130,7 +129,6 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
     public String srcLocationText;
     private LatLng srcLagLng;
     private LatLng destLagLng;
-    //EditText destination;
     Button RequestConfirmButton;
     FirebaseFirestore db;
     DatabaseReference reff;
@@ -172,8 +170,6 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
 
 
         RequestConfirmButton = findViewById(R.id.confirm_request_btn); ///
-        //destination = findViewById(R.id.input_search);
-        //destination = findViewById(R.id.dstLocation);
         hamburger_button = findViewById(R.id.hamburger_button);
         mGps = findViewById(R.id.ic_gps);
         mPicker = findViewById(R.id.ic_picker);
@@ -193,20 +189,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
                 getDeviceLocation();
             }
         });
-/*
-        mPicker.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
-                try {
-                    startActivityForResult(builder.build(RiderMapActivity.this),PLACE_PICKER_REQUEST);
-                } catch (GooglePlayServicesRepairableException e) {
-                    Log.e(TAG, "onClick: GooglePlayServicesRepairableException:" + e.getMessage() );
-                } catch (GooglePlayServicesNotAvailableException e) {
-                    Log.e(TAG, "onClick: GooglePlayServicesNotAvailableException:" + e.getMessage() );
-                }
-            }
-        });*/
+
         mPicker.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -235,20 +218,17 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         autocompleteFragment2.setOnPlaceSelectedListener(new PlaceSelectionListener() {
             @Override
             public void onPlaceSelected(@NonNull Place place) {
-                // TODO: Get info about the selected place.
-                //destinationText = place.getAddress();
+                // Get info about the selected place.
+                // destinationText = place.getAddress();
                 srcLocationText = place.getName();
 
-                //LatLng address = place.getLatLng();
-                //moveCamera(address, DEFAULT_ZOOM, name);
-                //System.out.print(destinationText);
                 geoLocate(srcLocationText,"src");
                 Log.i(TAG, "Place: " + place.getName() + ", " + place.getId());
             }
 
             @Override
             public void onError(Status status) {
-                // TODO: Handle the error.
+                // TODO: Handle the error
                 Log.i(TAG, "An error occurred: " + status);
             }
         });
@@ -265,13 +245,11 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
             @Override
             public void onPlaceSelected(@NonNull Place place) {
-                // TODO: Get info about the selected place.
+                // Get info about the selected place.
                 //destinationText = place.getAddress();
                 destinationText = place.getName();
 
                 //LatLng address = place.getLatLng();
-                //moveCamera(address, DEFAULT_ZOOM, name);
-                //System.out.print(destinationText);
                 geoLocate(destinationText,"dest");
                 Log.i(TAG, "Place: " + place.getName() + ", " + place.getId());
             }
@@ -333,45 +311,6 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         });
         reff = FirebaseDatabase.getInstance().getReference().child("DriversAvailable").child(userName).child("driverL");
     }
-//    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-//
-//        super.onActivityResult(requestCode, resultCode, data);
-//        if (requestCode == PLACE_PICKER_REQUEST) {
-//            if (resultCode == RESULT_OK) {
-//                Place place = (Place) getPlace(this, data);
-//                StringBuilder stringBuilder = new StringBuilder();
-//                String latitude = String.valueOf(place.getLatLng().latitude);
-//                String longitude = String.valueOf(place.getLatLng().longitude);
-//                stringBuilder.append(latitude);
-//                stringBuilder.append(",");
-//                stringBuilder.append(longitude);
-//            }
-//        }
-//    }
-
-
-    /*private void init() {
-        Log.d(TAG, "init: initializing");
-
-        destination.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
-                if (actionId == EditorInfo.IME_ACTION_SEARCH
-                        || actionId == EditorInfo.IME_ACTION_DONE
-                        || keyEvent.getAction() == KeyEvent.ACTION_DOWN
-                        || keyEvent.getAction() == KeyEvent.KEYCODE_ENTER) {
-
-                    //execute our method for searching
-                    geoLocate();
-                }
-
-                return false;
-            }
-        });
-
-
-        hideSoftKeyboard();
-    }*/
 
     private String getUrl(LatLng origin, LatLng dest, String directionMode) {
         // Origin of route
@@ -474,12 +413,8 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
     }
     private Marker mDriverMarker;
     private void getDriverLocation(){
-        //final String [] DLocation;
         db = FirebaseFirestore.getInstance();
 
-        //reff = reff.child("DriversAvailable");
-        //reff = reff.child(userName);
-        //reff = reff.child("driverL");
         reff.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -518,9 +453,6 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
 
             }
         });
-
-        //System.out.println(dLocation);
-
     }
 
 
@@ -691,7 +623,9 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
                         intentIntegrator.initiateScan();
                     }
                 });
+
 //scan QR---------------------------------------------------------------------------
+
 
 //generate QR---------------------------------------------------------------------------
                 generate_qr.setOnClickListener(new View.OnClickListener() {
@@ -701,6 +635,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
                         startActivity(intent);
                     }
                 });
+
 //generate QR---------------------------------------------------------------------------
 
 

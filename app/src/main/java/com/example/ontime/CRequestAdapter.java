@@ -14,15 +14,30 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.List;
 
 
+/**
+ * This is a class that implements CRequestAdapter object
+ */
 // adapter for driver view of active requests
 public class CRequestAdapter extends ArrayAdapter<CurrentRequests> {
     public CRequestAdapter(Context context, List<CurrentRequests> object){
         super(context,0, object);
     }
 
+    /**
+     * This method formats the view of the object and returns converted view for the object
+     * @param position
+     *      set the position of object in the list
+     * @param convertView
+     *      set the view of the object and convert it
+     * @param parent
+     *      set the parent of the view
+     * @return
+     *      returns the converted view for the object
+     *
+     */
     @Override
     public View getView(int position, View convertView, ViewGroup parent){
-        if(convertView == null){
+        if(convertView == null) {
             convertView =  ((Activity)getContext()).getLayoutInflater().inflate(R.layout.request_listview,parent,false);
         }
 

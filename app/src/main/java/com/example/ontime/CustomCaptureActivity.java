@@ -9,12 +9,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.journeyapps.barcodescanner.CaptureManager;
 import com.journeyapps.barcodescanner.DecoratedBarcodeView;
 
+/**
+ * This is a class that implements CustomCaptureActivity
+ */
 public class CustomCaptureActivity extends AppCompatActivity {
 
 
     private CaptureManager mCaptureManager;
-
-
     private DecoratedBarcodeView mBarcodeView;
 
     @Override

@@ -57,7 +57,9 @@ import java.util.List;
 //import com.google.firebase.database.FirebaseDatabase;
 //import com.google.firebase.database.Query;
 
-
+/**
+ * This is a class that implements DriverMapActivity object
+ */
 public class DriverMapActivity extends FragmentActivity implements OnMapReadyCallback,AddFragment.OnFragmentInteractionListener {
 
     Location currentLocation;
@@ -72,8 +74,6 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
     private Boolean mLocationPermissionsGranted = false;
     private LatLng myLastLocation;
     Button generate_qr;
-    //private String userId;
-    ListView requestList;
     GoogleMap mMap;
     GoogleSignInAccount account;
     LocationRequest mLocationRequest;
@@ -82,7 +82,6 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
     FirebaseFirestore db;
     FirebaseDatabase database;
     DatabaseReference reff;
-
 
     //Popup Window
     private PopupWindow popupWindow;

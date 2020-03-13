@@ -16,7 +16,9 @@ import androidx.fragment.app.DialogFragment;
 import java.io.Serializable;
 
 import javax.annotation.Nullable;
-
+/**
+ * This is a class that implements AddFragment object
+ */
 public class AddFragment extends DialogFragment {
     private TextView username;
     private TextView phone;
@@ -32,6 +34,11 @@ public class AddFragment extends DialogFragment {
 //        void refresh();
     }
 
+    /**
+     * This returns a sorted list of cities
+     * @param context
+     *      set the context for the object
+     */
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -42,6 +49,7 @@ public class AddFragment extends DialogFragment {
                     + " must implement OnFragmentInteractionListener");
         }
     }
+
     public static AddFragment newInstance(CurrentRequests requests){
         Bundle args = new Bundle();
         args.putSerializable("Request",requests);

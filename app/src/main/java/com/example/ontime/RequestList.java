@@ -13,16 +13,33 @@ import androidx.annotation.Nullable;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+/**
+ * This is a class that implements RequestList object for Driver
+ */
 public class RequestList extends ArrayAdapter<CurrentRequests> implements Serializable {
     private ArrayList<CurrentRequests> requests;
     private Context context;
 
+    /**
+     * Sole constructor
+     */
     public RequestList(Context context, ArrayList<CurrentRequests> requests) {
         super(context, 0, requests);
         this.requests = requests;
         this.context = context;
     }
 
+    /**
+     * This returns the view of the RequestList
+     * @param convertView
+     *      sets the view of the object
+     * @param parent
+     *      sets the parent of the object
+     * @param position
+     *      sets the position of the object in the list
+     * @return
+     *      Return the name of the rider
+     */
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         View view = convertView;
 
