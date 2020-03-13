@@ -73,7 +73,6 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
     private static final float DEFAULT_ZOOM = 15f;
     private Boolean mLocationPermissionsGranted = false;
     private LatLng myLastLocation;
-    Button generate_qr;
     GoogleMap mMap;
     GoogleSignInAccount account;
     LocationRequest mLocationRequest;
@@ -360,13 +359,6 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
                     @Override
                     public void onSuccess(DocumentSnapshot documentSnapshot) {
                         show_name.setText(userName);
-                    }
-                });
-                generate_qr.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent intent=new Intent(DriverMapActivity.this,QrActivity.class);
-                        startActivity(intent);
                     }
                 });
 

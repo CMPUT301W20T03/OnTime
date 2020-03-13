@@ -9,6 +9,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import java.util.Timer;
 import java.util.TimerTask;
 
+
+/**
+ * The type Welcome page.
+ */
+// welcome page animation when start run app
+// the animation will show the logo and hold on 2seconds
 public class Welcome_page extends AppCompatActivity implements Animation.AnimationListener{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,7 +29,7 @@ public class Welcome_page extends AppCompatActivity implements Animation.Animati
                 Welcome_page.this.finish();
             }
         };
-        timer.schedule(timerTask, 2000); //1.5秒后跳转
+        timer.schedule(timerTask, 2000); //after 2.00 seconds jump page
     }
     @Override
     public void onAnimationStart(Animation animation) {
