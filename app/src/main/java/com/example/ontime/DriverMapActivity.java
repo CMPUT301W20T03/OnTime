@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
@@ -71,6 +72,7 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
     private static final float DEFAULT_ZOOM = 15f;
     private Boolean mLocationPermissionsGranted = false;
     private LatLng myLastLocation;
+    private ImageView mGps;
     Button generate_qr;
     //private String userId;
     ListView requestList;
@@ -114,7 +116,7 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
         super.onCreate(savedInstanceState);
         userName = getIntent().getStringExtra("username");
         setContentView(R.layout.activity_driver_map);
-
+        mGps = findViewById(R.id.ic_gps);
 
         //createLocationRequest();
 
@@ -159,6 +161,12 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
             public void onClick(View v) {
                 Log.d(TAG, "onClick: It is hamburger button!");
                 showPopUpView();
+            }
+        });
+        mGps.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getDeviceLocation();
             }
         });
         userName = getIntent().getStringExtra("username");
