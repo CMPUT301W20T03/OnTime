@@ -388,6 +388,7 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
                     @Override
                     public void onClick(View v) {
                         Intent intent=new Intent(DriverMapActivity.this,DriverProfile.class);
+                        intent.putExtra("username", userName);
                         //DriverMapActivity.this.startActivity(intent);
                         startActivity(intent);
                     }
