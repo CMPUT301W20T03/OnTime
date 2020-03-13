@@ -116,7 +116,7 @@ public class LoginActivity extends AppCompatActivity {
                                         if (password.equals(userPassword)) {
                                             Log.d(TAG, "User Exists");
                                             Toast.makeText(LoginActivity.this, "Sign in successful!", Toast.LENGTH_SHORT).show();
-                                            Intent intent = new Intent(getBaseContext(), DriverMapActivity.class);
+                                            Intent intent = new Intent(getBaseContext(), RiderMapActivity.class);
                                             intent.putExtra("username", userName);
                                             startActivity(intent);
                                         }

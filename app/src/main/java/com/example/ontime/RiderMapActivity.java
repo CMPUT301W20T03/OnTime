@@ -153,6 +153,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
     private TextView current_user_model;
     private String userName;
     private String phone;
+    private String email;
 
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
@@ -161,7 +162,8 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         super.onCreate(savedInstanceState);
 
         userName = getIntent().getStringExtra("username");
-        getPhoneNumber();
+        getInfos();
+
 
         setContentView(R.layout.activity_rider_map);
         if(!Places.isInitialized()){
@@ -307,6 +309,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
                 data.put("destLag", destLag);
                 data.put("phoneNumber", phone);
                 data.put("rider", userName);
+                data.put("email", email);
                 data.put("status", "Active");// Active, Finish/Unfinish -> Past
                 collectionReference
                         .document(userName)
@@ -392,7 +395,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         currentPolyline = mMap.addPolyline((PolylineOptions) values[0]);
     }
 
-    public void getPhoneNumber() {
+    public void getInfos() {
         db = FirebaseFirestore.getInstance();
         final DocumentReference user = db.collection("Riders").document(userName);
         user.get()
@@ -401,6 +404,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
                     public void onSuccess(DocumentSnapshot documentSnapshot) {
                         if (documentSnapshot.exists()) {
                             phone = documentSnapshot.getString("phone number");
+                            email = documentSnapshot.getString("email");
                         }
                     }
                 });

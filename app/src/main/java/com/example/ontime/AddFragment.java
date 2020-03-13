@@ -23,6 +23,7 @@ public class AddFragment extends DialogFragment {
     private TextView start;
     private TextView end;
     private TextView amount;
+    private TextView email;
     private OnFragmentInteractionListener listener;
     private CurrentRequests current_request;
 
@@ -55,6 +56,7 @@ public class AddFragment extends DialogFragment {
     public Dialog onCreateDialog(@Nullable Bundle saveInstanceState){
         View view = LayoutInflater.from(getActivity()).inflate(R.layout.request_details, null);
         username = view.findViewById(R.id.name_text);
+        email = view.findViewById(R.id.email_text);
         phone = view.findViewById(R.id.phone_text);
         start = view.findViewById(R.id.srclocation_text);
         end= view.findViewById(R.id.destination_text);
@@ -68,6 +70,9 @@ public class AddFragment extends DialogFragment {
             phone.setText(current_request.getPhone());
             phone.getPaint().setFakeBoldText(true);
             phone.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);
+            email.setText(current_request.getEmail());
+            email.getPaint().setFakeBoldText(true);
+            email.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);
             start.setText(current_request.getSrcLocation());
             start.getPaint().setFakeBoldText(true);
             start.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);
