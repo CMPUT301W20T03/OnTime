@@ -135,6 +135,7 @@ public class SignupActivity extends AppCompatActivity {
                         data.put("password", passwordText);
                         data.put("email", emailText);
                         data.put("phone number", phone_numberText);
+                        data.put("userName", usernameText);
                         collectionReference
                                 .document(usernameText)
                                 .set(data)
@@ -177,6 +178,7 @@ public class SignupActivity extends AppCompatActivity {
                         data.put("password", passwordText);
                         data.put("email", emailText);
                         data.put("phone number", phone_numberText);
+                        data.put("userName", usernameText);
                         collectionReference
                                 .document(usernameText)
                                 .set(data)
@@ -201,8 +203,8 @@ public class SignupActivity extends AppCompatActivity {
 
 
 
-                }else if(driver_choice.isChecked()==true && rider_choice.isChecked()==true){
-                    Toast.makeText(SignupActivity.this, "You can just choice one", Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(SignupActivity.this, "You can only choice one", Toast.LENGTH_LONG).show();
                 }
             }
         });

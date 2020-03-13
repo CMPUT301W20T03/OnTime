@@ -16,8 +16,10 @@ import android.widget.RadioButton;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
@@ -32,7 +34,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private Button LoginButton;
     private EditText oldUserName,oldUserPassword;
-    private String userName,userPassword;
+    private String userName,userPassword, password;
     FirebaseFirestore db;
 
 
@@ -91,8 +93,8 @@ public class LoginActivity extends AppCompatActivity {
 
         LoginButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                if (rider_choice.isChecked()==true && driver_choice.isChecked()==false) {
+            public void onClick(View v) { // for riders
+                if (rider_choice.isChecked() && !driver_choice.isChecked()) {
                     final CollectionReference collectionReference = db.collection("Riders");
                     userName = oldUserName.getText().toString();
                     oldUserPassword.setTransformationMethod(PasswordTransformationMethod.getInstance());
@@ -103,47 +105,7 @@ public class LoginActivity extends AppCompatActivity {
                     } else if (TextUtils.isEmpty(userPassword)) {
                         Toast.makeText(LoginActivity.this, "Please enter your password", Toast.LENGTH_SHORT).show();
                     } else {
-                        Query query = collectionReference.whereEqualTo("password", userPassword);
-                        query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                            @Override
-                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                if (task.isSuccessful()) {
-                                    for (DocumentSnapshot documentSnapshot : task.getResult()) {
-                                        String password = documentSnapshot.getString("password");
-
-                                        if (password.equals(userPassword)) {
-                                            Log.d(TAG, "User Exists");
-                                            Toast.makeText(LoginActivity.this, "Sign in successful!", Toast.LENGTH_SHORT).show();
-                                            Intent intent = new Intent(getBaseContext(), RiderMapActivity.class);
-                                            intent.putExtra("username", userName);
-                                            startActivity(intent);
-                                            //Intent intent = new Intent(getBaseContext(), RiderProfile.class);
-                                            //intent.putExtra("username", userName);
-                                            //startActivity(intent);
-                                        }
-                                    }
-                                }
-
-                                if (task.getResult().size() == 0) {
-                                    Log.d(TAG, "User does not exist or wrong password");
-                                    Toast.makeText(LoginActivity.this, "User does not exist or wrong password", Toast.LENGTH_SHORT).show();
-                                }
-                            }
-                        });
-                    }
-                }
-                else if(driver_choice.isChecked()==true && rider_choice.isChecked()== false){
-                    final CollectionReference collectionReference = db.collection("Drivers");
-                    userName = oldUserName.getText().toString();
-                    oldUserPassword.setTransformationMethod(PasswordTransformationMethod.getInstance());
-                    userPassword = oldUserPassword.getText().toString();
-
-                    if (TextUtils.isEmpty(userName)) {
-                        Toast.makeText(LoginActivity.this, "Please enter your username", Toast.LENGTH_SHORT).show();
-                    } else if (TextUtils.isEmpty(userPassword)) {
-                        Toast.makeText(LoginActivity.this, "Please enter your password", Toast.LENGTH_SHORT).show();
-                    } else {
-                        Query query = collectionReference.whereEqualTo("password", userPassword);
+                        Query query = collectionReference.whereEqualTo("userName", userName);
                         query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                             @Override
                             public void onComplete(@NonNull Task<QuerySnapshot> task) {
@@ -155,13 +117,8 @@ public class LoginActivity extends AppCompatActivity {
                                             Log.d(TAG, "User Exists");
                                             Toast.makeText(LoginActivity.this, "Sign in successful!", Toast.LENGTH_SHORT).show();
                                             Intent intent = new Intent(getBaseContext(), DriverMapActivity.class);
-                                            //temp change the driver map to rider
-                                            //Intent intent = new Intent(getBaseContext(), RiderMapActivity.class);
                                             intent.putExtra("username", userName);
                                             startActivity(intent);
-                                            //Intent intent1 = new Intent(getBaseContext(), RiderMapActivity.class);
-                                            //intent.putExtra("username", userName);
-                                            //startActivity(intent1);
                                         }
                                     }
                                 }
@@ -174,8 +131,47 @@ public class LoginActivity extends AppCompatActivity {
                         });
                     }
                 }
-                else if(driver_choice.isChecked()==true && rider_choice.isChecked()==true){
-                    Toast.makeText(LoginActivity.this, "You can only choice one", Toast.LENGTH_LONG).show();
+
+                else if(driver_choice.isChecked() && !rider_choice.isChecked()){
+                    final CollectionReference collectionReference = db.collection("Drivers");
+                    userName = oldUserName.getText().toString();
+                    oldUserPassword.setTransformationMethod(PasswordTransformationMethod.getInstance());
+                    userPassword = oldUserPassword.getText().toString();
+
+                    if (TextUtils.isEmpty(userName)) {
+                        Toast.makeText(LoginActivity.this, "Please enter your username", Toast.LENGTH_SHORT).show();
+                    } else if (TextUtils.isEmpty(userPassword)) {
+                        Toast.makeText(LoginActivity.this, "Please enter your password", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Query query = collectionReference.whereEqualTo("userName", userName);
+                        query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                if (task.isSuccessful()) {
+                                    for (DocumentSnapshot documentSnapshot : task.getResult()) {
+                                        String password = documentSnapshot.getString("password");
+
+                                        if (password.equals(userPassword)) {
+                                            Log.d(TAG, "User Exists");
+                                            Toast.makeText(LoginActivity.this, "Sign in successful!", Toast.LENGTH_SHORT).show();
+                                            Intent intent = new Intent(getBaseContext(), DriverMapActivity.class);
+
+                                            intent.putExtra("username", userName);
+                                            startActivity(intent);
+                                        }
+                                    }
+                                }
+
+                                if (task.getResult().size() == 0) {
+                                    Log.d(TAG, "User does not exist or wrong password");
+                                    Toast.makeText(LoginActivity.this, "User does not exist or wrong password", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
+                    }
+                }
+                else {
+                    Toast.makeText(LoginActivity.this, "You can only choice rider or driver", Toast.LENGTH_LONG).show();
                 }
             }
         });
