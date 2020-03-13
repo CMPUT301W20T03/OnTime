@@ -1,4 +1,3 @@
-
 package com.example.ontime;
 
 import android.Manifest;
@@ -118,8 +117,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
     private Polyline currentPolyline;
     private Address address;
     private Query query;
-    Button scan_button;
-    Button generate_qr;
+    Button wallet_button;
 
     GoogleMap mMap;
 
@@ -581,8 +579,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         request_button=customView.findViewById(R.id.current_request_button);
         show_name=customView.findViewById(R.id.show_name);
         current_user_model=customView.findViewById(R.id.current_user_model);
-        scan_button=customView.findViewById(R.id.scan_button);
-        generate_qr=customView.findViewById(R.id.generate_qr);
+        wallet_button=customView.findViewById(R.id.wallet_button);
         findViewById(R.id.rider_main_layout).post(new Runnable() {
             @Override
             public void run() {
@@ -610,31 +607,20 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
                         startActivity(intent);
                     }
                 });
-//scan QR---------------------------------------------------------------------------
-                scan_button.setOnClickListener(new View.OnClickListener() {
+                wallet_button.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        // 创建IntentIntegrator对象
-                        IntentIntegrator intentIntegrator = new IntentIntegrator(RiderMapActivity.this);
-                        intentIntegrator.setPrompt("This is the payment interface");
-                        // 开始扫描
-                        intentIntegrator.setCaptureActivity(CustomCaptureActivity.class);
-                        intentIntegrator.setOrientationLocked(false);
-                        intentIntegrator.initiateScan();
-                    }
-                });
-
-//scan QR---------------------------------------------------------------------------
-
-
-//generate QR---------------------------------------------------------------------------
-                generate_qr.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent intent=new Intent(RiderMapActivity.this,QrActivity.class);
+                        Intent intent=new Intent(RiderMapActivity.this,WalletActivity.class);
+                        //RiderMapActivity.this.startActivity(intent);
                         startActivity(intent);
                     }
                 });
+
+//scan QR---------------------------------------------------------------------------
+
+//scan QR---------------------------------------------------------------------------
+
+//generate QR---------------------------------------------------------------------------
 
 //generate QR---------------------------------------------------------------------------
 
@@ -662,20 +648,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         });
     }
     //scan QR---------------------------------------------------------------------------
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        // 获取解析结果
-        IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
-        if (result != null) {
-            if (result.getContents() == null) {
-                Toast.makeText(this, "Cancel Scan", Toast.LENGTH_LONG).show();
-            } else {
-                Toast.makeText(this, "Scan Information:" + result.getContents(), Toast.LENGTH_LONG).show();
-            }
-        } else {
-            super.onActivityResult(requestCode, resultCode, data);
-        }
-    }
+
 //scan QR---------------------------------------------------------------------------
 
 }
