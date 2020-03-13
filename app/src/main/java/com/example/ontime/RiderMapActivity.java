@@ -499,7 +499,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
                         if(mDriverMarker != null){
                             mDriverMarker.remove();
                         }
-                        mDriverMarker = mMap.addMarker(new MarkerOptions().position(driverLocation).title("your driver"));
+                        mDriverMarker = mMap.addMarker(new MarkerOptions().position(driverLocation).title("your driver").snippet("location:" + driverLocation));
                         moveCamera(driverLocation, DEFAULT_ZOOM, "driver Location");
                     }
 
