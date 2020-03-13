@@ -33,7 +33,7 @@ public class CRequestAdapter extends ArrayAdapter<CurrentRequests> {
         CurrentRequests requests = getItem(position);
 
         String riderText = "Rider:  " + requests.getName();
-        String SrcText = "Current at:  " + requests.getSrcLocation();
+        String SrcText = "Currently at:  " + requests.getSrcLocation();
         String DstText = "Destination:  " + requests.getDestination();
 
         RiderTextView.setText(riderText);

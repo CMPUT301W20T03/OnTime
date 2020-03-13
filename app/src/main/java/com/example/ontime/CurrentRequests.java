@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 public class CurrentRequests implements Serializable { // Firebase data extract requires data to be public
     public String rider;
-    public String phone;
+    public String phoneNumber;
     public String email;
     public String srcLocationText;
     public String destinationText;
@@ -16,7 +16,7 @@ public class CurrentRequests implements Serializable { // Firebase data extract 
 
     CurrentRequests(String name, String phone, String email, String srcLocationText, String destinationText, String amount) {
         this.rider = name;
-        this.phone = phone;
+        this.phoneNumber = phone;
         this.email = email;
         this.srcLocationText = srcLocationText;
         this.destinationText = destinationText;
@@ -27,7 +27,7 @@ public class CurrentRequests implements Serializable { // Firebase data extract 
         return this.rider;
     }
     String getPhone() {
-        return this.phone;
+        return this.phoneNumber;
     }
     String getEmail() {
         return this.email;
@@ -47,7 +47,7 @@ public class CurrentRequests implements Serializable { // Firebase data extract 
     }
 
     public void setPhone(String phone) {
-        this.phone = phone;
+        this.phoneNumber = phone;
     }
 
     public void setEmail(String email) {
