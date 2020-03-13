@@ -125,7 +125,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
     GoogleMap mMap;
 
 
-    private EditText destination; ///
+    private EditText destination;
     public String destinationText;
     public String srcLocationText;
     private LatLng srcLagLng;
@@ -152,6 +152,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
     public TextView show_name;
     private TextView current_user_model;
     private String userName;
+    private String phone;
 
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
@@ -160,7 +161,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         super.onCreate(savedInstanceState);
 
         userName = getIntent().getStringExtra("username");
-        //getDriverLocation();
+        getPhoneNumber();
 
         setContentView(R.layout.activity_rider_map);
         if(!Places.isInitialized()){
@@ -304,6 +305,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
                 data.put("destinationText", destinationText);
                 data.put("srcLag", srcLag);
                 data.put("destLag", destLag);
+                data.put("phoneNumber", phone);
                 data.put("rider", userName);
                 data.put("status", "Active");// Active, Finish/Unfinish -> Past
                 collectionReference
@@ -390,7 +392,19 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         currentPolyline = mMap.addPolyline((PolylineOptions) values[0]);
     }
 
-
+    public void getPhoneNumber() {
+        db = FirebaseFirestore.getInstance();
+        final DocumentReference user = db.collection("Riders").document(userName);
+        user.get()
+                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        if (documentSnapshot.exists()) {
+                            phone = documentSnapshot.getString("phone number");
+                        }
+                    }
+                });
+    }
 
 
     private void geoLocate(String s,String locMode) {
