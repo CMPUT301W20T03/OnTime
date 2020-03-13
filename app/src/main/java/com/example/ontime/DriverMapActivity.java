@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
@@ -73,6 +74,8 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
     private static final float DEFAULT_ZOOM = 15f;
     private Boolean mLocationPermissionsGranted = false;
     private LatLng myLastLocation;
+    private ImageView mGps;
+
     GoogleMap mMap;
     GoogleSignInAccount account;
     LocationRequest mLocationRequest;
@@ -99,11 +102,23 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
     private TextView current_user_model;
     private String userName;
 
+
+    /*protected void createLocationRequest() {
+        mLocationRequest = new LocationRequest();
+        mLocationRequest.setInterval(INTERVAL);
+        mLocationRequest.setFastestInterval(FASTEST_INTERVAL);
+        mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+    }*/
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         userName = getIntent().getStringExtra("username");
         setContentView(R.layout.activity_driver_map);
+        mGps = findViewById(R.id.ic_gps);
+
+        //createLocationRequest();
 
         // populate request list (active requests only)
         db = FirebaseFirestore.getInstance();
@@ -138,6 +153,7 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
                 });
 
 
+
         hamburger_button = findViewById(R.id.hamburger_button);
         initPopUpView();
         hamburger_button.setOnClickListener(new View.OnClickListener() {
@@ -145,6 +161,12 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
             public void onClick(View v) {
                 Log.d(TAG, "onClick: It is hamburger button!");
                 showPopUpView();
+            }
+        });
+        mGps.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getDeviceLocation();
             }
         });
         userName = getIntent().getStringExtra("username");

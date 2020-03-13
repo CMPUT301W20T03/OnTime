@@ -18,6 +18,7 @@
       <change beforePath="$PROJECT_DIR$/.gradle/5.6.4/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.6.4/executionHistory/executionHistory.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/5.6.4/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.6.4/fileHashes/fileHashes.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/5.6.4/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.6.4/fileHashes/fileHashes.lock" afterDir="false" />
+<<<<<<< HEAD
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/caches/build_file_checksums.ser" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/caches/build_file_checksums.ser" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
@@ -25,6 +26,12 @@
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/ontime/QrActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/ontime/QrActivity.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/ontime/WalletActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/ontime/WalletActivity.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/ontime/Welcome_page.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/ontime/Welcome_page.java" afterDir="false" />
+=======
+      <change beforePath="$PROJECT_DIR$/.gradle/5.6.4/javaCompile/javaCompile.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/5.6.4/javaCompile/javaCompile.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/example/ontime/DriverMapActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/example/ontime/DriverMapActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_driver_map.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_driver_map.xml" afterDir="false" />
+>>>>>>> 31337499cac2d827f875254516cc170f22df3626
     </list>
 >>>>>>> 8d692ead2650244f07ea55a071905cc634aa6656
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -33,7 +40,11 @@
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+<<<<<<< HEAD
   <component name="ExecutionTargetManager" SELECTED_TARGET="Pixel_XL_API_29" />
+=======
+  <component name="ExecutionTargetManager" SELECTED_TARGET="Pixel_2_XL_API_28" />
+>>>>>>> 31337499cac2d827f875254516cc170f22df3626
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
       <ProjectState />

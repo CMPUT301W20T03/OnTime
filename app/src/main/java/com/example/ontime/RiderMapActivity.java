@@ -3,6 +3,7 @@ package com.example.ontime;
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import java.text.DecimalFormat;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Address;
@@ -87,6 +88,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -98,6 +100,7 @@ import com.example.ontime.helper.FetchURL;
 import com.example.ontime.helper.TaskLoadedCallback;
 import com.google.firebase.firestore.GeoPoint;
 import com.google.firestore.v1.StructuredQuery;
+import com.google.maps.android.SphericalUtil;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
@@ -118,7 +121,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
     private Address address;
     private Query query;
     Button wallet_button;
-
+    private static DecimalFormat df2 = new DecimalFormat("#.##");
     GoogleMap mMap;
 
 
@@ -127,6 +130,9 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
     public String srcLocationText;
     private LatLng srcLagLng;
     private LatLng destLagLng;
+
+    private Double distance;
+    private Double pay_amount;
     Button RequestConfirmButton;
     FirebaseFirestore db;
     DatabaseReference reff;
@@ -262,6 +268,10 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         RequestConfirmButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                distance = SphericalUtil.computeDistanceBetween(srcLagLng,destLagLng);
+                pay_amount = (distance * 0.81 + 2.5)/1000;
+
+
                 db = FirebaseFirestore.getInstance();
                 final CollectionReference collectionReference = db.collection("Requests");
 
@@ -287,6 +297,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
                 data.put("rider", userName);
                 data.put("email", email);
                 data.put("status", "Active");// Active, Finish/Unfinish -> Past
+                data.put("amount",df2.format(pay_amount));
                 collectionReference
                         .document(userName)
                         .set(data)
@@ -439,7 +450,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
                         if(mDriverMarker != null){
                             mDriverMarker.remove();
                         }
-                        mDriverMarker = mMap.addMarker(new MarkerOptions().position(driverLocation).title("your driver"));
+                        mDriverMarker = mMap.addMarker(new MarkerOptions().position(driverLocation).title("your driver").snippet("location:" + driverLocation));
                         moveCamera(driverLocation, DEFAULT_ZOOM, "driver Location");
                     }
 
