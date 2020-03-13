@@ -34,14 +34,12 @@ public class RequestList extends ArrayAdapter<CurrentRequests> implements Serial
 
         TextView nameText = view.findViewById(R.id.name_text);
         TextView phoneText = view.findViewById(R.id.phone_text);
-        TextView emailText = view.findViewById(R.id.email_text);
         TextView srclocationText = view.findViewById(R.id.srclocation_text);
         TextView destinationText = view.findViewById(R.id.destination_text);
         TextView amountText = view.findViewById(R.id.amount_text);
 
         nameText.setText(request.getName());
         phoneText.setText(request.getPhone());
-        emailText.setText(request.getEmail());
         srclocationText.setText(request.getSrcLocation());
         destinationText.setText(request.getDestination());
         amountText.setText(request.getAmount());
