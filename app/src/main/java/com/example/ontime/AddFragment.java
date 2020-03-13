@@ -16,8 +16,9 @@ import androidx.fragment.app.DialogFragment;
 import java.io.Serializable;
 
 import javax.annotation.Nullable;
+
 /**
- * This is a class that implements AddFragment object
+ * This is a class for adding a fragment in driver class to show the request detail
  */
 public class AddFragment extends DialogFragment {
     private TextView username;
@@ -29,15 +30,18 @@ public class AddFragment extends DialogFragment {
     private OnFragmentInteractionListener listener;
     private CurrentRequests current_request;
 
+    /**
+     * This interface is used for check accept button and refresh the fragment
+     */
     public interface OnFragmentInteractionListener {
         void onOkPressed(RequestList new_request);
-//        void refresh();
+        //void refresh();
     }
 
     /**
-     * This returns a sorted list of cities
-     * @param context
-     *      set the context for the object
+     * This class makes sure that the container context has implemented
+     * the callback interface. If not, it throws an exception
+     * @param context container
      */
     @Override
     public void onAttach(Context context) {
@@ -50,6 +54,11 @@ public class AddFragment extends DialogFragment {
         }
     }
 
+    /**
+     *
+     * @param requests current request
+     * @return A new instance of fragment AddFragment
+     */
     public static AddFragment newInstance(CurrentRequests requests){
         Bundle args = new Bundle();
         args.putSerializable("Request",requests);
@@ -59,6 +68,11 @@ public class AddFragment extends DialogFragment {
         return fragment;
     }
 
+    /**
+     * This bundle will be passed to onCreate if the process is killed and restarted.
+     * @param saveInstanceState Save UI state changes to the savedInstanceState.
+     * @return builder
+     */
     @Nullable
     @Override
     public Dialog onCreateDialog(@Nullable Bundle saveInstanceState){
