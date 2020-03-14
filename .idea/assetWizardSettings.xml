@@ -51,7 +51,7 @@
                                             <option name="values">
                                               <map>
                                                 <entry key="color" value="000000" />
-                                                <entry key="scalingPercent" value="70" />
+                                                <entry key="scalingPercent" value="97" />
                                               </map>
                                             </option>
                                           </PersistentState>
@@ -61,8 +61,7 @@
                                   </option>
                                   <option name="values">
                                     <map>
-                                      <entry key="foregroundImage" value="C:\Users\Alex\Desktop\二维码图片_2月12日03时07分55秒.png" />
-                                      <entry key="foregroundLayerName" value="qr_icon" />
+                                      <entry key="foregroundImage" value="$PROJECT_DIR$/app_icon.jpg" />
                                     </map>
                                   </option>
                                 </PersistentState>
