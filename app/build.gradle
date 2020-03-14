@@ -1,5 +1,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'com.google.gms.google-services'
+apply plugin: 'de.mannodermaus.android-junit5'
 
 android {
     compileSdkVersion 29
@@ -22,6 +23,7 @@ android {
 }
 
 dependencies {
+    compile 'com.google.maps.android:android-maps-utils:0.6.2'
     // Add the Firebase SDK for Google Analytics
     implementation 'com.google.firebase:firebase-analytics:17.2.2'
 
@@ -45,7 +47,10 @@ dependencies {
     implementation 'com.google.android.gms:play-services-places:17.0.0'
     implementation 'io.nlopez.smartlocation:library:3.2.9'
 
-    testImplementation 'junit:junit:4.12'
+    testImplementation "org.junit.jupiter:junit-jupiter-api:5.3.2"
+    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:5.3.2"
+    testImplementation "org.junit.jupiter:junit-jupiter-params:5.3.2"
+
     implementation 'com.firebaseui:firebase-ui-database:4.3.2'
 
     androidTestImplementation 'androidx.test:runner:1.1.1'
@@ -56,4 +61,12 @@ dependencies {
     implementation 'com.journeyapps:zxing-android-embedded:3.6.0'
     implementation 'com.mobsandgeeks:android-saripaar:2.0.3'
     implementation 'com.google.zxing:core:3.3.0'
+
+    // ... more entries
+    testCompile 'junit:junit:4.12'
+
+    // required if you want to use Mockito for unit tests
+    testCompile 'org.mockito:mockito-core:2.7.22'
+    // required if you want to use Mockito for Android tests
+    androidTestCompile 'org.mockito:mockito-android:2.7.22'
 }

@@ -19,11 +19,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        //merge this part from signup branch replace the origin MainActivity
         signupMainButton = findViewById(R.id.signup_main);
         loginMainButton = findViewById(R.id.login_main);
 
-//        startActivity(new Intent(MainActivity.this,SignupActivity.class));
 
         signupMainButton.setOnClickListener(new View.OnClickListener() {
             @Override

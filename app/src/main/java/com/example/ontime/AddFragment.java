@@ -17,21 +17,32 @@ import java.io.Serializable;
 
 import javax.annotation.Nullable;
 
+/**
+ * This is a class for adding a fragment in driver class to show the request detail
+ */
 public class AddFragment extends DialogFragment {
     private TextView username;
-    private TextView email;
     private TextView phone;
     private TextView start;
     private TextView end;
     private TextView amount;
+    private TextView email;
     private OnFragmentInteractionListener listener;
     private CurrentRequests current_request;
 
+    /**
+     * This interface is used for check accept button and refresh the fragment
+     */
     public interface OnFragmentInteractionListener {
         void onOkPressed(RequestList new_request);
-//        void refresh();
+        //void refresh();
     }
 
+    /**
+     * This class makes sure that the container context has implemented
+     * the callback interface. If not, it throws an exception
+     * @param context container
+     */
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -42,6 +53,12 @@ public class AddFragment extends DialogFragment {
                     + " must implement OnFragmentInteractionListener");
         }
     }
+
+    /**
+     *
+     * @param requests current request
+     * @return A new instance of fragment AddFragment
+     */
     public static AddFragment newInstance(CurrentRequests requests){
         Bundle args = new Bundle();
         args.putSerializable("Request",requests);
@@ -51,6 +68,11 @@ public class AddFragment extends DialogFragment {
         return fragment;
     }
 
+    /**
+     * This bundle will be passed to onCreate if the process is killed and restarted.
+     * @param saveInstanceState Save UI state changes to the savedInstanceState.
+     * @return builder
+     */
     @Nullable
     @Override
     public Dialog onCreateDialog(@Nullable Bundle saveInstanceState){
@@ -67,12 +89,12 @@ public class AddFragment extends DialogFragment {
             username.setText(current_request.getName());
             username.getPaint().setFakeBoldText(true);
             username.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);
-            email.setText(current_request.getEmail());
-            email.getPaint().setFakeBoldText(true);
-            email.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);
             phone.setText(current_request.getPhone());
             phone.getPaint().setFakeBoldText(true);
             phone.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);
+            email.setText(current_request.getEmail());
+            email.getPaint().setFakeBoldText(true);
+            email.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);
             start.setText(current_request.getSrcLocation());
             start.getPaint().setFakeBoldText(true);
             start.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);

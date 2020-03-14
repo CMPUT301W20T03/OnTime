@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
@@ -57,7 +58,9 @@ import java.util.List;
 //import com.google.firebase.database.FirebaseDatabase;
 //import com.google.firebase.database.Query;
 
-
+/**
+ * This is a class that implements DriverMapActivity object
+ */
 public class DriverMapActivity extends FragmentActivity implements OnMapReadyCallback,AddFragment.OnFragmentInteractionListener {
 
     Location currentLocation;
@@ -71,9 +74,8 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
     private static final float DEFAULT_ZOOM = 15f;
     private Boolean mLocationPermissionsGranted = false;
     private LatLng myLastLocation;
-    Button generate_qr;
-    //private String userId;
-    ListView requestList;
+    private ImageView mGps;
+
     GoogleMap mMap;
     GoogleSignInAccount account;
     LocationRequest mLocationRequest;
@@ -82,7 +84,6 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
     FirebaseFirestore db;
     FirebaseDatabase database;
     DatabaseReference reff;
-
 
     //Popup Window
     private PopupWindow popupWindow;
@@ -96,15 +97,28 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
     public Button hamburger_button;
     public Button profile_button;
     public Button request_button;
+    public Button wallet_button;
     public TextView show_name;
     private TextView current_user_model;
     private String userName;
+
+
+    /*protected void createLocationRequest() {
+        mLocationRequest = new LocationRequest();
+        mLocationRequest.setInterval(INTERVAL);
+        mLocationRequest.setFastestInterval(FASTEST_INTERVAL);
+        mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+    }*/
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         userName = getIntent().getStringExtra("username");
         setContentView(R.layout.activity_driver_map);
+        mGps = findViewById(R.id.ic_gps);
+
+        //createLocationRequest();
 
         // populate request list (active requests only)
         db = FirebaseFirestore.getInstance();
@@ -139,6 +153,7 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
                 });
 
 
+
         hamburger_button = findViewById(R.id.hamburger_button);
         initPopUpView();
         hamburger_button.setOnClickListener(new View.OnClickListener() {
@@ -146,6 +161,12 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
             public void onClick(View v) {
                 Log.d(TAG, "onClick: It is hamburger button!");
                 showPopUpView();
+            }
+        });
+        mGps.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getDeviceLocation();
             }
         });
         userName = getIntent().getStringExtra("username");
@@ -341,7 +362,7 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
         request_button=customView.findViewById(R.id.current_request_button);
         show_name=customView.findViewById(R.id.show_name);
         current_user_model=customView.findViewById(R.id.current_user_model);
-        generate_qr=customView.findViewById(R.id.generate_qr);
+        wallet_button=customView.findViewById(R.id.wallet_button);
 
         findViewById(R.id.driver_main_layout).post(new Runnable() {
             @Override
@@ -362,19 +383,21 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
                         show_name.setText(userName);
                     }
                 });
-                generate_qr.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent intent=new Intent(DriverMapActivity.this,QrActivity.class);
-                        startActivity(intent);
-                    }
-                });
 
                 profile_button.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         Intent intent=new Intent(DriverMapActivity.this,DriverProfile.class);
+                        intent.putExtra("username", userName);
                         //DriverMapActivity.this.startActivity(intent);
+                        startActivity(intent);
+                    }
+                });
+                wallet_button.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent=new Intent(DriverMapActivity.this,WalletActivity.class);
+                        //RiderMapActivity.this.startActivity(intent);
                         startActivity(intent);
                     }
                 });

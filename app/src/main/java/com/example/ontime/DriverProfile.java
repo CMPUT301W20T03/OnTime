@@ -24,14 +24,35 @@ import java.sql.Driver;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * This is a class that implements DriverProfile object
+ */
 public class DriverProfile extends AppCompatActivity {
+    /**
+     * The Edit button.
+     */
     Button editButton;
 
+    /**
+     * The Profile name edit text.
+     */
     EditText profileNameEditText;
+    /**
+     * The Profile password edit text.
+     */
     EditText profilePasswordEditText;
+    /**
+     * The Profile email edit text.
+     */
     EditText profileEmailEditText;
+    /**
+     * The Profile phone number edit text.
+     */
     EditText profilePhoneNumberEditText;
 
+    /**
+     * The Db.
+     */
     FirebaseFirestore db;
 
     private String userName;
@@ -53,9 +74,6 @@ public class DriverProfile extends AppCompatActivity {
         profilePhoneNumberEditText = findViewById(R.id.profile_phonenumber_text);
 
         db = FirebaseFirestore.getInstance();
-
-        final CollectionReference collectionReference = db.collection("Drivers");
-
         userName = getIntent().getStringExtra("username");
         final DocumentReference user = db.collection("Drivers").document(userName);
         user.get()
@@ -104,7 +122,7 @@ public class DriverProfile extends AppCompatActivity {
             Toast.makeText(DriverProfile.this, "Please enter your username", Toast.LENGTH_LONG).show();
         } else if (userEmail.length() == 0 ) {
             Toast.makeText(DriverProfile.this, "Please valid Email Address", Toast.LENGTH_LONG).show();
-        } else if (userPhone.length() == 0 || userPhone.length() > 10 || userPhone.length() < 10) {
+        } else if (userPhone.length() != 10) {
             Toast.makeText(DriverProfile.this, "Please enter valid Phone Number", Toast.LENGTH_LONG).show();
         } else if (userPassword.length() == 0) {
             Toast.makeText(DriverProfile.this, "Please Set your Password", Toast.LENGTH_LONG).show();
@@ -119,13 +137,13 @@ public class DriverProfile extends AppCompatActivity {
                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void aVoid) {
-                            Toast.makeText(DriverProfile.this,"Data add successful", Toast.LENGTH_LONG).show();
+                            Toast.makeText(DriverProfile.this,"Data addition successful", Toast.LENGTH_LONG).show();
                         }
                     })
                     .addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
-                            Toast.makeText(DriverProfile.this, "Data add failed" + e.toString(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(DriverProfile.this, "Data addition failed" + e.toString(), Toast.LENGTH_SHORT).show();
                         }
                     });
         }

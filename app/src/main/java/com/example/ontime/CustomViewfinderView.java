@@ -15,43 +15,82 @@ import com.journeyapps.barcodescanner.ViewfinderView;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The type Custom viewfinder view.
+ */
 public class CustomViewfinderView extends ViewfinderView {
 
 
+    /**
+     * The constant CUSTOME_ANIMATION_DELAY.
+     */
     public static final long CUSTOME_ANIMATION_DELAY = 16;
 
     /* ******************************************    边角线相关属性    ************************************************/
 
 
+    /**
+     * The M line rate.
+     */
     public float mLineRate = 0.1F;
 
 
+    /**
+     * The M line depth.
+     */
     public float mLineDepth =  TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 4, getResources().getDisplayMetrics());
 
 
+    /**
+     * The M line color.
+     */
     public int mLineColor = Color.WHITE;
 
     /* *******************************************    扫描线相关属性    ************************************************/
 
 
+    /**
+     * The M scan line position.
+     */
     public int mScanLinePosition = 0;
 
 
+    /**
+     * The M scan line depth.
+     */
     public float mScanLineDepth = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 4, getResources().getDisplayMetrics());
 
 
+    /**
+     * The M scan line dy.
+     */
     public float mScanLineDy = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 3, getResources().getDisplayMetrics());
 
 
+    /**
+     * The M linear gradient.
+     */
     public LinearGradient mLinearGradient;
 
 
+    /**
+     * The M positions.
+     */
     public float[] mPositions = new float[]{0f, 0.5f, 1f};
 
 
+    /**
+     * The M scan line color.
+     */
     public int[] mScanLineColor = new int[]{0x00FFFFFF, Color.WHITE, 0x00FFFFFF};
 
 
+    /**
+     * Instantiates a new Custom viewfinder view.
+     *
+     * @param context the context
+     * @param attrs   the attrs
+     */
     public CustomViewfinderView(Context context, AttributeSet attrs) {
         super(context, attrs);
     }

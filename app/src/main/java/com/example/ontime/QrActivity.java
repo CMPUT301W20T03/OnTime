@@ -6,6 +6,9 @@ import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+/**
+ * The type Qr activity.
+ */
 public class QrActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -14,5 +17,8 @@ public class QrActivity extends AppCompatActivity {
         ImageView mImageView = (ImageView) findViewById(R.id.imageView);
         Bitmap mBitmap = QRCodeUtil.createQRCodeBitmap("PAY SUCCESS!!!", 1000, 1000);
         mImageView.setImageBitmap(mBitmap);
+
+
+
     }
 }
