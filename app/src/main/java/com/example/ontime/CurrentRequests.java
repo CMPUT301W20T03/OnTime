@@ -12,6 +12,7 @@ public class CurrentRequests implements Serializable { // Firebase data extract 
     public String srcLocationText;
     public String destinationText;
     public String amount;
+    public String status;
 
     /**
      * Sole constructor.
@@ -23,13 +24,14 @@ public class CurrentRequests implements Serializable { // Firebase data extract 
     /**
      * Sole constructor.
      */
-    CurrentRequests(String name, String phone, String email, String srcLocationText, String destinationText, String amount) {
+    CurrentRequests(String name, String phone, String email, String srcLocationText, String destinationText, String amount, String status) {
         this.rider = name;
         this.phoneNumber = phone;
         this.email = email;
         this.srcLocationText = srcLocationText;
         this.destinationText = destinationText;
         this.amount = amount;
+        this.status = status;
     }
 
     /**
@@ -87,6 +89,15 @@ public class CurrentRequests implements Serializable { // Firebase data extract 
     }
 
     /**
+     * This returns the status of the trip
+     * @return
+     *      Return the status of the trip
+     */
+    String getStatus() {
+        return this.status;
+    }
+
+    /**
      * This sets the rider of the trip
      * @param rider
      *      sets the rider of the trip
@@ -138,5 +149,14 @@ public class CurrentRequests implements Serializable { // Firebase data extract 
      */
     public void setAmount(String amount) {
         this.amount = amount;
+    }
+
+    /**
+     * This sets the status of the trip
+     * @param status
+     *      sets the status of the trip
+     */
+    public void setStatus(String status) {
+        this.status = status;
     }
 }

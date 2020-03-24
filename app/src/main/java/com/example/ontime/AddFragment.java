@@ -6,14 +6,29 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Paint;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 import javax.annotation.Nullable;
 
@@ -29,6 +44,9 @@ public class AddFragment extends DialogFragment {
     private TextView email;
     private OnFragmentInteractionListener listener;
     private CurrentRequests current_request;
+    private FirebaseFirestore db;
+    private String userName;
+    String TAG = "Sample";
 
     /**
      * This interface is used for check accept button and refresh the fragment
@@ -75,16 +93,16 @@ public class AddFragment extends DialogFragment {
      */
     @Nullable
     @Override
-    public Dialog onCreateDialog(@Nullable Bundle saveInstanceState){
+    public Dialog onCreateDialog(@Nullable Bundle saveInstanceState) {
         View view = LayoutInflater.from(getActivity()).inflate(R.layout.request_details, null);
         username = view.findViewById(R.id.name_text);
         email = view.findViewById(R.id.email_text);
         phone = view.findViewById(R.id.phone_text);
         start = view.findViewById(R.id.srclocation_text);
-        end= view.findViewById(R.id.destination_text);
+        end = view.findViewById(R.id.destination_text);
         amount = view.findViewById(R.id.amount_text);
                 Bundle arguments = getArguments();
-        if(arguments !=null){
+        if (arguments != null) {
             current_request  = (CurrentRequests)arguments.getSerializable("Request");
             username.setText(current_request.getName());
             username.getPaint().setFakeBoldText(true);
@@ -106,11 +124,39 @@ public class AddFragment extends DialogFragment {
             amount.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);
         }
 
+        userName = username.getText().toString();
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         return builder
                 .setView(view)
                 .setNegativeButton("Cancel", null)
-                .setPositiveButton("Accept", null).create();
-    }
+                .setPositiveButton("Accept", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        current_request.setStatus("Accepted");
+                        db = FirebaseFirestore.getInstance();
+                        final CollectionReference collectionReference = db.collection("Requests");
+                        HashMap<String, String> data = new HashMap<>();
+                        data.put("status", "Accepted");
+                        collectionReference
+                                .document(userName)
+                                .set(data)
+                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void aVoid) {
+                                        Log.d(TAG, "Data modification successful");
+                                        Toast.makeText(getContext(), "Request successful", Toast.LENGTH_LONG).show();
+                                    }
+                                })
+                                .addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Log.d(TAG, "Data addition failed" + e.toString());
+                                    }
+                                });
+                    }
+                }).create();
+
+        }
+
 
 }
