@@ -4,8 +4,10 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Paint;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -46,6 +48,11 @@ public class AddFragment extends DialogFragment {
     private CurrentRequests current_request;
     private FirebaseFirestore db;
     private String userName;
+    private String srcLocationText;
+    private String destinationText;
+    private String pay_amount;
+    private String phoneText;
+    private String emailText;
     String TAG = "Sample";
 
     /**
@@ -125,6 +132,11 @@ public class AddFragment extends DialogFragment {
         }
 
         userName = username.getText().toString();
+        srcLocationText = start.getText().toString();
+        destinationText = end.getText().toString();
+        phoneText = phone.getText().toString();
+        emailText = email.getText().toString();
+        pay_amount = amount.getText().toString();
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         return builder
                 .setView(view)
@@ -137,6 +149,12 @@ public class AddFragment extends DialogFragment {
                         final CollectionReference collectionReference = db.collection("Requests");
                         HashMap<String, String> data = new HashMap<>();
                         data.put("status", "Accepted");
+                        data.put("srcLocationText", srcLocationText);
+                        data.put("destinationText", destinationText);
+                        data.put("phoneNumber", phoneText);
+                        data.put("rider", userName);
+                        data.put("email", emailText);
+                        data.put("amount",pay_amount);
                         collectionReference
                                 .document(userName)
                                 .set(data)
@@ -144,13 +162,13 @@ public class AddFragment extends DialogFragment {
                                     @Override
                                     public void onSuccess(Void aVoid) {
                                         Log.d(TAG, "Data modification successful");
-                                        Toast.makeText(getContext(), "Request successful", Toast.LENGTH_LONG).show();
+                                        // after accepting the request ...
                                     }
                                 })
                                 .addOnFailureListener(new OnFailureListener() {
                                     @Override
                                     public void onFailure(@NonNull Exception e) {
-                                        Log.d(TAG, "Data addition failed" + e.toString());
+                                        Log.d(TAG, "Data modification failed" + e.toString());
                                     }
                                 });
                     }
