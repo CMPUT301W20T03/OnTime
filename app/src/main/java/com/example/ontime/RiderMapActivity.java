@@ -296,8 +296,8 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
                 }
                 data.put("srcLocationText", srcLocationText);
                 data.put("destinationText", destinationText);
-                data.put("srcLag", srcLag);
-                data.put("destLag", destLag);
+                data.put("srcCoordinate", srcLag);
+                data.put("dstCoordinate", destLag);
                 data.put("phoneNumber", phone);
                 data.put("rider", userName);
                 data.put("email", email);

@@ -53,6 +53,8 @@ public class AddFragment extends DialogFragment {
     private String pay_amount;
     private String phoneText;
     private String emailText;
+    public String srcCoordinate;
+    public String dstCoordinate;
     String TAG = "Sample";
 
     /**
@@ -137,6 +139,9 @@ public class AddFragment extends DialogFragment {
         phoneText = phone.getText().toString();
         emailText = email.getText().toString();
         pay_amount = amount.getText().toString();
+
+        srcCoordinate = current_request.getSrcCoordinate();
+        dstCoordinate = current_request.getDstCoordinate();
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         return builder
                 .setView(view)
@@ -155,6 +160,8 @@ public class AddFragment extends DialogFragment {
                         data.put("rider", userName);
                         data.put("email", emailText);
                         data.put("amount",pay_amount);
+                        data.put("srcCoordinate", srcCoordinate);
+                        data.put("dstCoordinate", dstCoordinate);
                         collectionReference
                                 .document(userName)
                                 .set(data)

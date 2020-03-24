@@ -11,6 +11,8 @@ public class CurrentRequests implements Serializable { // Firebase data extract 
     public String email;
     public String srcLocationText;
     public String destinationText;
+    public String srcCoordinate;
+    public String dstCoordinate;
     public String amount;
     public String status;
 
@@ -80,6 +82,23 @@ public class CurrentRequests implements Serializable { // Firebase data extract 
     }
 
     /**
+     * This returns the coordinate of source location of the rider
+     * @return
+     *      Return the coordinate of source location of the rider
+     */
+    String getSrcCoordinate() {
+        return this.srcCoordinate;
+    }
+
+    /**
+     * This returns the coordinate of destination of the rider
+     * @return
+     *      Return the coordinate of destination of the rider
+     */
+    String getDstCoordinate() {
+        return this.dstCoordinate;
+    }
+    /**
      * This returns the amount of the trip
      * @return
      *      Return the amount of the trip
@@ -142,6 +161,23 @@ public class CurrentRequests implements Serializable { // Firebase data extract 
         this.destinationText = destinationText;
     }
 
+    /**
+     * This sets the coordinate of source location of the trip
+     * @param coord
+     *      sets the coordinate of source location  of the trip
+     */
+    public void setSrcCoordinate(String coord) {
+        this.srcCoordinate = coord;
+    }
+
+    /**
+     * This sets the coordinate of destination of the trip
+     * @param coord
+     *      sets the coordinate of destination of the trip
+     */
+    public void setDstCoordinate(String coord) {
+        this.dstCoordinate = coord;
+    }
     /**
      * This sets the amount of the trip
      * @param amount
