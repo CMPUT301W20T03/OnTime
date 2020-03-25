@@ -81,6 +81,7 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
     private LatLng myLastLocation;
     private ImageView mGps,mPoly;
     public String from_src,from_dest;
+    public String src_Coor,dst_Coor;
 
     GoogleMap mMap;
     GoogleSignInAccount account;
@@ -149,6 +150,8 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
                                 @Override
                                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                                     CurrentRequests requests = requestList.get(position);
+                                    src_Coor = requests.srcCoordinate;
+                                    dst_Coor = requests.dstCoordinate;
                                     AddFragment.newInstance(requests).show(getSupportFragmentManager(), "Request");
                                 }
                             });
@@ -176,11 +179,13 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
                 getDeviceLocation();
             }
         });
-        /*mPoly.setOnClickListener(new View.OnClickListener() {
+
+        mPoly.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String src_Coor = getIntent().getStringExtra("srcCoordinate");
-                String dst_Coor = getIntent().getStringExtra("dstCoordinate");
+                //src_Coor =
+                //dst_Coor = getIntent().getStringExtra("dstCoordinate");
+
 
                 Matcher m = Pattern.compile("\\(([^)]+)\\)").matcher(src_Coor);
                 while(m.find()){
@@ -201,7 +206,7 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
                 Polyline line = mMap.addPolyline(new PolylineOptions().add(new LatLng(src_lat,src_lon),new LatLng(dest_lat,dest_lon))
                         .width(5).color(Color.RED));
             }
-        });*/
+        });
         userName = getIntent().getStringExtra("username");
 
         final String usernameText = getIntent().getStringExtra("username");

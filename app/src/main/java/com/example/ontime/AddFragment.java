@@ -64,6 +64,8 @@ public class AddFragment extends DialogFragment {
         void onOkPressed(RequestList new_request);
         //void refresh();
     }
+    String getSrcCoordinate(){return this.srcCoordinate;}
+    String getDstCoordinate(){return this.dstCoordinate;}
 
     /**
      * This class makes sure that the container context has implemented
