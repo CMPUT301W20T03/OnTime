@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -275,6 +276,10 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
             public void onClick(View v) {
                 distance = SphericalUtil.computeDistanceBetween(srcLagLng,destLagLng);
                 pay_amount = (distance * 0.81 + 2.5)/1000;
+
+                Polyline line = mMap.addPolyline(new PolylineOptions().add(srcLagLng,destLagLng)
+                        .width(5).color(Color.RED));
+
 
 
                 db = FirebaseFirestore.getInstance();

@@ -149,6 +149,11 @@ public class AddFragment extends DialogFragment {
                 .setPositiveButton("Accept", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        Intent intent = new Intent(getActivity(),DriverMapActivity.class);
+                        intent.putExtra("srcCoordinate",srcCoordinate);
+                        intent.putExtra("dstCoordinate",dstCoordinate);
+                        //startActivity(intent);
+
                         current_request.setStatus("Accepted");
                         db = FirebaseFirestore.getInstance();
                         final CollectionReference collectionReference = db.collection("Requests");
@@ -178,10 +183,14 @@ public class AddFragment extends DialogFragment {
                                         Log.d(TAG, "Data modification failed" + e.toString());
                                     }
                                 });
+
                     }
+
                 }).create();
 
+
         }
+
 
 
 }

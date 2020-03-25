@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.location.Location;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
@@ -38,6 +39,8 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.Polyline;
+import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -52,6 +55,8 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 //import com.firebase.ui.database.FirebaseListAdapter;
 //import com.firebase.ui.database.FirebaseListOptions;
@@ -74,7 +79,8 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
     private static final float DEFAULT_ZOOM = 15f;
     private Boolean mLocationPermissionsGranted = false;
     private LatLng myLastLocation;
-    private ImageView mGps;
+    private ImageView mGps,mPoly;
+    public String from_src,from_dest;
 
     GoogleMap mMap;
     GoogleSignInAccount account;
@@ -117,6 +123,7 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
         userName = getIntent().getStringExtra("username");
         setContentView(R.layout.activity_driver_map);
         mGps = findViewById(R.id.ic_gps);
+        mPoly = findViewById(R.id.ic_poly);
 
         //createLocationRequest();
 
@@ -169,6 +176,32 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
                 getDeviceLocation();
             }
         });
+        /*mPoly.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String src_Coor = getIntent().getStringExtra("srcCoordinate");
+                String dst_Coor = getIntent().getStringExtra("dstCoordinate");
+
+                Matcher m = Pattern.compile("\\(([^)]+)\\)").matcher(src_Coor);
+                while(m.find()){
+                    from_src = m.group(1);
+                }
+                String[] srcVal = from_src.split(",");
+                double src_lat = Double.parseDouble(srcVal[0]);
+                double src_lon = Double.parseDouble(srcVal[1]);
+
+                Matcher n = Pattern.compile("\\(([^)]+)\\)").matcher(dst_Coor);
+                while(n.find()){
+                    from_dest = n.group(1);
+                }
+                String[] destVal = from_dest.split(",");
+                double dest_lat = Double.parseDouble(destVal[0]);
+                double dest_lon = Double.parseDouble(destVal[1]);
+
+                Polyline line = mMap.addPolyline(new PolylineOptions().add(new LatLng(src_lat,src_lon),new LatLng(dest_lat,dest_lon))
+                        .width(5).color(Color.RED));
+            }
+        });*/
         userName = getIntent().getStringExtra("username");
 
         final String usernameText = getIntent().getStringExtra("username");
