@@ -11,6 +11,7 @@ import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -31,6 +32,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Nullable;
 
@@ -53,9 +55,18 @@ public class AddFragment extends DialogFragment {
     private String pay_amount;
     private String phoneText;
     private String emailText;
-    public String srcCoordinate;
-    public String dstCoordinate;
-    String TAG = "Sample";
+    private String srcCoordinate;
+    private String dstCoordinate;
+    private String TAG = "ActiveRequestDetail";
+    public String driverName;
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        DriverMapActivity activity = (DriverMapActivity) getActivity();
+        assert activity != null;
+        driverName = activity.getDriver();
+        return inflater.inflate(R.layout.request_details, container, false);
+    }
 
     /**
      * This interface is used for check accept button and refresh the fragment
@@ -64,8 +75,6 @@ public class AddFragment extends DialogFragment {
         void onOkPressed(RequestList new_request);
         //void refresh();
     }
-    String getSrcCoordinate(){return this.srcCoordinate;}
-    String getDstCoordinate(){return this.dstCoordinate;}
 
     /**
      * This class makes sure that the container context has implemented
@@ -144,6 +153,7 @@ public class AddFragment extends DialogFragment {
 
         srcCoordinate = current_request.getSrcCoordinate();
         dstCoordinate = current_request.getDstCoordinate();
+
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         return builder
                 .setView(view)
@@ -151,27 +161,15 @@ public class AddFragment extends DialogFragment {
                 .setPositiveButton("Accept", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        Intent intent = new Intent(getActivity(),DriverMapActivity.class);
-                        intent.putExtra("srcCoordinate",srcCoordinate);
-                        intent.putExtra("dstCoordinate",dstCoordinate);
-                        //startActivity(intent);
-
                         current_request.setStatus("Accepted");
                         db = FirebaseFirestore.getInstance();
                         final CollectionReference collectionReference = db.collection("Requests");
-                        HashMap<String, String> data = new HashMap<>();
+                        Map<String, Object> data = new HashMap<>();
                         data.put("status", "Accepted");
-                        data.put("srcLocationText", srcLocationText);
-                        data.put("destinationText", destinationText);
-                        data.put("phoneNumber", phoneText);
-                        data.put("rider", userName);
-                        data.put("email", emailText);
-                        data.put("amount",pay_amount);
-                        data.put("srcCoordinate", srcCoordinate);
-                        data.put("dstCoordinate", dstCoordinate);
+                        data.put("driver", driverName);
                         collectionReference
                                 .document(userName)
-                                .set(data)
+                                .update(data)
                                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                                     @Override
                                     public void onSuccess(Void aVoid) {
@@ -185,6 +183,9 @@ public class AddFragment extends DialogFragment {
                                         Log.d(TAG, "Data modification failed" + e.toString());
                                     }
                                 });
+                        Intent intent = new Intent(getActivity(),DriverMapActivity.class);
+                        intent.putExtra("srcCoordinate",srcCoordinate);
+                        intent.putExtra("dstCoordinate",dstCoordinate);
 
                     }
 

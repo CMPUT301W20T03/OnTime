@@ -27,6 +27,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentActivity;
 
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -42,6 +43,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DatabaseReference;
@@ -54,6 +56,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -150,8 +153,9 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
                                 @Override
                                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                                     CurrentRequests requests = requestList.get(position);
-                                    src_Coor = requests.srcCoordinate;
-                                    dst_Coor = requests.dstCoordinate;
+                                    src_Coor = requests.getSrcCoordinate();
+                                    dst_Coor = requests.getDstCoordinate();
+
                                     AddFragment.newInstance(requests).show(getSupportFragmentManager(), "Request");
                                 }
                             });
@@ -216,6 +220,10 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
         //reff.addListenerForSingleValueEvent();
         getLocationPermission();
 
+    }
+
+    public String getDriver() {
+        return userName;
     }
 
     @Override

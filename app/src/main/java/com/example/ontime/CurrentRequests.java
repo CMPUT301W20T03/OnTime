@@ -11,10 +11,10 @@ public class CurrentRequests implements Serializable { // Firebase data extract 
     public String email;
     public String srcLocationText;
     public String destinationText;
-    public String srcCoordinate;
-    public String dstCoordinate;
+    private String srcCoordinate;
+    private String dstCoordinate;
     public String amount;
-    public String status;
+    private String status;
 
     /**
      * Sole constructor.
