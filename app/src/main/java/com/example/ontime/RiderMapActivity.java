@@ -57,12 +57,14 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.maps.android.SphericalUtil;
 
 import java.text.DecimalFormat;
@@ -89,7 +91,8 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
     private ImageView mGps,mPicker;
     private Polyline currentPolyline;
     private Address address;
-    private Query query;
+    public Query query;
+    public String Cdriver;
     /**
      * The Wallet button.
      */
@@ -328,7 +331,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
 
             }
         });
-        reff = FirebaseDatabase.getInstance().getReference().child("DriversAvailable").child(userName).child("driverL");
+        //reff = FirebaseDatabase.getInstance().getReference().child("DriversAvailable").child(userName).child("driverL");
     }
 
     private String getUrl(LatLng origin, LatLng dest, String directionMode) {
@@ -441,45 +444,64 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
     private Marker mDriverMarker;
     private void getDriverLocation(){
         db = FirebaseFirestore.getInstance();
+        final CollectionReference collectionReference = db.collection("Requests");
+        collectionReference.get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if(task.isSuccessful()){
+                            for(QueryDocumentSnapshot documentSnapshot : task.getResult()){
+                                if(documentSnapshot.getString("rider").equals(userName)){
+                                    Cdriver = documentSnapshot.getString("driver");
+                                    reff = FirebaseDatabase.getInstance().getReference().child("DriversAvailable").child(Cdriver).child("driverL");
+                                    reff.addValueEventListener(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                            //if(dataSnapshot.exists()){
+                                            String lon_str = dataSnapshot.child("longitude").getValue().toString();
+                                            String lat_str = dataSnapshot.child("latitude").getValue().toString();
+                                            double locLat = 0;
+                                            double locLng = 0;
+                                            boolean flag = false;
+                                            if(lat_str != null){
+                                                locLat = Double.parseDouble(lat_str);
+                                            }
+                                            else{
+                                                flag = true;
+                                                Toast.makeText(RiderMapActivity.this, "loclat is null", Toast.LENGTH_SHORT).show();
+                                            }
+                                            if(lon_str!= null){
+                                                locLng = Double.parseDouble(lon_str);
+                                            } else{
+                                                flag = true;
+                                            }
+                                            if (!flag) {
+                                                LatLng driverLocation = new LatLng(locLat,locLng);
+                                                if(mDriverMarker != null){
+                                                    mDriverMarker.remove();
+                                                }
+                                                mDriverMarker = mMap.addMarker(new MarkerOptions().position(driverLocation).title("your driver").snippet("location:" + driverLocation));
+                                                moveCamera(driverLocation, DEFAULT_ZOOM, "driver Location");
+                                            }
 
-        reff.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                //if(dataSnapshot.exists()){
-                    String lon_str = dataSnapshot.child("longitude").getValue().toString();
-                    String lat_str = dataSnapshot.child("latitude").getValue().toString();
-                    double locLat = 0;
-                    double locLng = 0;
-                    boolean flag = false;
-                    if(lat_str != null){
-                        locLat = Double.parseDouble(lat_str);
-                    }
-                    else{
-                        flag = true;
-                        Toast.makeText(RiderMapActivity.this, "loclat is null", Toast.LENGTH_SHORT).show();
-                    }
-                    if(lon_str!= null){
-                        locLng = Double.parseDouble(lon_str);
-                    } else{
-                        flag = true;
-                    }
-                    if (!flag) {
-                        LatLng driverLocation = new LatLng(locLat,locLng);
-                        if(mDriverMarker != null){
-                            mDriverMarker.remove();
+                                            //}
+                                        }
+
+                                        @Override
+                                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                        }
+                                    });
+                                }
+                            }
                         }
-                        mDriverMarker = mMap.addMarker(new MarkerOptions().position(driverLocation).title("your driver").snippet("location:" + driverLocation));
-                        moveCamera(driverLocation, DEFAULT_ZOOM, "driver Location");
                     }
+                });
 
-                //}
-            }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
+        //db = FirebaseFirestore.getInstance();
 
-            }
-        });
+
     }
 
 
