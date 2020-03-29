@@ -111,7 +111,8 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
     public TextView show_name;
     private TextView current_user_model;
     private String userName;
-
+    public String driverPhone;
+    public String driverEmail;
 
     /*protected void createLocationRequest() {
         mLocationRequest = new LocationRequest();
@@ -224,6 +225,30 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
 
     public String getDriver() {
         return userName;
+    }
+
+    public String getDriverPhone(){
+        db = FirebaseFirestore.getInstance();
+        final DocumentReference user = db.collection("Drivers").document(userName);
+        user.get()
+                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        if (documentSnapshot.exists()){
+                            driverPhone = documentSnapshot.getString("phone number");
+                            return driverPhone;
+                            //driverEmail = documentSnapshot.getString("email");
+                        }else{
+
+                        }
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+
+                    }
+                });
     }
 
     @Override

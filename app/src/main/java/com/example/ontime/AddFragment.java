@@ -24,6 +24,8 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -59,6 +61,7 @@ public class AddFragment extends DialogFragment {
     private String dstCoordinate;
     private String TAG = "ActiveRequestDetail";
     public String driverName;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -154,6 +157,7 @@ public class AddFragment extends DialogFragment {
         srcCoordinate = current_request.getSrcCoordinate();
         dstCoordinate = current_request.getDstCoordinate();
 
+
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         return builder
                 .setView(view)
@@ -167,6 +171,7 @@ public class AddFragment extends DialogFragment {
                         Map<String, Object> data = new HashMap<>();
                         data.put("status", "Accepted");
                         data.put("driver", driverName);
+                        //data.put("driver_number", phone);
                         collectionReference
                                 .document(userName)
                                 .update(data)

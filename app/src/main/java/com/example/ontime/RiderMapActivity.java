@@ -306,9 +306,9 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
                 data.put("destinationText", destinationText);
                 data.put("srcCoordinate", srcLag);
                 data.put("dstCoordinate", destLag);
-                data.put("phoneNumber", phone);
+                data.put("rider_number", phone);
                 data.put("rider", userName);
-                data.put("email", email);
+                data.put("rider_email", email);
                 data.put("status", "Active");// Active, Finish/Unfinish -> Past
                 data.put("amount",df2.format(pay_amount));
                 collectionReference
