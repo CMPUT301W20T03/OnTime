@@ -10,7 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.ontime.R;
 
 public class OLDriver_CR extends AppCompatActivity {
-    TextView rider_nameTextview, destinationTextview, driver_nameTextview, srcLocationTextview, dirver_phone_numberTextview;
+    TextView rider_nameTextview, destinationTextview, driver_nameTextview, srcLocationTextview, rider_phone_numberTextview;
     public SharedPreferences sharedPreferences;
 
     @Override
@@ -23,7 +23,7 @@ public class OLDriver_CR extends AppCompatActivity {
         driver_nameTextview = findViewById(R.id.driver_name);
         srcLocationTextview = findViewById(R.id.srcLocationTextview);
         destinationTextview = findViewById(R.id.destinationTextview);
-        dirver_phone_numberTextview = findViewById(R.id.dirver_phone_number);
+        rider_phone_numberTextview = findViewById(R.id.rider_phone_number);
 
 
         SharedPreferences sp = getSharedPreferences("current_request", Context.MODE_PRIVATE);
@@ -31,11 +31,11 @@ public class OLDriver_CR extends AppCompatActivity {
         String destinationText = sp.getString("destinationText", "");
         String rider_name = sp.getString("rider", "");
         String driver_name = sp.getString("driver_name", "");
-        String dirver_phone_number = sp.getString("dirver_phone_number", "");
+        String dirver_phone_number = sp.getString("rider_phone_number", "");
 
         rider_nameTextview.setText(rider_name);
         driver_nameTextview.setText(driver_name);
-        dirver_phone_numberTextview.setText(dirver_phone_number);
+        rider_phone_numberTextview.setText(dirver_phone_number);
         srcLocationTextview.setText(srcLocationText);
         destinationTextview.setText(destinationText);
     }

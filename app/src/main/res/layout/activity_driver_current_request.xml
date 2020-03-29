@@ -7,6 +7,21 @@
     android:layout_height="match_parent">
 
     <TextView
+        android:id="@+id/rider_phone_number"
+        android:layout_width="338dp"
+        android:layout_height="52dp"
+        android:background="@drawable/border_line"
+        android:gravity="center"
+        android:text="1234"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.493"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.832" />
+
+    <TextView
         android:id="@+id/textView11"
         android:layout_width="125dp"
         android:layout_height="30dp"
@@ -17,14 +32,14 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.624" />
+        app:layout_constraintVertical_bias="0.212" />
 
     <TextView
         android:id="@+id/textView10"
         android:layout_width="206dp"
         android:layout_height="29dp"
         android:gravity="center"
-        android:text="driver phone number:"
+        android:text="rider phone number:"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -69,10 +84,10 @@
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.533"
+        app:layout_constraintHorizontal_bias="0.506"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.263" />
+        app:layout_constraintVertical_bias="0.689" />
 
     <TextView
         android:id="@+id/driver_name"
@@ -84,10 +99,10 @@
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.506"
+        app:layout_constraintHorizontal_bias="0.493"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.689" />
+        app:layout_constraintVertical_bias="0.263" />
 
     <TextView
         android:id="@+id/srcLocationTextview"
@@ -124,21 +139,6 @@
         app:layout_constraintVertical_bias="0.552" />
 
     <TextView
-        android:id="@+id/dirver_phone_number"
-        android:layout_width="338dp"
-        android:layout_height="52dp"
-        android:background="@drawable/border_line"
-        android:gravity="center"
-        android:text="1234"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.547"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.832" />
-
-    <TextView
         android:id="@+id/textView6"
         android:layout_width="288dp"
         android:layout_height="71dp"
@@ -164,5 +164,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.212" />
+        app:layout_constraintVertical_bias="0.624" />
 </androidx.constraintlayout.widget.ConstraintLayout>

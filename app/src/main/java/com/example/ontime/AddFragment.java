@@ -185,6 +185,7 @@ public class AddFragment extends DialogFragment {
                         editor2.putString("rider",userName);
                         editor2.putString("srcLocationText",srcLocationText);
                         editor2.putString("destinationText",destinationText);
+                        editor2.putString("rider_phone_number",phoneText);
                         editor2.commit();
 
 
