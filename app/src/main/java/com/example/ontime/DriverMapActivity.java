@@ -3,6 +3,7 @@ package com.example.ontime;
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Location;
@@ -108,11 +109,13 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
     public Button profile_button;
     public Button request_button;
     public Button wallet_button;
+    public Button current_request_button;
     public TextView show_name;
     private TextView current_user_model;
     private String userName;
 
 
+    public SharedPreferences sharedPreferences;
     /*protected void createLocationRequest() {
         mLocationRequest = new LocationRequest();
         mLocationRequest.setInterval(INTERVAL);
@@ -408,6 +411,7 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
         request_button=customView.findViewById(R.id.current_request_button);
         show_name=customView.findViewById(R.id.show_name);
         current_user_model=customView.findViewById(R.id.current_user_model);
+        current_request_button=customView.findViewById(R.id.current_request_button);
         wallet_button=customView.findViewById(R.id.wallet_button);
 
         findViewById(R.id.driver_main_layout).post(new Runnable() {
@@ -429,7 +433,13 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
                         show_name.setText(userName);
                     }
                 });
-
+                current_request_button.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent=new Intent(DriverMapActivity.this,OLDriver_CR.class);
+                        startActivity(intent);
+                    }
+                });
                 profile_button.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -463,6 +473,7 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
                         Log.d(TAG, "onDismiss: test");
                     }
                 });
+
 
             }
         });

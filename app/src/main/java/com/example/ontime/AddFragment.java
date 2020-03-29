@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.os.Handler;
@@ -36,6 +37,8 @@ import java.util.Map;
 
 import javax.annotation.Nullable;
 
+import static android.content.Context.MODE_PRIVATE;
+
 /**
  * This is a class for adding a fragment in driver class to show the request detail
  */
@@ -59,13 +62,15 @@ public class AddFragment extends DialogFragment {
     private String dstCoordinate;
     private String TAG = "ActiveRequestDetail";
     public String driverName;
-
+    public SharedPreferences sharedPreferences1;
+    public SharedPreferences sharedPreferences2;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         DriverMapActivity activity = (DriverMapActivity) getActivity();
         assert activity != null;
         driverName = activity.getDriver();
         return inflater.inflate(R.layout.request_details, container, false);
+
     }
 
     /**
@@ -162,11 +167,27 @@ public class AddFragment extends DialogFragment {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         current_request.setStatus("Accepted");
+                        SharedPreferences sharedPreferences;
                         db = FirebaseFirestore.getInstance();
                         final CollectionReference collectionReference = db.collection("Requests");
                         Map<String, Object> data = new HashMap<>();
                         data.put("status", "Accepted");
                         data.put("driver", driverName);
+
+                        sharedPreferences1 =getActivity().getSharedPreferences("current_request",MODE_PRIVATE);
+                        SharedPreferences.Editor editor1=sharedPreferences1.edit();
+                        editor1.putString("driver_name",driverName);
+                        editor1.commit();
+
+                        sharedPreferences2 =getActivity().getSharedPreferences("driver_current_request",MODE_PRIVATE);
+                        SharedPreferences.Editor editor2=sharedPreferences1.edit();
+                        editor2.putString("driver_name",driverName);
+                        editor2.putString("rider",userName);
+                        editor2.putString("srcLocationText",srcLocationText);
+                        editor2.putString("destinationText",destinationText);
+                        editor2.commit();
+
+
                         collectionReference
                                 .document(userName)
                                 .update(data)
@@ -188,6 +209,7 @@ public class AddFragment extends DialogFragment {
                         intent.putExtra("dstCoordinate",dstCoordinate);
 
                     }
+
 
                 }).create();
 

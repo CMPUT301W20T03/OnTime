@@ -3,6 +3,7 @@ package com.example.ontime;
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Address;
@@ -156,7 +157,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
     /**
      * The Request button.
      */
-    public Button request_button;
+    public Button current_request_button;
     /**
      * The Show name.
      */
@@ -165,7 +166,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
     private String userName;
     private String phone;
     private String email;
-
+    private SharedPreferences sharedPreferences;
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
@@ -327,6 +328,15 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
                                 Log.d(TAG, "Data addition failed" + e.toString());
                             }
                         });
+
+                sharedPreferences =getSharedPreferences("current_request",MODE_PRIVATE);
+                SharedPreferences.Editor editor=sharedPreferences.edit();
+                editor.putString("rider",userName);
+                editor.putString("srcLocationText",srcLocationText);
+                editor.putString("destinationText",destinationText);
+                editor.remove("driver_name");
+                editor.remove("dirver_phone_number");
+                editor.commit();
 
 
             }
@@ -633,7 +643,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         popupCover = new PopupWindow(coverView, width, height, false);
         popupWindow = new PopupWindow(customView,(int)(width*0.7),height,true);
         profile_button=customView.findViewById(R.id.profile_button);
-        request_button=customView.findViewById(R.id.current_request_button);
+        current_request_button=customView.findViewById(R.id.current_request_button);
         show_name=customView.findViewById(R.id.show_name);
         current_user_model=customView.findViewById(R.id.current_user_model);
         wallet_button=customView.findViewById(R.id.wallet_button);
@@ -670,6 +680,13 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
                     public void onClick(View v) {
                         Intent intent=new Intent(RiderMapActivity.this,WalletActivity.class);
                         //RiderMapActivity.this.startActivity(intent);
+                        startActivity(intent);
+                    }
+                });
+                current_request_button.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent=new Intent(RiderMapActivity.this,OLRider_CR.class);
                         startActivity(intent);
                     }
                 });
