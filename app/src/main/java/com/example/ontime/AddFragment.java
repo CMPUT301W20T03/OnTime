@@ -43,17 +43,17 @@ import javax.annotation.Nullable;
  */
 public class AddFragment extends DialogFragment {
     private TextView username;
-    private TextView phone;
+    private TextView rider_number;
     private TextView start;
     private TextView end;
     private TextView amount;
-    private TextView email;
+    private TextView rider_email;
     private OnFragmentInteractionListener listener;
     private CurrentRequests current_request;
     private FirebaseFirestore db;
     private String userName;
-    private String srcLocationText;
     private String destinationText;
+    private String srcLocationText;
     private String pay_amount;
     private String phoneText;
     private String emailText;
@@ -119,23 +119,25 @@ public class AddFragment extends DialogFragment {
     public Dialog onCreateDialog(@Nullable Bundle saveInstanceState) {
         View view = LayoutInflater.from(getActivity()).inflate(R.layout.request_details, null);
         username = view.findViewById(R.id.name_text);
-        email = view.findViewById(R.id.email_text);
-        phone = view.findViewById(R.id.phone_text);
+        rider_email = view.findViewById(R.id.email_text);
+        rider_number = view.findViewById(R.id.phone_text);
         start = view.findViewById(R.id.srclocation_text);
         end = view.findViewById(R.id.destination_text);
         amount = view.findViewById(R.id.amount_text);
                 Bundle arguments = getArguments();
         if (arguments != null) {
             current_request  = (CurrentRequests)arguments.getSerializable("Request");
-            username.setText(current_request.getName());
+            if (current_request != null) {
+                username.setText(current_request.getName());
+            }
             username.getPaint().setFakeBoldText(true);
             username.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);
-            phone.setText(current_request.getPhone());
-            phone.getPaint().setFakeBoldText(true);
-            phone.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);
-            email.setText(current_request.getEmail());
-            email.getPaint().setFakeBoldText(true);
-            email.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);
+            rider_number.setText(current_request.getPhone());
+            rider_number.getPaint().setFakeBoldText(true);
+            rider_number.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);
+            rider_email.setText(current_request.getEmail());
+            rider_email.getPaint().setFakeBoldText(true);
+            rider_email.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);
             start.setText(current_request.getSrcLocation());
             start.getPaint().setFakeBoldText(true);
             start.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);
@@ -150,8 +152,8 @@ public class AddFragment extends DialogFragment {
         userName = username.getText().toString();
         srcLocationText = start.getText().toString();
         destinationText = end.getText().toString();
-        phoneText = phone.getText().toString();
-        emailText = email.getText().toString();
+        phoneText = rider_number.getText().toString();
+        emailText = rider_email.getText().toString();
         pay_amount = amount.getText().toString();
 
         srcCoordinate = current_request.getSrcCoordinate();
@@ -171,7 +173,7 @@ public class AddFragment extends DialogFragment {
                         Map<String, Object> data = new HashMap<>();
                         data.put("status", "Accepted");
                         data.put("driver", driverName);
-                        //data.put("driver_number", phone);
+                        //data.put("driver_number", rider_number);
                         collectionReference
                                 .document(userName)
                                 .update(data)

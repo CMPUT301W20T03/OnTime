@@ -27,7 +27,6 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentActivity;
 
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -226,22 +225,20 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
     public String getDriver() {
         return userName;
     }
-
-    public String getDriverPhone(){
+    final HashMap<String, String> data = new HashMap<>();
+    public void getDriverPhone(){
         db = FirebaseFirestore.getInstance();
-        final DocumentReference user = db.collection("Drivers").document(userName);
+        final DocumentReference user = db.collection("Drivers").document("userName");
         user.get()
                 .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                     @Override
                     public void onSuccess(DocumentSnapshot documentSnapshot) {
-                        if (documentSnapshot.exists()){
-                            driverPhone = documentSnapshot.getString("phone number");
-                            return driverPhone;
+                        if (documentSnapshot!= null){
+                            Log.i("driver phone", documentSnapshot.getString("phone number"));
+                             data.put("driver phone",driverPhone);
                             //driverEmail = documentSnapshot.getString("email");
-                        }else{
-
                         }
-                    }
+                  }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
