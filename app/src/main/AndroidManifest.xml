@@ -68,7 +68,9 @@
         </activity>
         <activity android:name=".SignupActivity" />
         <activity android:name=".RiderProfile" />
-        <activity android:name=".DriverProfile"/>
+        <activity android:name=".DriverProfile" />
+        <activity android:name=".OLRider_CR"/>
+        <activity android:name=".OLDriver_CR"/>
     </application>
 
     </manifest>

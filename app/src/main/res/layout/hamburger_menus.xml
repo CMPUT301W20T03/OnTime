@@ -50,7 +50,7 @@
             android:background="@color/white"
             android:gravity="left|center_vertical"
             android:paddingLeft="30dp"
-            android:text="past request" />
+            android:text="current request" />
 
         <Button
             android:id="@+id/wallet_button"

@@ -11,7 +11,10 @@ public class CurrentRequests implements Serializable { // Firebase data extract 
     public String email;
     public String srcLocationText;
     public String destinationText;
+    private String srcCoordinate;
+    private String dstCoordinate;
     public String amount;
+    private String status;
 
     /**
      * Sole constructor.
@@ -23,13 +26,14 @@ public class CurrentRequests implements Serializable { // Firebase data extract 
     /**
      * Sole constructor.
      */
-    CurrentRequests(String name, String phone, String email, String srcLocationText, String destinationText, String amount) {
+    CurrentRequests(String name, String phone, String email, String srcLocationText, String destinationText, String amount, String status) {
         this.rider = name;
         this.phoneNumber = phone;
         this.email = email;
         this.srcLocationText = srcLocationText;
         this.destinationText = destinationText;
         this.amount = amount;
+        this.status = status;
     }
 
     /**
@@ -78,12 +82,38 @@ public class CurrentRequests implements Serializable { // Firebase data extract 
     }
 
     /**
+     * This returns the coordinate of source location of the rider
+     * @return
+     *      Return the coordinate of source location of the rider
+     */
+    String getSrcCoordinate() {
+        return this.srcCoordinate;
+    }
+
+    /**
+     * This returns the coordinate of destination of the rider
+     * @return
+     *      Return the coordinate of destination of the rider
+     */
+    String getDstCoordinate() {
+        return this.dstCoordinate;
+    }
+    /**
      * This returns the amount of the trip
      * @return
      *      Return the amount of the trip
      */
     String getAmount() {
         return this.amount;
+    }
+
+    /**
+     * This returns the status of the trip
+     * @return
+     *      Return the status of the trip
+     */
+    String getStatus() {
+        return this.status;
     }
 
     /**
@@ -132,11 +162,37 @@ public class CurrentRequests implements Serializable { // Firebase data extract 
     }
 
     /**
+     * This sets the coordinate of source location of the trip
+     * @param coord
+     *      sets the coordinate of source location  of the trip
+     */
+    public void setSrcCoordinate(String coord) {
+        this.srcCoordinate = coord;
+    }
+
+    /**
+     * This sets the coordinate of destination of the trip
+     * @param coord
+     *      sets the coordinate of destination of the trip
+     */
+    public void setDstCoordinate(String coord) {
+        this.dstCoordinate = coord;
+    }
+    /**
      * This sets the amount of the trip
      * @param amount
      *      sets the amount of the trip
      */
     public void setAmount(String amount) {
         this.amount = amount;
+    }
+
+    /**
+     * This sets the status of the trip
+     * @param status
+     *      sets the status of the trip
+     */
+    public void setStatus(String status) {
+        this.status = status;
     }
 }

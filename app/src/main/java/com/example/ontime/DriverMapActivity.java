@@ -3,7 +3,9 @@ package com.example.ontime;
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.location.Location;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
@@ -26,6 +28,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentActivity;
 
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -38,7 +41,10 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.Polyline;
+import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DatabaseReference;
@@ -51,7 +57,10 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 //import com.firebase.ui.database.FirebaseListAdapter;
 //import com.firebase.ui.database.FirebaseListOptions;
@@ -74,7 +83,9 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
     private static final float DEFAULT_ZOOM = 15f;
     private Boolean mLocationPermissionsGranted = false;
     private LatLng myLastLocation;
-    private ImageView mGps;
+    private ImageView mGps,mPoly;
+    public String from_src,from_dest;
+    public String src_Coor,dst_Coor;
 
     GoogleMap mMap;
     GoogleSignInAccount account;
@@ -98,11 +109,13 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
     public Button profile_button;
     public Button request_button;
     public Button wallet_button;
+    public Button current_request_button;
     public TextView show_name;
     private TextView current_user_model;
     private String userName;
 
 
+    public SharedPreferences sharedPreferences;
     /*protected void createLocationRequest() {
         mLocationRequest = new LocationRequest();
         mLocationRequest.setInterval(INTERVAL);
@@ -117,6 +130,7 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
         userName = getIntent().getStringExtra("username");
         setContentView(R.layout.activity_driver_map);
         mGps = findViewById(R.id.ic_gps);
+        mPoly = findViewById(R.id.ic_poly);
 
         //createLocationRequest();
 
@@ -142,6 +156,9 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
                                 @Override
                                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                                     CurrentRequests requests = requestList.get(position);
+                                    src_Coor = requests.getSrcCoordinate();
+                                    dst_Coor = requests.getDstCoordinate();
+
                                     AddFragment.newInstance(requests).show(getSupportFragmentManager(), "Request");
                                 }
                             });
@@ -169,6 +186,34 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
                 getDeviceLocation();
             }
         });
+
+        mPoly.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //src_Coor =
+                //dst_Coor = getIntent().getStringExtra("dstCoordinate");
+
+
+                Matcher m = Pattern.compile("\\(([^)]+)\\)").matcher(src_Coor);
+                while(m.find()){
+                    from_src = m.group(1);
+                }
+                String[] srcVal = from_src.split(",");
+                double src_lat = Double.parseDouble(srcVal[0]);
+                double src_lon = Double.parseDouble(srcVal[1]);
+
+                Matcher n = Pattern.compile("\\(([^)]+)\\)").matcher(dst_Coor);
+                while(n.find()){
+                    from_dest = n.group(1);
+                }
+                String[] destVal = from_dest.split(",");
+                double dest_lat = Double.parseDouble(destVal[0]);
+                double dest_lon = Double.parseDouble(destVal[1]);
+
+                Polyline line = mMap.addPolyline(new PolylineOptions().add(new LatLng(src_lat,src_lon),new LatLng(dest_lat,dest_lon))
+                        .width(5).color(Color.RED));
+            }
+        });
         userName = getIntent().getStringExtra("username");
 
         final String usernameText = getIntent().getStringExtra("username");
@@ -178,6 +223,10 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
         //reff.addListenerForSingleValueEvent();
         getLocationPermission();
 
+    }
+
+    public String getDriver() {
+        return userName;
     }
 
     @Override
@@ -362,6 +411,7 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
         request_button=customView.findViewById(R.id.current_request_button);
         show_name=customView.findViewById(R.id.show_name);
         current_user_model=customView.findViewById(R.id.current_user_model);
+        current_request_button=customView.findViewById(R.id.current_request_button);
         wallet_button=customView.findViewById(R.id.wallet_button);
 
         findViewById(R.id.driver_main_layout).post(new Runnable() {
@@ -383,7 +433,13 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
                         show_name.setText(userName);
                     }
                 });
-
+                current_request_button.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent=new Intent(DriverMapActivity.this,OLDriver_CR.class);
+                        startActivity(intent);
+                    }
+                });
                 profile_button.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -417,6 +473,7 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
                         Log.d(TAG, "onDismiss: test");
                     }
                 });
+
 
             }
         });

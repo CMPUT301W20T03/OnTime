@@ -3,7 +3,9 @@ package com.example.ontime;
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -56,12 +58,14 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.maps.android.SphericalUtil;
 
 import java.text.DecimalFormat;
@@ -88,7 +92,8 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
     private ImageView mGps,mPicker;
     private Polyline currentPolyline;
     private Address address;
-    private Query query;
+    public Query query;
+    public String Cdriver;
     /**
      * The Wallet button.
      */
@@ -152,7 +157,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
     /**
      * The Request button.
      */
-    public Button request_button;
+    public Button current_request_button;
     /**
      * The Show name.
      */
@@ -161,7 +166,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
     private String userName;
     private String phone;
     private String email;
-
+    private SharedPreferences sharedPreferences;
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
@@ -276,6 +281,10 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
                 distance = SphericalUtil.computeDistanceBetween(srcLagLng,destLagLng);
                 pay_amount = (distance * 0.81 + 2.5)/1000;
 
+                Polyline line = mMap.addPolyline(new PolylineOptions().add(srcLagLng,destLagLng)
+                        .width(5).color(Color.RED));
+
+
 
                 db = FirebaseFirestore.getInstance();
                 final CollectionReference collectionReference = db.collection("Requests");
@@ -296,8 +305,8 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
                 }
                 data.put("srcLocationText", srcLocationText);
                 data.put("destinationText", destinationText);
-                data.put("srcLag", srcLag);
-                data.put("destLag", destLag);
+                data.put("srcCoordinate", srcLag);
+                data.put("dstCoordinate", destLag);
                 data.put("phoneNumber", phone);
                 data.put("rider", userName);
                 data.put("email", email);
@@ -320,10 +329,19 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
                             }
                         });
 
+                sharedPreferences =getSharedPreferences("current_request",MODE_PRIVATE);
+                SharedPreferences.Editor editor=sharedPreferences.edit();
+                editor.putString("rider",userName);
+                editor.putString("srcLocationText",srcLocationText);
+                editor.putString("destinationText",destinationText);
+                editor.remove("driver_name");
+                editor.remove("dirver_phone_number");
+                editor.commit();
+
 
             }
         });
-        reff = FirebaseDatabase.getInstance().getReference().child("DriversAvailable").child(userName).child("driverL");
+        //reff = FirebaseDatabase.getInstance().getReference().child("DriversAvailable").child(userName).child("driverL");
     }
 
     private String getUrl(LatLng origin, LatLng dest, String directionMode) {
@@ -436,45 +454,64 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
     private Marker mDriverMarker;
     private void getDriverLocation(){
         db = FirebaseFirestore.getInstance();
+        final CollectionReference collectionReference = db.collection("Requests");
+        collectionReference.get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if(task.isSuccessful()){
+                            for(QueryDocumentSnapshot documentSnapshot : task.getResult()){
+                                if(documentSnapshot.getString("rider").equals(userName)){
+                                    Cdriver = documentSnapshot.getString("driver");
+                                    reff = FirebaseDatabase.getInstance().getReference().child("DriversAvailable").child(Cdriver).child("driverL");
+                                    reff.addValueEventListener(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                            //if(dataSnapshot.exists()){
+                                            String lon_str = dataSnapshot.child("longitude").getValue().toString();
+                                            String lat_str = dataSnapshot.child("latitude").getValue().toString();
+                                            double locLat = 0;
+                                            double locLng = 0;
+                                            boolean flag = false;
+                                            if(lat_str != null){
+                                                locLat = Double.parseDouble(lat_str);
+                                            }
+                                            else{
+                                                flag = true;
+                                                Toast.makeText(RiderMapActivity.this, "loclat is null", Toast.LENGTH_SHORT).show();
+                                            }
+                                            if(lon_str!= null){
+                                                locLng = Double.parseDouble(lon_str);
+                                            } else{
+                                                flag = true;
+                                            }
+                                            if (!flag) {
+                                                LatLng driverLocation = new LatLng(locLat,locLng);
+                                                if(mDriverMarker != null){
+                                                    mDriverMarker.remove();
+                                                }
+                                                mDriverMarker = mMap.addMarker(new MarkerOptions().position(driverLocation).title("your driver").snippet("location:" + driverLocation));
+                                                moveCamera(driverLocation, DEFAULT_ZOOM, "driver Location");
+                                            }
 
-        reff.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                //if(dataSnapshot.exists()){
-                    String lon_str = dataSnapshot.child("longitude").getValue().toString();
-                    String lat_str = dataSnapshot.child("latitude").getValue().toString();
-                    double locLat = 0;
-                    double locLng = 0;
-                    boolean flag = false;
-                    if(lat_str != null){
-                        locLat = Double.parseDouble(lat_str);
-                    }
-                    else{
-                        flag = true;
-                        Toast.makeText(RiderMapActivity.this, "loclat is null", Toast.LENGTH_SHORT).show();
-                    }
-                    if(lon_str!= null){
-                        locLng = Double.parseDouble(lon_str);
-                    } else{
-                        flag = true;
-                    }
-                    if (!flag) {
-                        LatLng driverLocation = new LatLng(locLat,locLng);
-                        if(mDriverMarker != null){
-                            mDriverMarker.remove();
+                                            //}
+                                        }
+
+                                        @Override
+                                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                        }
+                                    });
+                                }
+                            }
                         }
-                        mDriverMarker = mMap.addMarker(new MarkerOptions().position(driverLocation).title("your driver").snippet("location:" + driverLocation));
-                        moveCamera(driverLocation, DEFAULT_ZOOM, "driver Location");
                     }
+                });
 
-                //}
-            }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
+        //db = FirebaseFirestore.getInstance();
 
-            }
-        });
+
     }
 
 
@@ -606,7 +643,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         popupCover = new PopupWindow(coverView, width, height, false);
         popupWindow = new PopupWindow(customView,(int)(width*0.7),height,true);
         profile_button=customView.findViewById(R.id.profile_button);
-        request_button=customView.findViewById(R.id.current_request_button);
+        current_request_button=customView.findViewById(R.id.current_request_button);
         show_name=customView.findViewById(R.id.show_name);
         current_user_model=customView.findViewById(R.id.current_user_model);
         wallet_button=customView.findViewById(R.id.wallet_button);
@@ -643,6 +680,13 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
                     public void onClick(View v) {
                         Intent intent=new Intent(RiderMapActivity.this,WalletActivity.class);
                         //RiderMapActivity.this.startActivity(intent);
+                        startActivity(intent);
+                    }
+                });
+                current_request_button.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent=new Intent(RiderMapActivity.this,OLRider_CR.class);
                         startActivity(intent);
                     }
                 });
