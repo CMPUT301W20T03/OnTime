@@ -169,6 +169,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
     private String phone;
     private String email;
     private SharedPreferences sharedPreferences;
+    private TextView Amount;
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
@@ -189,6 +190,8 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         hamburger_button = findViewById(R.id.hamburger_button);
         mGps = findViewById(R.id.ic_gps);
         mPicker = findViewById(R.id.ic_picker);
+        Amount = findViewById(R.id.amount_text);
+        Amount.setText("0");
 
         initPopUpView();
         hamburger_button.setOnClickListener(new View.OnClickListener() {
@@ -240,6 +243,12 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
 
                 geoLocate(srcLocationText,"src");
                 Log.i(TAG, "Place: " + place.getName() + ", " + place.getId());
+                if (destinationText != null) {
+                    distance = SphericalUtil.computeDistanceBetween(srcLagLng,destLagLng);
+                    pay_amount = (distance/1000) * 0.82 + 2.5;
+                    DecimalFormat df = new DecimalFormat("#.00");
+                    Amount.setText(df.format(pay_amount));
+                }
             }
 
             @Override
@@ -268,6 +277,12 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
                 //LatLng address = place.getLatLng();
                 geoLocate(destinationText,"dest");
                 Log.i(TAG, "Place: " + place.getName() + ", " + place.getId());
+                if (srcLocationText != null) {
+                    distance = SphericalUtil.computeDistanceBetween(srcLagLng,destLagLng);
+                    pay_amount = (distance/1000) * 0.82 + 2.5;
+                    DecimalFormat df = new DecimalFormat("#.00");
+                    Amount.setText(df.format(pay_amount));
+                }
             }
 
             @Override
@@ -700,13 +715,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
                     }
                 });
 
-                past_request_button.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent intent=new Intent(RiderMapActivity.this,OLRider_CR.class);
-                        startActivity(intent);
-                    }
-                });
+
 
 //scan QR---------------------------------------------------------------------------
 

@@ -443,13 +443,6 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
                     }
                 });
 
-                past_request_button.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent intent=new Intent(DriverMapActivity.this,OLDriver_CR.class);
-                        startActivity(intent);
-                    }
-                });
                 profile_button.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
