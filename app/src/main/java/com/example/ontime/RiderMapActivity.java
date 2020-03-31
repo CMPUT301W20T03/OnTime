@@ -356,7 +356,8 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
                 editor.remove("dirver_phone_number");
                 editor.commit();
 
-
+                Intent intent=new Intent(RiderMapActivity.this,OLRider_CR.class);
+                startActivity(intent);
             }
         });
         //reff = FirebaseDatabase.getInstance().getReference().child("DriversAvailable").child(userName).child("driverL");
@@ -516,7 +517,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
                                                     moveCamera(driverLocation, DEFAULT_ZOOM, "driver Location");
                                                 }
 
-                                            //}
+                                                //}
                                             }
 
                                             @Override
