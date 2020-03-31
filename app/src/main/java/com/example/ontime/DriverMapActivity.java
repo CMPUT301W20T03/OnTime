@@ -156,8 +156,8 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
                                 @Override
                                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                                     CurrentRequests requests = requestList.get(position);
-                                    src_Coor = requests.getSrcCoordinate();
-                                    dst_Coor = requests.getDstCoordinate();
+                                    src_Coor = requests.srcCoordinate;
+                                    dst_Coor = requests.dstCoordinate;
 
                                     AddFragment.newInstance(requests).show(getSupportFragmentManager(), "Request");
                                 }
