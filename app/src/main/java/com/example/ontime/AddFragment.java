@@ -126,7 +126,7 @@ public class AddFragment extends DialogFragment {
         start = view.findViewById(R.id.srclocation_text);
         end = view.findViewById(R.id.destination_text);
         amount = view.findViewById(R.id.amount_text);
-                Bundle arguments = getArguments();
+        Bundle arguments = getArguments();
         if (arguments != null) {
             current_request  = (CurrentRequests)arguments.getSerializable("Request");
             username.setText(current_request.getName());
@@ -197,6 +197,7 @@ public class AddFragment extends DialogFragment {
                                     public void onSuccess(Void aVoid) {
                                         Log.d(TAG, "Data modification successful");
                                         // after accepting the request ...
+
                                     }
                                 })
                                 .addOnFailureListener(new OnFailureListener() {
@@ -209,13 +210,16 @@ public class AddFragment extends DialogFragment {
                         intent.putExtra("srcCoordinate",srcCoordinate);
                         intent.putExtra("dstCoordinate",dstCoordinate);
 
+                        Intent intent2=new Intent(getActivity(), OLDriver_CR.class);
+                        startActivity(intent2);
+
                     }
 
 
                 }).create();
 
 
-        }
+    }
 
 
 
