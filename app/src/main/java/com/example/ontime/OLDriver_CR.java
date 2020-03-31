@@ -1,8 +1,11 @@
 package com.example.ontime;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,6 +15,7 @@ import com.example.ontime.R;
 public class OLDriver_CR extends AppCompatActivity {
     TextView rider_nameTextview, destinationTextview, driver_nameTextview, srcLocationTextview, rider_phone_numberTextview;
     public SharedPreferences sharedPreferences;
+    public Button startButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,7 +28,7 @@ public class OLDriver_CR extends AppCompatActivity {
         srcLocationTextview = findViewById(R.id.srcLocationTextview);
         destinationTextview = findViewById(R.id.destinationTextview);
         rider_phone_numberTextview = findViewById(R.id.rider_phone_number);
-
+        startButton = findViewById(R.id.start_button);
 
         SharedPreferences sp = getSharedPreferences("current_request", Context.MODE_PRIVATE);
         String srcLocationText = sp.getString("srcLocationText", "");
@@ -38,5 +42,14 @@ public class OLDriver_CR extends AppCompatActivity {
         rider_phone_numberTextview.setText(dirver_phone_number);
         srcLocationTextview.setText(srcLocationText);
         destinationTextview.setText(destinationText);
+
+        startButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(OLDriver_CR.this, InProcessActivity.class);
+                startActivity(intent);
+            }
+        });
+
     }
 }
