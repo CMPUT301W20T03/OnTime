@@ -110,6 +110,7 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
     public Button request_button;
     public Button wallet_button;
     public Button current_request_button;
+    public Button past_request_button;
     public TextView show_name;
     private TextView current_user_model;
     private String userName;
@@ -412,6 +413,7 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
         show_name=customView.findViewById(R.id.show_name);
         current_user_model=customView.findViewById(R.id.current_user_model);
         current_request_button=customView.findViewById(R.id.current_request_button);
+        past_request_button=customView.findViewById(R.id.past_request_button);
         wallet_button=customView.findViewById(R.id.wallet_button);
 
         findViewById(R.id.driver_main_layout).post(new Runnable() {
@@ -434,6 +436,14 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
                     }
                 });
                 current_request_button.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent=new Intent(DriverMapActivity.this,OLDriver_CR.class);
+                        startActivity(intent);
+                    }
+                });
+
+                past_request_button.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         Intent intent=new Intent(DriverMapActivity.this,OLDriver_CR.class);

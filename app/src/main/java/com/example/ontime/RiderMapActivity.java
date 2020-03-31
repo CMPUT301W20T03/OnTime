@@ -158,6 +158,8 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
      * The Request button.
      */
     public Button current_request_button;
+
+    public Button past_request_button;
     /**
      * The Show name.
      */
@@ -650,6 +652,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
         popupWindow = new PopupWindow(customView,(int)(width*0.7),height,true);
         profile_button=customView.findViewById(R.id.profile_button);
         current_request_button=customView.findViewById(R.id.current_request_button);
+        past_request_button=customView.findViewById(R.id.past_request_button);
         show_name=customView.findViewById(R.id.show_name);
         current_user_model=customView.findViewById(R.id.current_user_model);
         wallet_button=customView.findViewById(R.id.wallet_button);
@@ -690,6 +693,14 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
                     }
                 });
                 current_request_button.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent=new Intent(RiderMapActivity.this,OLRider_CR.class);
+                        startActivity(intent);
+                    }
+                });
+
+                past_request_button.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         Intent intent=new Intent(RiderMapActivity.this,OLRider_CR.class);
