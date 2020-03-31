@@ -53,15 +53,6 @@
             android:text="current request" />
 
         <Button
-            android:id="@+id/past_request_button"
-            android:layout_width="match_parent"
-            android:layout_height="67dp"
-            android:background="@color/white"
-            android:gravity="left|center_vertical"
-            android:paddingLeft="30dp"
-            android:text="past request" />
-
-        <Button
             android:id="@+id/wallet_button"
             android:layout_width="match_parent"
             android:layout_height="67dp"
