@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,6 +17,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
@@ -28,6 +30,8 @@ public class OLRider_CR extends AppCompatActivity {
     Button cancelButton;
     Button finishButton;
     FirebaseFirestore db;
+    private String userName;
+    private String rStatus;
     private String TAG = "ActiveRequestDetail";
     public SharedPreferences sharedPreferences;
 
@@ -35,9 +39,7 @@ public class OLRider_CR extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rider_current_request);
-
-
-
+        userName = getIntent().getStringExtra("username");
 
         rider_nameTextview = findViewById(R.id.rider_name);
         driver_nameTextview = findViewById(R.id.driver_name);
@@ -93,7 +95,32 @@ public class OLRider_CR extends AppCompatActivity {
         finishButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                
+                FirebaseFirestore db1;
+                db1 = FirebaseFirestore.getInstance();
+                final DocumentReference user = db1.collection("Requests").document(userName);
+                user.get()
+                        .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                            @Override
+                            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                                if (documentSnapshot.exists()) {
+                                    rStatus = documentSnapshot.getString("status");
+                                    if (rStatus.equals("Completed")) {
+                                        Intent intent1 = new Intent(OLRider_CR.this, WalletActivity.class);
+                                        intent1.putExtra("username", userName);
+                                        startActivity(intent1);
+                                    }
+                                    else {
+                                        Toast.makeText(OLRider_CR.this, "Completing your ride . . .", Toast.LENGTH_LONG).show();
+                                    }
+                                }
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Log.d(TAG, "Data retrieve failed");
+                            }
+                        });
             }
         });
     }
