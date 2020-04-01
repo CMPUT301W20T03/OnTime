@@ -32,6 +32,7 @@ public class OLRider_CR extends AppCompatActivity {
     Button driverDetail;
     FirebaseFirestore db;
     private String userName;
+    private String driverName;
     private String rStatus;
     private String TAG = "ActiveRequestDetail";
     public SharedPreferences sharedPreferences;
@@ -55,23 +56,43 @@ public class OLRider_CR extends AppCompatActivity {
         String srcLocationText= sp.getString("srcLocationText","");
         String destinationText= sp.getString("destinationText","");
         final String rider_name= sp.getString("rider","");
-        final String driver_name= sp.getString("driver_name","");
-        String driver_phone_number= sp.getString("driver_phone_number","");
+//        final String driver_name= sp.getString("driver_name","");
+//        String driver_phone_number= sp.getString("driver_phone_number","");
+
+        db = FirebaseFirestore.getInstance();
+        final DocumentReference user = db.collection("Requests").document(rider_name);
+        user.get()
+                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        if (documentSnapshot.exists()){
+                            driverName = documentSnapshot.getString("driver");
+                            System.out.printf(driverName);
+                            driver_nameTextview .setText(driverName);
+                        }else{
+                            Toast.makeText(OLRider_CR.this,"user not exist",Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(OLRider_CR.this,"Error",Toast.LENGTH_SHORT).show();
+                    }
+                });
 
         rider_nameTextview.setText(rider_name);
-        driver_nameTextview.setText(driver_name);
-        driver_phone_numberTextview.setText(driver_phone_number);
+//        driver_nameTextview.setText(driver_name);
+//        driver_phone_numberTextview.setText(driver_phone_number);
         srcLocationTextview.setText(srcLocationText);
         destinationTextview.setText(destinationText);
 
         driverDetail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 Intent intent=new Intent(OLRider_CR.this,DriverDetail.class);
-                intent.putExtra("DriverName",driver_name);
+                intent.putExtra("DriverName",driverName);
                 startActivity(intent);
-
             }
         });
 

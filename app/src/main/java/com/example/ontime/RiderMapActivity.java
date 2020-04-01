@@ -361,6 +361,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
+//                Intent intent=new Intent(RiderMapActivity.this,WaitforDriver.class);
                 Intent intent=new Intent(RiderMapActivity.this,WaitforDriver.class);
                 intent.putExtra("username", userName);
                 startActivity(intent);
