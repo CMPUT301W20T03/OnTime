@@ -95,6 +95,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
     private Address address;
     public Query query;
     public String Cdriver;
+    public List<Polyline> polylineList;
     /**
      * The Wallet button.
      */
@@ -172,6 +173,8 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
     private SharedPreferences sharedPreferences;
     private TextView Amount;
 
+    public ArrayList<MarkerOptions> markers = new ArrayList<MarkerOptions>();
+
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -179,6 +182,9 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
 
         userName = getIntent().getStringExtra("username");
         getInfos();
+
+        final ArrayList<Polyline> polylineList = new ArrayList<>();
+
 
 
         setContentView(R.layout.activity_rider_map);
@@ -250,8 +256,21 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
                     DecimalFormat df = new DecimalFormat("#.00");
                     Amount.setText(df.format(pay_amount));
 
-                    Polyline line = mMap.addPolyline(new PolylineOptions().add(srcLagLng,destLagLng)
-                            .width(5).color(Color.RED));
+                    if(polylineList.size() >= 1){
+                        mMap.clear();
+                        polylineList.clear();
+                        markers.clear();
+                    }
+                    else{
+                        if(markers.size() == 2){
+                            Polyline line = mMap.addPolyline(new PolylineOptions().add(srcLagLng,destLagLng)
+                                    .width(5).color(Color.RED));
+                            polylineList.add(line);
+                        }
+
+                    }
+
+
                 }
             }
 
@@ -287,8 +306,20 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
                     DecimalFormat df = new DecimalFormat("#.00");
                     Amount.setText(df.format(pay_amount));
 
-                    Polyline line = mMap.addPolyline(new PolylineOptions().add(srcLagLng,destLagLng)
-                            .width(5).color(Color.RED));
+                    if(polylineList.size() >= 1){
+                        mMap.clear();
+                        polylineList.clear();
+                        markers.clear();
+                    }
+                    else{
+                        if(markers.size() == 2){
+                            Polyline line = mMap.addPolyline(new PolylineOptions().add(srcLagLng,destLagLng)
+                                    .width(5).color(Color.RED));
+                            polylineList.add(line);
+                        }
+
+                    }
+
                 }
             }
 
@@ -362,6 +393,11 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
                 editor.remove("driver_name");
                 editor.remove("dirver_phone_number");
                 editor.commit();
+                try {
+                    TimeUnit.SECONDS.sleep(3); // for the user to see the polyline
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
 //                Intent intent=new Intent(RiderMapActivity.this,WaitforDriver.class);
                 Intent intent=new Intent(RiderMapActivity.this,WaitforDriver.class);
                 intent.putExtra("username", userName);
@@ -591,7 +627,10 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
                     .position(latLng)
                     .title("Last_dest");
             mMap.addMarker(options);
+            markers.add(options);
+
         }
+
 
         hideSoftKeyboard();
 
