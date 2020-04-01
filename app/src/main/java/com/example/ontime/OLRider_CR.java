@@ -139,7 +139,7 @@ public class OLRider_CR extends AppCompatActivity {
                                 if (documentSnapshot.exists()) {
                                     rStatus = documentSnapshot.getString("status");
                                     if (rStatus.equals("Completed")) {
-                                        Intent intent1 = new Intent(OLRider_CR.this, WalletActivity.class);
+                                        Intent intent1 = new Intent(OLRider_CR.this, RatingActivity.class);
                                         intent1.putExtra("username", userName);
                                         startActivity(intent1);
                                     }

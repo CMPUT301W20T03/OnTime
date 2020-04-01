@@ -52,7 +52,7 @@ public class RatingActivity extends AppCompatActivity {
                     }
                 });
                 Toast.makeText(RatingActivity.this, "Rating Success!!!!!", Toast.LENGTH_LONG).show();
-                Intent intent=new Intent(RatingActivity.this,RiderMapActivity.class);
+                Intent intent=new Intent(RatingActivity.this,WalletActivity.class);
                 startActivity(intent);
 
             }
@@ -71,7 +71,7 @@ public class RatingActivity extends AppCompatActivity {
                     }
                 });
                 Toast.makeText(RatingActivity.this, "Rating Success!!!!!", Toast.LENGTH_LONG).show();
-                Intent intent=new Intent(RatingActivity.this,RiderMapActivity.class);
+                Intent intent=new Intent(RatingActivity.this,WalletActivity.class);
                 startActivity(intent);
             }
         });

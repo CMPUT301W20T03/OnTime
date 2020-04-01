@@ -56,8 +56,6 @@ public class WalletActivity extends AppCompatActivity {
                 Toast.makeText(this, "Cancel Scan", Toast.LENGTH_LONG).show();
             } else {
                 Toast.makeText(this, "Scan Information:" + result.getContents(), Toast.LENGTH_LONG).show();
-                Intent intent=new Intent(WalletActivity.this,RatingActivity.class);
-                startActivity(intent);
             }
         } else {
             super.onActivityResult(requestCode, resultCode, data);
