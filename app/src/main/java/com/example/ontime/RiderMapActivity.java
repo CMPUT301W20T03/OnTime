@@ -249,6 +249,9 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
                     pay_amount = (distance/1000) * 0.82 + 2.5;
                     DecimalFormat df = new DecimalFormat("#.00");
                     Amount.setText(df.format(pay_amount));
+
+                    Polyline line = mMap.addPolyline(new PolylineOptions().add(srcLagLng,destLagLng)
+                            .width(5).color(Color.RED));
                 }
             }
 
@@ -283,6 +286,9 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
                     pay_amount = (distance/1000) * 0.82 + 2.5;
                     DecimalFormat df = new DecimalFormat("#.00");
                     Amount.setText(df.format(pay_amount));
+
+                    Polyline line = mMap.addPolyline(new PolylineOptions().add(srcLagLng,destLagLng)
+                            .width(5).color(Color.RED));
                 }
             }
 
@@ -299,8 +305,8 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
                 distance = SphericalUtil.computeDistanceBetween(srcLagLng,destLagLng);
                 pay_amount = (distance/1000) * 0.82 + 2.5;
 
-                Polyline line = mMap.addPolyline(new PolylineOptions().add(srcLagLng,destLagLng)
-                        .width(5).color(Color.RED));
+                //Polyline line = mMap.addPolyline(new PolylineOptions().add(srcLagLng,destLagLng)
+                        //.width(5).color(Color.RED));
 
 
 
