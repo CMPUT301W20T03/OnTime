@@ -526,6 +526,8 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
                                             }
                                         });
                                     }
+                                }else{
+                                    Toast.makeText(RiderMapActivity.this,"No request yet!",Toast.LENGTH_SHORT).show();
                                 }
                             }
                         }
