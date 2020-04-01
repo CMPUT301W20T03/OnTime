@@ -60,6 +60,15 @@
             android:gravity="left|center_vertical"
             android:paddingLeft="30dp"
             android:text="WALLET" />
+
+        <Button
+            android:id="@+id/logout_button"
+            android:layout_width="match_parent"
+            android:layout_height="67dp"
+            android:background="@color/gray"
+            android:gravity="left|center_vertical"
+            android:paddingLeft="30dp"
+            android:text="LOG-OUT" />
     </LinearLayout>
 
     <TextView
