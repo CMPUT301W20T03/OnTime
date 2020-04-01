@@ -35,6 +35,7 @@
         <TextView
             android:id="@+id/name_text"
             android:layout_marginTop="10dp"
+            android:textColor="@color/black"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:focusableInTouchMode="true"
@@ -60,6 +61,7 @@
         <TextView
             android:id="@+id/phone_text"
             android:layout_width="match_parent"
+            android:textColor="@color/black"
             android:layout_height="wrap_content"
             android:focusableInTouchMode="true"
             android:gravity="start"
@@ -87,6 +89,7 @@
             android:layout_width="match_parent"
             android:layout_height="38dp"
             android:focusableInTouchMode="true"
+            android:textColor="@color/black"
             android:gravity="start"
             android:textSize="13sp"
             android:ellipsize="marquee"
@@ -116,6 +119,7 @@
             android:layout_width="match_parent"
             android:layout_height="38dp"
             android:focusableInTouchMode="true"
+            android:textColor="@color/black"
             android:gravity="start"
             android:textSize="13sp"
             android:ellipsize="marquee"
@@ -149,6 +153,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:focusableInTouchMode="true"
+            android:textColor="@color/black"
             android:gravity="start"
             android:hint="Unknown"
             android:textSize="13sp" />
@@ -174,10 +179,11 @@
             android:id="@+id/amount_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="@color/black"
             android:focusableInTouchMode="true"
             android:gravity="center_vertical"
             android:layout_marginLeft="10dp"
-            android:textSize="15sp"
+            android:textSize="16sp"
             android:hint="Unknown"
             />
     </LinearLayout>

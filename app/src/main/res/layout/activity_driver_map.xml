@@ -44,14 +44,14 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
         <TextView
-            android:layout_marginTop="15dp"
             android:layout_marginBottom="15dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:text="Active Requests"
+            android:layout_height="50dp"
+            android:textSize="22sp"
+            android:background="@color/black"
+            android:text="- Active Requests -"
             android:gravity="center"
-            android:textColor="@color/black"/>
+            android:textColor="@color/white"/>
         <ListView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
