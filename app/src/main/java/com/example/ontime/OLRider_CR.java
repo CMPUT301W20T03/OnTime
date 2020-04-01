@@ -29,6 +29,7 @@ public class OLRider_CR extends AppCompatActivity {
     TextView rider_nameTextview,destinationTextview,driver_nameTextview,srcLocationTextview,driver_phone_numberTextview;
     Button cancelButton;
     Button finishButton;
+    Button driverDetail;
     FirebaseFirestore db;
     private String userName;
     private String rStatus;
@@ -48,12 +49,13 @@ public class OLRider_CR extends AppCompatActivity {
         driver_phone_numberTextview = findViewById(R.id.dirver_phone_number);
         cancelButton = findViewById(R.id.cancel_button);
         finishButton = findViewById(R.id.finish_button3);
+        driverDetail = findViewById(R.id.detail_button);
 
         SharedPreferences sp = getSharedPreferences("current_request", Context.MODE_PRIVATE);
         String srcLocationText= sp.getString("srcLocationText","");
         String destinationText= sp.getString("destinationText","");
         final String rider_name= sp.getString("rider","");
-        String driver_name= sp.getString("driver_name","");
+        final String driver_name= sp.getString("driver_name","");
         String driver_phone_number= sp.getString("driver_phone_number","");
 
         rider_nameTextview.setText(rider_name);
@@ -61,6 +63,17 @@ public class OLRider_CR extends AppCompatActivity {
         driver_phone_numberTextview.setText(driver_phone_number);
         srcLocationTextview.setText(srcLocationText);
         destinationTextview.setText(destinationText);
+
+        driverDetail.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent=new Intent(OLRider_CR.this,DriverDetail.class);
+                intent.putExtra("DriverName",driver_name);
+                startActivity(intent);
+
+            }
+        });
 
         cancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
