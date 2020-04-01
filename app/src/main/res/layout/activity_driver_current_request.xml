@@ -92,7 +92,7 @@
 
     <TextView
         android:id="@+id/rider_name"
-        android:layout_width="330dp"
+        android:layout_width="350dp"
         android:layout_height="35dp"
         android:gravity="center"
         android:text="N/A"
@@ -189,8 +189,8 @@
         android:id="@+id/start_button"
         android:layout_width="246dp"
         android:layout_height="46dp"
-        android:layout_marginBottom="28dp"
-        android:background="@color/greenyellow"
+        android:layout_marginBottom="32dp"
+        android:background="#a3d099"
         android:text="Start"
         android:textColor="@color/black"
         app:layout_constraintBottom_toBottomOf="parent"

@@ -215,6 +215,7 @@ public class SignupActivity extends AppCompatActivity {
                         data.put("email", emailText);
                         data.put("phone number", phone_numberText);
                         data.put("userName", usernameText);
+                        data.put("rating", "100");
                         collectionReference
                                 .document(usernameText)
                                 .set(data)

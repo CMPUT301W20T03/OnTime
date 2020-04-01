@@ -73,6 +73,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 
 /**
@@ -355,8 +356,14 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
                 editor.remove("driver_name");
                 editor.remove("dirver_phone_number");
                 editor.commit();
-
-                Intent intent=new Intent(RiderMapActivity.this,OLRider_CR.class);
+                try {
+                    TimeUnit.SECONDS.sleep(3); // for the user to see the polyline
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+//                Intent intent=new Intent(RiderMapActivity.this,WaitforDriver.class);
+                Intent intent=new Intent(RiderMapActivity.this,WaitforDriver.class);
+                intent.putExtra("username", userName);
                 startActivity(intent);
             }
         });
@@ -526,6 +533,8 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
                                             }
                                         });
                                     }
+                                }else{
+                                    Toast.makeText(RiderMapActivity.this,"No request yet!",Toast.LENGTH_SHORT).show();
                                 }
                             }
                         }
@@ -679,7 +688,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
                 popupWindow.setAnimationStyle(R.style.pop_animation);
                 popupCover.showAtLocation(main, Gravity.LEFT,0,0);
                 popupWindow.showAtLocation(main, Gravity.LEFT,0,0);
-                current_user_model.setText("user model: rider");
+                current_user_model.setText("User Mode: Rider");
                 db = FirebaseFirestore.getInstance();
                 final CollectionReference collectionReference = db.collection("Riders");
                 userName = getIntent().getStringExtra("username");

@@ -423,7 +423,7 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
                 coverView = (ViewGroup)layoutInflater.inflate(R.layout.cover_layout, null);
                 popupCover.showAtLocation(main, Gravity.LEFT,0,0);
                 popupWindow.showAtLocation(main, Gravity.LEFT,0,0);
-                current_user_model.setText("user model: driver");
+                current_user_model.setText("User Mode: Driver");
 
                 db = FirebaseFirestore.getInstance();
                 final CollectionReference collectionReference = db.collection("Drivers");
@@ -439,6 +439,7 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
                     @Override
                     public void onClick(View v) {
                         Intent intent=new Intent(DriverMapActivity.this,OLDriver_CR.class);
+                        intent.putExtra("username", userName);
                         startActivity(intent);
                     }
                 });

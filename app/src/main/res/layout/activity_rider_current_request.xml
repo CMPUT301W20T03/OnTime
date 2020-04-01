@@ -21,24 +21,8 @@
         app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.68" />
+        app:layout_constraintVertical_bias="0.666" />
 
-    <TextView
-        android:id="@+id/textView10"
-        android:layout_width="280dp"
-        android:layout_height="30sp"
-        android:background="@color/black"
-        android:gravity="center"
-        android:text="driver phone number"
-        android:textAllCaps="true"
-        android:textColor="@color/white"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.496"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.823" />
 
     <TextView
         android:id="@+id/textView9"
@@ -55,7 +39,7 @@
         app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.507" />
+        app:layout_constraintVertical_bias="0.479" />
 
     <TextView
         android:id="@+id/textView8"
@@ -69,80 +53,71 @@
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.502"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.338" />
+        app:layout_constraintVertical_bias="0.288" />
 
     <TextView
         android:id="@+id/rider_name"
         android:layout_width="336dp"
-        android:layout_height="52dp"
+        android:layout_height="50dp"
         android:gravity="center"
-        android:text="1234"
         android:textSize="24sp"
+        android:text="N/A"
+        android:textColor="@color/black"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.533"
+        app:layout_constraintHorizontal_bias="0.48"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.244" />
+        app:layout_constraintVertical_bias="0.189" />
 
     <TextView
         android:id="@+id/driver_name"
         android:layout_width="338dp"
         android:layout_height="52dp"
         android:gravity="center"
-        android:text="1234"
+        android:text="N/A"
+        android:textColor="@color/black"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.493"
+        app:layout_constraintHorizontal_bias="0.534"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.756" />
+        app:layout_constraintVertical_bias="0.731" />
 
     <TextView
         android:id="@+id/srcLocationTextview"
         android:layout_width="338dp"
         android:layout_height="78dp"
         android:gravity="center"
-        android:text="1234"
+        android:text="N/A"
+        android:textColor="@color/black"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.52"
+        app:layout_constraintHorizontal_bias="0.493"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.409" />
+        app:layout_constraintVertical_bias="0.355" />
 
     <TextView
         android:id="@+id/destinationTextview"
         android:layout_width="335dp"
         android:layout_height="78dp"
         android:gravity="center"
-        android:text="1234"
+        android:text="N/A"
+        android:textColor="@color/black"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.513"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.591" />
+        app:layout_constraintVertical_bias="0.56" />
 
-    <TextView
-        android:id="@+id/dirver_phone_number"
-        android:layout_width="338dp"
-        android:layout_height="52dp"
-        android:gravity="center"
-        android:text="1234"
-        android:textSize="24sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.547"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.908" />
 
     <TextView
         android:id="@+id/textView6"
@@ -151,7 +126,6 @@
         android:background="@color/black"
         android:gravity="center"
         android:text="Current Request"
-        android:layout_marginTop="10dp"
         android:textColor="@color/white"
         android:textSize="30sp"
         app:layout_constraintBottom_toTopOf="@+id/textView11"
@@ -176,20 +150,52 @@
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.181" />
+        app:layout_constraintVertical_bias="0.141" />
 
     <Button
         android:id="@+id/cancel_button"
-        android:layout_width="161dp"
-        android:layout_height="40dp"
+        android:layout_width="160dp"
+        android:layout_height="45dp"
+        android:layout_marginBottom="44dp"
         android:background="@drawable/border_line"
+        android:gravity="center"
         android:text="Cancel"
+        android:textColorHint="@color/black"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/finish_button3"
+        app:layout_constraintHorizontal_bias="0.61"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView10"
+        app:layout_constraintVertical_bias="0.597" />
+
+    <Button
+        android:id="@+id/finish_button3"
+        android:layout_width="160dp"
+        android:layout_height="45dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginRight="32dp"
+        android:layout_marginBottom="44dp"
+        android:background="@drawable/border_line"
+        android:text="finish"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/dirver_phone_number"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <Button
+        android:id="@+id/detail_button"
+        android:layout_width="338dp"
+        android:layout_height="47dp"
+        android:background="@drawable/border_line"
+        android:text="Driver detail"
         android:textColorHint="@color/black"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView10"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.845" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -7,6 +7,7 @@
     android:background="@color/black">
 
     <TextView
+        android:id="@+id/textView13"
         android:layout_width="257dp"
         android:layout_height="131dp"
         android:gravity="center"
@@ -17,5 +18,20 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.355" />
+        app:layout_constraintVertical_bias="0.291" />
+
+    <TextView
+        android:id="@+id/textView12"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Your Best Choice"
+
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView13"
+        app:layout_constraintVertical_bias="0.383" />
 </androidx.constraintlayout.widget.ConstraintLayout>

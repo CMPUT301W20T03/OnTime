@@ -13,7 +13,7 @@
         android:layout_width="190dp"
         android:layout_height="87dp"
         android:gravity="center"
-        android:text="ALEX"
+        android:text="User Name"
         android:textColor="@android:color/white"
         android:textSize="36sp"
         app:layout_constraintBottom_toBottomOf="parent"
