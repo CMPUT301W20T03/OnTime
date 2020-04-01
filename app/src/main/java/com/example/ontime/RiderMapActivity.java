@@ -73,6 +73,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 
 /**
@@ -355,7 +356,11 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
                 editor.remove("driver_name");
                 editor.remove("dirver_phone_number");
                 editor.commit();
-
+                try {
+                    TimeUnit.SECONDS.sleep(3); // for the user to see the polyline
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
                 Intent intent=new Intent(RiderMapActivity.this,WaitforDriver.class);
                 intent.putExtra("username", userName);
                 startActivity(intent);
