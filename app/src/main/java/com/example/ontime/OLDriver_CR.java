@@ -22,7 +22,7 @@ public class OLDriver_CR extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_driver_current_request);
-        userName = getIntent().getStringExtra("username"); // rider name
+        userName = getIntent().getStringExtra("username"); // rider name, useful only for DriverMap->AddFragment->(Accepted)->OLDriver_CR->(Start)->InProcessActivity
 
         rider_nameTextview = findViewById(R.id.rider_name);
         driver_nameTextview = findViewById(R.id.driver_name);
