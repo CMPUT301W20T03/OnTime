@@ -24,7 +24,7 @@ import java.util.Map;
 public class OLRider_CR extends AppCompatActivity {
 
 
-    TextView rider_nameTextview,destinationTextview,driver_nameTextview,srcLocationTextview,dirver_phone_numberTextview;
+    TextView rider_nameTextview,destinationTextview,driver_nameTextview,srcLocationTextview,driver_phone_numberTextview;
     Button cancelButton;
     FirebaseFirestore db;
     private String TAG = "ActiveRequestDetail";
@@ -42,7 +42,7 @@ public class OLRider_CR extends AppCompatActivity {
         driver_nameTextview = findViewById(R.id.driver_name);
         srcLocationTextview = findViewById(R.id.srcLocationTextview);
         destinationTextview = findViewById(R.id.destinationTextview);
-        dirver_phone_numberTextview = findViewById(R.id.dirver_phone_number);
+        driver_phone_numberTextview = findViewById(R.id.dirver_phone_number);
         cancelButton = findViewById(R.id.cancel_button);
 
         SharedPreferences sp = getSharedPreferences("current_request", Context.MODE_PRIVATE);
@@ -50,11 +50,11 @@ public class OLRider_CR extends AppCompatActivity {
         String destinationText= sp.getString("destinationText","");
         final String rider_name= sp.getString("rider","");
         String driver_name= sp.getString("driver_name","");
-        String dirver_phone_number= sp.getString("dirver_phone_number","");
+        String driver_phone_number= sp.getString("driver_phone_number","");
 
         rider_nameTextview.setText(rider_name);
         driver_nameTextview.setText(driver_name);
-        dirver_phone_numberTextview.setText(dirver_phone_number);
+        driver_phone_numberTextview.setText(driver_phone_number);
         srcLocationTextview.setText(srcLocationText);
         destinationTextview.setText(destinationText);
 

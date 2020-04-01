@@ -356,7 +356,8 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
                 editor.remove("dirver_phone_number");
                 editor.commit();
 
-                Intent intent=new Intent(RiderMapActivity.this,OLRider_CR.class);
+                Intent intent=new Intent(RiderMapActivity.this,WaitforDriver.class);
+                intent.putExtra("username", userName);
                 startActivity(intent);
             }
         });
