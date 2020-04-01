@@ -130,6 +130,11 @@ public class WaitforDriver extends AppCompatActivity {
                                     intent1.putExtra("username", userName);
                                     startActivity(intent1);
                                 }
+                                else if (rStatus.equals("Completed")) {
+                                    Intent intent1 = new Intent(WaitforDriver.this, RatingActivity.class);
+                                    intent1.putExtra("username", userName);
+                                    startActivity(intent1);
+                                }
                                 else {
                                     Toast.makeText(WaitforDriver.this, "Searching for a driver . . .", Toast.LENGTH_LONG).show();
                                 }
