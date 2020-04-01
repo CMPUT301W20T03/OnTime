@@ -356,11 +356,6 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
                 editor.remove("driver_name");
                 editor.remove("dirver_phone_number");
                 editor.commit();
-                try {
-                    TimeUnit.SECONDS.sleep(3); // for the user to see the polyline
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
 //                Intent intent=new Intent(RiderMapActivity.this,WaitforDriver.class);
                 Intent intent=new Intent(RiderMapActivity.this,WaitforDriver.class);
                 intent.putExtra("username", userName);
