@@ -13,6 +13,7 @@
         android:layout_height="44dp"
         android:background="@drawable/hambuger_iccon"
         android:elevation="4dp"></Button>
+
     <ImageView
         android:layout_width="40dp"
         android:layout_height="40dp"
@@ -30,17 +31,16 @@
         android:id="@+id/ic_picker"
         android:src="@drawable/ic_picker"/>
 
+
     <fragment
         android:id="@+id/map"
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
-        android:layout_height="510dp"
+        android:layout_height="480dp"
         android:layout_marginTop="-144dp"
         tools:context=".UserMapActivity"
 
         />
-
-
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -74,29 +74,30 @@
         android:layout_height="48dp"
         android:gravity="center"
         android:orientation="horizontal">
-        <TextView
-            android:layout_width="65dp"
-            android:layout_height="48dp"
-            android:text="  Amount:  "
-            android:textSize="15sp"
-            android:textColor="@color/black"
-            android:gravity="center"
-            android:background="@color/quantum_yellow"/>
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="48dp"
-            android:id="@+id/amount_text"
-            android:textSize="15sp"
-            android:textColor="@color/gray"
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:background="@color/quantum_yellow"
             android:gravity="center"
-            android:hint="    "
-            android:background="@color/quantum_yellow"/>
+            android:text="$ Paying"
+            android:textColor="@color/black"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/amount_text"
+            android:layout_width="80dp"
+            android:layout_height="match_parent"
+            android:background="@color/quantum_yellow"
+            android:gravity="center"
+            android:text="0    "
+            android:textColor="@color/black"
+            android:textSize="20sp" />
 
         <Button
             android:id="@+id/confirm_request_btn"
-            android:layout_width="180dp"
-            android:layout_height="48dp"
+            android:layout_width="140dp"
+            android:layout_height="match_parent"
             android:layout_gravity="center"
             android:background="@color/black"
             android:gravity="center"

@@ -16,12 +16,13 @@ public class OLDriver_CR extends AppCompatActivity {
     TextView rider_nameTextview, destinationTextview, driver_nameTextview, srcLocationTextview, rider_phone_numberTextview;
     public SharedPreferences sharedPreferences;
     public Button startButton;
+    private String userName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_driver_current_request);
-
+        userName = getIntent().getStringExtra("username"); // rider name, useful only for DriverMap->AddFragment->(Accepted)->OLDriver_CR->(Start)->InProcessActivity
 
         rider_nameTextview = findViewById(R.id.rider_name);
         driver_nameTextview = findViewById(R.id.driver_name);
@@ -47,6 +48,7 @@ public class OLDriver_CR extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent=new Intent(OLDriver_CR.this, InProcessActivity.class);
+                intent.putExtra("username", userName); // rider name
                 startActivity(intent);
             }
         });

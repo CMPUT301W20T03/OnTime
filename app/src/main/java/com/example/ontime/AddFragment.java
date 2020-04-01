@@ -211,6 +211,7 @@ public class AddFragment extends DialogFragment {
                         intent.putExtra("dstCoordinate",dstCoordinate);
 
                         Intent intent2=new Intent(getActivity(), OLDriver_CR.class);
+                        intent2.putExtra("username", userName);
                         startActivity(intent2);
 
                     }
@@ -220,7 +221,4 @@ public class AddFragment extends DialogFragment {
 
 
     }
-
-
-
 }
