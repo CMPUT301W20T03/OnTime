@@ -26,6 +26,7 @@ public class OLRider_CR extends AppCompatActivity {
 
     TextView rider_nameTextview,destinationTextview,driver_nameTextview,srcLocationTextview,dirver_phone_numberTextview;
     Button cancelButton;
+    Button finishButton;
     FirebaseFirestore db;
     private String TAG = "ActiveRequestDetail";
     public SharedPreferences sharedPreferences;
@@ -44,6 +45,7 @@ public class OLRider_CR extends AppCompatActivity {
         destinationTextview = findViewById(R.id.destinationTextview);
         dirver_phone_numberTextview = findViewById(R.id.dirver_phone_number);
         cancelButton = findViewById(R.id.cancel_button);
+        finishButton = findViewById(R.id.finish_button3);
 
         SharedPreferences sp = getSharedPreferences("current_request", Context.MODE_PRIVATE);
         String srcLocationText= sp.getString("srcLocationText","");
@@ -85,6 +87,13 @@ public class OLRider_CR extends AppCompatActivity {
                 Intent intent=new Intent(OLRider_CR.this,RiderMapActivity.class);
                 startActivity(intent);
 
+            }
+        });
+
+        finishButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                
             }
         });
     }

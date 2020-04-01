@@ -184,17 +184,31 @@
 
     <Button
         android:id="@+id/cancel_button"
-        android:layout_width="164dp"
-        android:layout_height="47dp"
+        android:layout_width="160dp"
+        android:layout_height="45dp"
         android:background="@drawable/border_line"
         android:gravity="center"
         android:text="Cancel"
         android:textColorHint="@color/black"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintEnd_toStartOf="@+id/finish_button3"
+        app:layout_constraintHorizontal_bias="0.661"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView10"
-        app:layout_constraintVertical_bias="0.604" />
+        app:layout_constraintVertical_bias="0.597" />
+
+    <Button
+        android:id="@+id/finish_button3"
+        android:layout_width="160dp"
+        android:layout_height="45dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginRight="32dp"
+        android:background="@drawable/border_line"
+        android:text="finish"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/dirver_phone_number"
+        app:layout_constraintVertical_bias="0.0" />
 </androidx.constraintlayout.widget.ConstraintLayout>
