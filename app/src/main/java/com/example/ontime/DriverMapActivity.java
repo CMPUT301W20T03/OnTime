@@ -114,7 +114,7 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
     public TextView show_name;
     private TextView current_user_model;
     private String userName;
-
+    public Button logout_button;
 
     public SharedPreferences sharedPreferences;
     /*protected void createLocationRequest() {
@@ -415,7 +415,7 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
         current_request_button=customView.findViewById(R.id.current_request_button);
         //past_request_button=customView.findViewById(R.id.past_request_button);
         wallet_button=customView.findViewById(R.id.wallet_button);
-
+        logout_button=customView.findViewById(R.id.logout_button);
         findViewById(R.id.driver_main_layout).post(new Runnable() {
             @Override
             public void run() {
@@ -459,6 +459,19 @@ public class DriverMapActivity extends FragmentActivity implements OnMapReadyCal
                         Intent intent=new Intent(DriverMapActivity.this,WalletActivity.class);
                         //RiderMapActivity.this.startActivity(intent);
                         startActivity(intent);
+                    }
+                });
+
+                logout_button.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        Intent intent = new Intent(DriverMapActivity.this,MainActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);		//将DengLuActivity至于栈顶
+                        startActivity(intent);
+                        DestroyActivityUtil destroyActivityUtil = new DestroyActivityUtil();
+                        destroyActivityUtil.exit();
+
                     }
                 });
 
