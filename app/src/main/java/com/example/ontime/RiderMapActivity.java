@@ -679,7 +679,7 @@ public class RiderMapActivity extends FragmentActivity implements OnMapReadyCall
                 popupWindow.setAnimationStyle(R.style.pop_animation);
                 popupCover.showAtLocation(main, Gravity.LEFT,0,0);
                 popupWindow.showAtLocation(main, Gravity.LEFT,0,0);
-                current_user_model.setText("user model: rider");
+                current_user_model.setText("User Mode: Rider");
                 db = FirebaseFirestore.getInstance();
                 final CollectionReference collectionReference = db.collection("Riders");
                 userName = getIntent().getStringExtra("username");
