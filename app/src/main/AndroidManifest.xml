@@ -74,7 +74,7 @@
         <activity android:name=".WaitforDriver"/>
         <activity android:name=".DriverDetail"/>
         <activity android:name=".InProcessActivity"/>
-
+        <activity android:name=".RatingActivity"/>
     </application>
 
     </manifest>
