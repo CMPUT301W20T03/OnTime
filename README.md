@@ -15,8 +15,10 @@
 ## General info
 We want a mobile application that allows drivers to search for open and recent ride requests, and for riders to post requests for rides. Riders will describe the start and end of their ride and their suggested payment. Drivers will browse for nearby requests and accept ride requests that they are willing to fulfil. 
 
+![APP ICON](https://github.com/CMPUT301W20T03/OnTime/blob/master/doc/Screenshots/768c7a7248db284e3dbfb169aee0461.jpg)
+
 ## Screenshots
-![Example screenshot](./img/screenshot.png)
+![Rate a ride](https://github.com/CMPUT301W20T03/OnTime/blob/master/doc/Screenshots/e545da195497b3da5ffe7277fd2edd1.jpg)
 
 ## Technologies
 * Tech 1 - version 1.0
