@@ -1,4 +1,4 @@
-# # CMPUT301W20T03 PROJECT 
+# CMPUT301W20T03 PROJECT 
 # ONTIME
 > Our project is making a handy, neat taxi-hailing app. It has two modes for the driver and rider. Rider can send the request and driver can pick them up and get paid. Notice that we use QR code to make the payment! 👀  
 
