@@ -1,4 +1,5 @@
-# # CMPUT301W20T03 PROJECT ONTIME
+# # CMPUT301W20T03 PROJECT 
+# ONTIME
 > Our project is making a handy, neat taxi-hailing app. It has two modes for the driver and rider. Rider can send the request and driver can pick them up and get paid. Notice that we use QR code to make the payment! 👀  
 
 ## Table of contents
@@ -12,15 +13,15 @@
 * [Contact](#contact)
 
 ## General info
-Add more general information about project. What the purpose of the project is? Motivation?
+We want a mobile application that allows drivers to search for open and recent ride requests, and for riders to post requests for rides. Riders will describe the start and end of their ride and their suggested payment. Drivers will browse for nearby requests and accept ride requests that they are willing to fulfil. 
 
 ## Screenshots
 ![Example screenshot](./img/screenshot.png)
 
 ## Technologies
 * Tech 1 - version 1.0
-* Tech 2 - version 2.0
-* Tech 3 - version 3.0
+You can download apk directly from https://github.com/CMPUT301W20T03/OnTime/blob/master/app-debug.apk.1.1
+
 
 ## Setup
 Describe how to install / setup your local environement / add link to demo version.
