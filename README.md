@@ -20,7 +20,7 @@ We want a mobile application that allows drivers to search for open and recent r
 
 ## Technologies
 * Tech 1 - version 1.0
-You can download apk directly from https://github.com/CMPUT301W20T03/OnTime/blob/master/app-debug.apk.1.1
+* You can download our apk directly from: https://github.com/CMPUT301W20T03/OnTime/blob/master/app-debug.apk.1.1
 
 
 ## Setup
