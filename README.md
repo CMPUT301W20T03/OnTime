@@ -15,10 +15,12 @@
 ## General info
 We want a mobile application that allows drivers to search for open and recent ride requests, and for riders to post requests for rides. Riders will describe the start and end of their ride and their suggested payment. Drivers will browse for nearby requests and accept ride requests that they are willing to fulfil. 
 
-![APP ICON](https://github.com/CMPUT301W20T03/OnTime/blob/master/doc/Screenshots/768c7a7248db284e3dbfb169aee0461.jpg)
+<img width="150" height="150" alt = "APP icon" src="https://github.com/CMPUT301W20T03/OnTime/blob/master/doc/Screenshots/768c7a7248db284e3dbfb169aee0461.jpg"/>
 
 ## Screenshots
-![Rate a ride](https://github.com/CMPUT301W20T03/OnTime/blob/master/doc/Screenshots/e545da195497b3da5ffe7277fd2edd1.jpg)
+<img width="150" height="300" alt = "Rate a ride" src="https://github.com/CMPUT301W20T03/OnTime/blob/master/doc/Screenshots/e545da195497b3da5ffe7277fd2edd1.jpg"/>
+
+<img width="150" height="300" alt = "Request a ride" src="https://github.com/CMPUT301W20T03/OnTime/blob/master/doc/Screenshots/51c2fbe0eb036246b9d9aa143ff602a.png"/>
 
 ## Technologies
 * Tech 1 - version 1.0
@@ -26,27 +28,20 @@ We want a mobile application that allows drivers to search for open and recent r
 
 
 ## Setup
-Describe how to install / setup your local environement / add link to demo version.
-
-## Code Examples
-Show examples of usage:
-`put-your-code-here`
+Download the apk, enable Internet, authorize location settings, and you're good to go!
 
 ## Features
 List of features ready and TODOs for future development
-* Awesome feature 1
-* Awesome feature 2
-* Awesome feature 3
+* Riders can request rides
+* Riders can rate drivers
+* Drivers can accept ride requests and get paid
 
-To-do list:
-* Wow improvement to be done 1
-* Wow improvement to be done 2
 
 ## Status
-Project is: _in progress_, _finished_, _no longer continue_ and why?
+Project is: _finished_
 
 ## Inspiration
-Add here credits. Project inspired by..., based on...
+Project inspired by Uber
 
 ## Contact
 Created by CMPUT301W20T03 - feel free to contact us!
