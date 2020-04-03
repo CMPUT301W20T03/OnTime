@@ -1,7 +1,6 @@
 # CMPUT301W20T03 PROJECT 
 # ONTIME
 > Our project is making a handy, neat taxi-hailing app. 
-
 > We want a mobile application that allows drivers to search for open and recent ride requests, and for riders to post requests for rides. Riders will describe the start and end of their ride and their suggested payment. Drivers will browse for nearby requests and accept ride requests that they are willing to fulfil. 
 
 
@@ -18,7 +17,7 @@
 ## General info
 <img width="150" height="150" alt = "APP icon" src="https://github.com/CMPUT301W20T03/OnTime/blob/master/doc/Screenshots/768c7a7248db284e3dbfb169aee0461.jpg"/>
 
-1. Before login,users should sign up with their user name, email, phone number and password, also clear their identity as a rider or driver.
+1. Before login, users should sign up with their user name, email, phone number and password, also clear their identity as a rider or driver.
 
 2. In rider map client, riders can view their detail informations such as personal profile and current request through the hamburger button on the left top of the screen. 
 
