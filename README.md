@@ -1,6 +1,6 @@
 # CMPUT301W20T03 PROJECT 
 # ONTIME
-> Our project is making a handy, neat taxi-hailing app. It has two modes for the driver and rider. Rider can send the request and driver can pick them up and get paid. Notice that we use QR code to make the payment! 👀  
+> Our project is making a handy, neat taxi-hailing app. It has two modes for the user: driver and rider. Rider can send the request and driver can pick them up and get paid. Notice that we use QR code to make the payment! 👀  
 
 ## Table of contents
 * [General info](#general-info)
@@ -13,7 +13,7 @@
 * [Contact](#contact)
 
 ## General info
-> We want a mobile application that allows drivers to search for open and recent ride requests, and for riders to post requests for rides. Riders will describe the start and end of their ride and their suggested payment. Drivers will browse for nearby requests and accept ride requests that they are willing to fulfil. 
+We want a mobile application that allows drivers to search for open and recent ride requests, and for riders to post requests for rides. Riders will describe the start and end of their ride and their suggested payment. Drivers will browse for nearby requests and accept ride requests that they are willing to fulfil. 
 
 ## Screenshots
 ![Example screenshot](./img/screenshot.png)
