@@ -35,7 +35,7 @@ List of features ready and TODOs for future development
 * Riders can request rides
 * Riders can rate drivers
 * Drivers can accept ride requests and get paid
-
+* Users can scan QR code for payments
 
 ## Status
 Project is: _finished_
