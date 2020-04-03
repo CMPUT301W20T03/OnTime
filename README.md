@@ -1,5 +1,5 @@
-# OnTime
-> Here goes your awesome project description!
+# # CMPUT301W20T03 PROJECT ONTIME
+> Our project is making a handy, neat taxi-hailing app. It has two modes for the driver and rider. Rider can send the request and driver can pick them up and get paid. Notice that we use QR code to make the payment! 👀  
 
 ## Table of contents
 * [General info](#general-info)
@@ -46,4 +46,4 @@ Project is: _in progress_, _finished_, _no longer continue_ and why?
 Add here credits. Project inspired by..., based on...
 
 ## Contact
-Created by yueling - feel free to contact me!
+Created by CMPUT301W20T03 - feel free to contact us!
