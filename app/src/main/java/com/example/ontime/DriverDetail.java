@@ -19,15 +19,21 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+/**
+ * This is a class that implements DriverDetail object
+ */
 public class DriverDetail extends AppCompatActivity {
     private TextView driver_name;
     private TextView phone;
     private TextView email;
+    private TextView rating;
+
     Button backButton;
     private String driver;
     private String driverName;
     private String driverPhone;
     private String driverEmail;
+    private String driverRating;
 
 
     FirebaseFirestore db;
@@ -42,6 +48,7 @@ public class DriverDetail extends AppCompatActivity {
         driver_name =  findViewById(R.id.driver_name_text);
         phone = findViewById(R.id.driver_phone_text);
         email = findViewById(R.id.driver_email_text);
+        rating = findViewById(R.id.driver_rating_text);
 
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -61,10 +68,11 @@ public class DriverDetail extends AppCompatActivity {
                             driverName = documentSnapshot.getString("userName");
                             driverPhone = documentSnapshot.getString("phone number");
                             driverEmail = documentSnapshot.getString("email");
-
+                            driverRating = documentSnapshot.getString("rating");
                             driver_name.setText(driverName);
                             phone.setText(driverPhone);
                             email.setText(driverEmail);
+                            rating.setText(driverRating);
                         }else{
                             Toast.makeText(DriverDetail.this,"user not exist",Toast.LENGTH_SHORT).show();
                         }

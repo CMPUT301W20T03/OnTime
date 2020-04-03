@@ -75,6 +75,7 @@
         <activity android:name=".DriverDetail"/>
         <activity android:name=".InProcessActivity"/>
         <activity android:name=".RatingActivity"/>
+        <activity android:name=".DestroyActivityUtil"/>
     </application>
 
     </manifest>

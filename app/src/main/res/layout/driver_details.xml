@@ -48,6 +48,7 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:orientation="horizontal">
+
         <TextView
             android:id="@+id/Driver_phone_text"
             android:layout_width="160dp"
@@ -55,8 +56,9 @@
             android:gravity="center"
             android:text="Phone number "
             android:textAllCaps="true"
-            android:textSize="13sp"
-            android:textColor="@color/black" />
+            android:textColor="@color/black"
+            android:textSize="13sp" />
+
         <TextView
             android:id="@+id/driver_phone_text"
             android:layout_width="match_parent"
@@ -93,6 +95,30 @@
             android:textSize="13sp" />
     </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/Driver_rating_text"
+            android:layout_width="160dp"
+            android:layout_height="38dp"
+            android:gravity="center"
+            android:text="Rating "
+            android:textAllCaps="true"
+            android:textSize="13sp"
+            android:textColor="@color/black" />
+
+        <TextView
+            android:id="@+id/driver_rating_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:focusableInTouchMode="true"
+            android:gravity="start"
+            android:hint="Unknown"
+            android:textSize="13sp" />
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
