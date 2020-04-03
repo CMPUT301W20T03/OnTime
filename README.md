@@ -2,17 +2,8 @@
 # ONTIME
 > Our project is making a handy, neat taxi-hailing app. 
 
-> Before login,users should sign up with their user name, email, phone number and password, also clear their identity as a rider or driver.
+> We want a mobile application that allows drivers to search for open and recent ride requests, and for riders to post requests for rides. Riders will describe the start and end of their ride and their suggested payment. Drivers will browse for nearby requests and accept ride requests that they are willing to fulfil. 
 
-> In rider map client, riders can view their detail informations such as personal profile and current request through the hamburger button on the left top of the screen. 
-
-> Riders can use the gps button below the hamburger button to find their current locations, and use arrow button to show their drivers current loction if their requests are being accepted.
-
-> Entering source address and destination address to show the trip polyline and trip amount for current request. Riders can send the request by clicking confirm button and view the current request and rider's informations. 
-
-> In driver map client, drivers can view the request list below the map to check all the requests that are waiting for being accepted. Select one of the request, driver can choose accept to view detail informations or cancel to return to the map client. The marker button on the left top side can show driver the polyline of the current trip. 
-
-> Notice that we use QR code to make the payment! 👀 
 
 ## Table of contents
 * [General info](#general-info)
@@ -25,7 +16,17 @@
 * [Contact](#contact)
 
 ## General info
-We want a mobile application that allows drivers to search for open and recent ride requests, and for riders to post requests for rides. Riders will describe the start and end of their ride and their suggested payment. Drivers will browse for nearby requests and accept ride requests that they are willing to fulfil. 
+- Before login,users should sign up with their user name, email, phone number and password, also clear their identity as a rider or driver.
+
+- In rider map client, riders can view their detail informations such as personal profile and current request through the hamburger button on the left top of the screen. 
+
+- Riders can use the gps button below the hamburger button to find their current locations, and use arrow button to show their drivers current loction if their requests are being accepted.
+
+- Entering source address and destination address to show the trip polyline and trip amount for current request. Riders can send the request by clicking confirm button and view the current request and rider's informations. 
+
+- In driver map client, drivers can view the request list below the map to check all the requests that are waiting for being accepted. Select one of the request, driver can choose accept to view detail informations or cancel to return to the map client. The marker button on the left top side can show driver the polyline of the current trip. 
+
+ Notice that we use QR code to make the payment! 👀 
 
 <img width="150" height="150" alt = "APP icon" src="https://github.com/CMPUT301W20T03/OnTime/blob/master/doc/Screenshots/768c7a7248db284e3dbfb169aee0461.jpg"/>
 
