@@ -31,11 +31,14 @@ We want a mobile application that allows drivers to search for open and recent r
 Download the apk, enable Internet, authorize location settings, and you're good to go!
 
 ## Features
-List of features ready and TODOs for future development
+List of features ready 
 * Riders can request rides
 * Riders can rate drivers
 * Drivers can accept ride requests and get paid
-* Users can scan QR code for payments
+* Users can scan QR code for payments!
+
+TODOs for future development:
+* Night mode for the app
 
 ## Status
 Project is: _finished_
