@@ -1,8 +1,4 @@
-# HackED: Adventure Cat Damion
-
-
-# Write the Scripts for this game
-
+# CMPUT301W20T03 PROJECT ONTIME
 
 
 # Requirement
