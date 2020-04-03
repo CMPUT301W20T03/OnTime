@@ -32,6 +32,9 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * This is a class that implements WaitforDriver class, displayed when rider's ride request hasn't been accepted
+ */
 public class WaitforDriver extends AppCompatActivity {
 
     private String userName;

@@ -19,6 +19,9 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+/**
+ * This is a class that implements DriverDetail object
+ */
 public class DriverDetail extends AppCompatActivity {
     private TextView driver_name;
     private TextView phone;

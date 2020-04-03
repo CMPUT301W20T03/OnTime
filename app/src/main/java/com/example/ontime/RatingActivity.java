@@ -22,6 +22,9 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * This is a class that implements RatingActivity class
+ */
 public class RatingActivity extends AppCompatActivity {
 
     Button good_comment_txt;
@@ -40,10 +43,6 @@ public class RatingActivity extends AppCompatActivity {
 
         good_comment_txt = findViewById(R.id.good_comment_txt);
         bad_comment_txt = findViewById(R.id.bad_comment_txt);
-
-
-
-
 
         good_comment_txt.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -96,23 +95,17 @@ public class RatingActivity extends AppCompatActivity {
                                         }
                                     });
 
-
                                 }else{
                                     Toast.makeText(RatingActivity.this,"user not exist",Toast.LENGTH_SHORT).show();
                                 }
                             }
                         });
 
-
-
                 Toast.makeText(RatingActivity.this, "Rating Success!!!!!", Toast.LENGTH_LONG).show();
                 Intent intent=new Intent(RatingActivity.this,WalletActivity.class);
                 startActivity(intent);
             }
         });
-
-
-
 
 
         bad_comment_txt.setOnClickListener(new View.OnClickListener() {
@@ -166,22 +159,17 @@ public class RatingActivity extends AppCompatActivity {
                                         }
                                     });
 
-
                                 }else{
                                     Toast.makeText(RatingActivity.this,"user not exist",Toast.LENGTH_SHORT).show();
                                 }
                             }
                         });
 
-
-
                 Toast.makeText(RatingActivity.this, "Rating Success!!!!!", Toast.LENGTH_LONG).show();
                 Intent intent=new Intent(RatingActivity.this,WalletActivity.class);
                 startActivity(intent);
             }
         });
-
-
 
     }
 }

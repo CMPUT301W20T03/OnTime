@@ -12,6 +12,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.ontime.R;
 
+/**
+ * This is a class that implements OLDriver_CR class, shows current ride detail for the driver
+ */
 public class OLDriver_CR extends AppCompatActivity {
     TextView rider_nameTextview, destinationTextview, driver_nameTextview, srcLocationTextview, rider_phone_numberTextview;
     public SharedPreferences sharedPreferences;

@@ -17,7 +17,9 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.HashMap;
 import java.util.Map;
 
-
+/**
+ * This is a class that implements InProcessActivity class, displayed when driver is on the way
+ */
 public class InProcessActivity extends AppCompatActivity {
     public Button finishButton;
     FirebaseFirestore db;

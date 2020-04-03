@@ -21,6 +21,9 @@ import com.google.firebase.firestore.Query;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * This is a class that implements RiderProfile class, shows rider's profile
+ */
 public class RiderProfile extends AppCompatActivity {
 
     Button editButton;

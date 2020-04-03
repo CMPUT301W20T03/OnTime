@@ -23,6 +23,9 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * This is a class that implements OLRider_CR class, shows current ride detail for the rider
+ */
 public class OLRider_CR extends AppCompatActivity {
 
 
