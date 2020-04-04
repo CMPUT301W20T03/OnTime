@@ -4,11 +4,11 @@
 > We want a mobile application that allows drivers to search for open and recent ride requests, and for riders to post requests for rides. Riders will describe the start and end of their ride and their suggested payment. Drivers will browse for nearby requests and accept ride requests that they are willing to fulfil. 
 
 ## Requirement 
-
+Java, Android Studio.
 
 ## How to start
-
-
+Clone this repo in your local machine and open it in the Android Studio.
+Also, you can use the apk to download this app in your Android Phone.
 
 ## Table of contents
 * [General info](#general-info)
@@ -45,7 +45,6 @@
 * Tech 1 - version 1.0
 * You can download our apk directly from: https://github.com/CMPUT301W20T03/OnTime/blob/master/app-debug.apk.1.1
 
-
 ## Setup
 Download the apk, enable Internet, authorize location settings, and you're good to go!
 
@@ -58,12 +57,15 @@ List of features ready
 
 TODOs for future development:
 * Night mode for the app
+* Change the user profile phone
+* Add the email contact
 
 ## Status
 Project is: _finished_
 
 ## Inspiration
-Project inspired by Uber
+Project inspired by Uber, Lyft.
 
 ## Contact
 Created by CMPUT301W20T03 - feel free to contact us!
+See wiki for our contact information! :)
