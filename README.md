@@ -3,6 +3,12 @@
 > Our project is making a handy, neat taxi-hailing app. 
 > We want a mobile application that allows drivers to search for open and recent ride requests, and for riders to post requests for rides. Riders will describe the start and end of their ride and their suggested payment. Drivers will browse for nearby requests and accept ride requests that they are willing to fulfil. 
 
+## Wiki 
+[Go to the wiki of this project](https://github.com/CMPUT301W20T03/OnTime/wiki)
+
+## Time Line
+[Go to the time line of thie project](https://github.com/CMPUT301W20T03/OnTime/projects/1)
+
 ## Requirement 
 Java, Android Studio.
 
