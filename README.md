@@ -48,7 +48,7 @@ Also, you can use the apk to download this app in your Android Phone.
 
 ## Demo Videos
 
-[Go to the demo videos of this project](https://github.com/CMPUT301W20T03/OnTime/)
+[Go to the demo videos of this project](https://github.com/CMPUT301W20T03/OnTime/tree/master/doc/demo%20videos)
 
 ## Technologies
 * Tech 1 - version 1.0
