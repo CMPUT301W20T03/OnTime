@@ -41,11 +41,14 @@ Also, you can use the apk to download this app in your Android Phone.
 
 6. Notice that we use QR code to make the payment! 👀 
 
-
 ## Screenshots
 <img width="150" height="300" alt = "Rate a ride" src="https://github.com/CMPUT301W20T03/OnTime/blob/master/doc/Screenshots/e545da195497b3da5ffe7277fd2edd1.jpg"/>
 
 <img width="150" height="300" alt = "Request a ride" src="https://github.com/CMPUT301W20T03/OnTime/blob/master/doc/Screenshots/51c2fbe0eb036246b9d9aa143ff602a.png"/>
+
+## Demo Videos
+
+[Go to the demo videos of this project](https://github.com/CMPUT301W20T03/OnTime/)
 
 ## Technologies
 * Tech 1 - version 1.0
